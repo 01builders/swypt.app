@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swypt – Trading, Simplified</title>
+  <meta name="description" content="The simplest way to invest and trade. Built for a new generation of traders.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #070B14;
+      --bg-card: #0D1224;
+      --bg-card-hover: #111836;
+      --blue: #5B7BF9;
+      --blue-glow: rgba(91, 123, 249, 0.25);
+      --blue-dim: rgba(91, 123, 249, 0.08);
+      --text: #E8EAF0;
+      --text-muted: #6B7194;
+      --text-dim: #3D4462;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(7, 11, 20, 0.7);
+      border-bottom: 1px solid rgba(91, 123, 249, 0.06);
+      transition: background 0.3s;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .logo svg { width: 28px; height: 28px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 0 24px var(--blue-glow);
+    }
+
+    .btn-primary:hover {
+      background: #6D8AFF;
+      transform: translateY(-1px);
+      box-shadow: 0 0 36px var(--blue-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--text-dim);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem 0.4rem 0.6rem;
+      border-radius: 100px;
+      background: var(--blue-dim);
+      border: 1px solid rgba(91, 123, 249, 0.15);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--blue);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 .highlight {
+      background: linear-gradient(135deg, var(--blue) 0%, #8B9FFF 50%, var(--blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-visual {
+      margin-top: 4rem;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .phone-mockup {
+      width: 100%;
+      aspect-ratio: 9/18;
+      border-radius: 36px;
+      background: var(--bg-card);
+      border: 2px solid rgba(91, 123, 249, 0.12);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px var(--blue-glow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 1.5rem;
+    }
+
+    .phone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .phone-greeting {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .phone-greeting span {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 0.25rem;
+    }
+
+    .phone-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), #8B9FFF);
+    }
+
+    .phone-balance {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .phone-balance-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+
+    .phone-balance-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .phone-balance-change {
+      font-size: 0.8rem;
+      color: #4ADE80;
+      margin-top: 0.25rem;
+    }
+
+    .phone-chart {
+      flex: 1;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .phone-chart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .phone-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .phone-action-btn {
+      flex: 1;
+      padding: 0.7rem;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .phone-action-btn.buy {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .phone-action-btn.sell {
+      background: var(--blue-dim);
+      color: var(--blue);
+      border: 1px solid rgba(91, 123, 249, 0.2);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── FEATURES GRID ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(91, 123, 249, 0.06);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(91, 123, 249, 0.15);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover::after { opacity: 0.5; }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--blue-dim);
+      border: 1px solid rgba(91, 123, 249, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.25rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step, decimal-leading-zero);
+      font-family: 'Space Mono', monospace;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--blue-dim);
+      line-height: 1;
+      display: block;
+      margin-bottom: 1rem;
+      background: linear-gradient(180deg, rgba(91, 123, 249, 0.2) 0%, rgba(91, 123, 249, 0.03) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .step h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .step p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-section {
+      padding: 3rem 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(91, 123, 249, 0.06);
+      border-bottom: 1px solid rgba(91, 123, 249, 0.06);
+    }
+
+    .marquee-track {
+      display: flex;
+      animation: scroll 30s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-track span {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-dim);
+      white-space: nowrap;
+      padding: 0 2rem;
+    }
+
+    .marquee-track span .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blue);
+      margin: 0 1.5rem;
+      vertical-align: middle;
+      opacity: 0.4;
+    }
+
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── SOCIAL PROOF ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .stat {
+      padding: 2rem;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid rgba(91, 123, 249, 0.06);
+    }
+
+    .stat-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--blue), #8B9FFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      text-align: center;
+      padding: 8rem 2rem;
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+      pointer-events: none;
+      opacity: 0.3;
+    }
+
+    .cta-section h2 { margin-bottom: 1rem; }
+
+    .cta-section p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .cta-section .hero-ctas { justify-content: center; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(91, 123, 249, 0.06);
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE NAV ── */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: rgba(7, 11, 20, 0.95);
+        backdrop-filter: blur(24px);
+        padding: 1.5rem;
+        gap: 1rem;
+        border-bottom: 1px solid rgba(91, 123, 249, 0.06);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .mobile-toggle { display: block; }
+
+      .hero { padding: 7rem 1.25rem 3rem; min-height: auto; }
+
+      h1 { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+
+      .hero-ctas { flex-direction: column; width: 100%; max-width: 320px; }
+      .hero-ctas .btn { justify-content: center; }
+
+      .hero-visual { max-width: 280px; }
+
+      section { padding: 4rem 1.25rem; }
+
+      .features-grid { grid-template-columns: 1fr; }
+
+      .steps { grid-template-columns: 1fr; gap: 0; }
+
+      .stats { grid-template-columns: 1fr; }
+
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.5 4C18.5 4 26 4 26 10C26 14 22.5 16 22.5 16L13.5 28C13.5 28 6 28 6 22C6 18 9.5 16 9.5 16L18.5 4Z" fill="#5B7BF9"/>
+      </svg>
+      swypt
+    </a>
+    <button class="mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#community">Community</a></li>
+      <li><a href="#cta" class="btn btn-primary">Get the app</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="badge fade-in">
+      <span class="badge-dot"></span>
+      Coming soon
+    </div>
+    <h1 class="fade-in">Trade at the<br><span class="highlight">speed of now</span></h1>
+    <p class="hero-sub fade-in">Investing shouldn't feel like homework. Swypt makes trading stupidly simple — so you can focus on building your bag.</p>
+    <div class="hero-ctas fade-in">
+      <a href="#cta" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        Join waitlist
+      </a>
+      <a href="#features" class="btn btn-ghost">Learn more</a>
+    </div>
+
+    <div class="hero-visual fade-in">
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-greeting">Good morning<span>Alex</span></div>
+            <div class="phone-avatar"></div>
+          </div>
+          <div class="phone-balance">
+            <div class="phone-balance-label">Portfolio Value</div>
+            <div class="phone-balance-value">$4,281.50</div>
+            <div class="phone-balance-change">+12.4% this month</div>
+          </div>
+          <div class="phone-chart">
+            <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#5B7BF9" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#5B7BF9" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,90 Q30,85 60,70 T120,55 T180,40 T240,30 T300,15 L300,120 L0,120 Z" fill="url(#chartGrad)"/>
+              <path d="M0,90 Q30,85 60,70 T120,55 T180,40 T240,30 T300,15" fill="none" stroke="#5B7BF9" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="phone-actions">
+            <div class="phone-action-btn buy">Buy</div>
+            <div class="phone-action-btn sell">Sell</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span>Stocks <span class="dot"></span> Crypto <span class="dot"></span> ETFs <span class="dot"></span> Options <span class="dot"></span> Fractional shares <span class="dot"></span> Stocks <span class="dot"></span> Crypto <span class="dot"></span> ETFs <span class="dot"></span> Options <span class="dot"></span> Fractional shares <span class="dot"></span></span>
+      <span>Stocks <span class="dot"></span> Crypto <span class="dot"></span> ETFs <span class="dot"></span> Options <span class="dot"></span> Fractional shares <span class="dot"></span> Stocks <span class="dot"></span> Crypto <span class="dot"></span> ETFs <span class="dot"></span> Options <span class="dot"></span> Fractional shares <span class="dot"></span></span>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-label fade-in">Features</div>
+    <h2 class="fade-in">Built different.<br>On purpose.</h2>
+    <p class="section-sub fade-in">No bloat. No jargon. Just the tools you actually need to start investing.</p>
+
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Instant trades</h3>
+        <p>Tap, swipe, done. Execute trades in seconds — no confusing order forms or hidden menus.</p>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Fractional investing</h3>
+        <p>Own a piece of anything. Start with as little as $1 — no need to drop a full paycheck.</p>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h3>Social trading</h3>
+        <p>See what your friends are trading. Share wins, learn from the community, and vibe together.</p>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <h3>Bank-grade security</h3>
+        <p>Your money, your data — locked down tight. We use the same security as your bank. Fr.</p>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3>Real-time data</h3>
+        <p>Live charts, instant alerts, and market moves — all in a feed that actually makes sense.</p>
+      </div>
+
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        </div>
+        <h3>Smart insights</h3>
+        <p>AI-powered nudges that help you make better moves — without telling you what to do.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-label fade-in">How it works</div>
+    <h2 class="fade-in">Three steps.<br>Zero friction.</h2>
+    <p class="section-sub fade-in">From download to your first trade in under two minutes.</p>
+
+    <div class="steps">
+      <div class="step fade-in">
+        <h3>Download the app</h3>
+        <p>Grab Swypt from the App Store or Google Play. Sign up takes literally 30 seconds.</p>
+      </div>
+      <div class="step fade-in">
+        <h3>Fund your account</h3>
+        <p>Link your bank or card. Apple Pay, Google Pay — whatever works for you.</p>
+      </div>
+      <div class="step fade-in">
+        <h3>Start trading</h3>
+        <p>Browse markets, tap to trade, and watch your portfolio grow. It's really that easy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY / STATS -->
+  <section id="community">
+    <div style="text-align: center;">
+      <div class="section-label fade-in">Community</div>
+      <h2 class="fade-in">Join the movement</h2>
+      <p class="section-sub fade-in" style="margin-left:auto;margin-right:auto;">Thousands of Gen-Z traders are already on the waitlist. Don't get left behind.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat fade-in">
+        <div class="stat-value">10K+</div>
+        <div class="stat-label">Waitlist signups</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat-value">$0</div>
+        <div class="stat-label">Commission fees</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat-value">$1</div>
+        <div class="stat-label">Minimum trade</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="cta-section">
+    <h2 class="fade-in">Ready to<br><span class="highlight">swypt in?</span></h2>
+    <p class="fade-in">Be the first to trade when we launch. Join the waitlist and get early access.</p>
+    <div class="hero-ctas fade-in">
+      <a href="#" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        Join the waitlist
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" class="btn btn-ghost">Follow us on X</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">&copy; 2026 Swypt. All rights reserved.</span>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="https://twitter.com" target="_blank" rel="noopener">X / Twitter</a></li>
+      <li><a href="https://discord.com" target="_blank" rel="noopener">Discord</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
