@@ -225,6 +225,7 @@
     }
     .ticker-sep{width:4px;height:4px;border-radius:50%;background:var(--text-dim);flex-shrink:0}
     @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .ticker-reverse .ticker-track{animation-direction:reverse}
 
     /* ─── VALUE PROPS ─── */
     .value-props{padding:3.5rem 0}
@@ -454,6 +455,32 @@
     <span class="hero-badge-dot"></span>
     Now in beta
   </div>
+
+  <!-- Hero ticker -->
+  <div class="ticker ticker-reverse fade-up" style="width:100%;margin-bottom:2rem;border-top:none;border-bottom:none">
+    <div class="ticker-track">
+      <span class="ticker-item">BTC $104,231 <span class="green">↑2.4%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item">ETH $3,891 <span class="green">↑1.1%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item ticker-predict">"BTC > $150K?" 72% YES</span><span class="ticker-sep"></span>
+      <span class="ticker-item">SOL $241 <span class="green">↑5.7%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item ticker-predict">"Next US president?" LIVE</span><span class="ticker-sep"></span>
+      <span class="ticker-item">DOGE $0.41 <span class="red">↓0.8%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item">ARB $1.82 <span class="green">↑3.1%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item ticker-predict">"ETH ETF approved?" 89% YES</span><span class="ticker-sep"></span>
+      <span class="ticker-item">AVAX $48.20 <span class="green">↑2.9%</span></span><span class="ticker-sep"></span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">BTC $104,231 <span class="green">↑2.4%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item">ETH $3,891 <span class="green">↑1.1%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item ticker-predict">"BTC > $150K?" 72% YES</span><span class="ticker-sep"></span>
+      <span class="ticker-item">SOL $241 <span class="green">↑5.7%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item ticker-predict">"Next US president?" LIVE</span><span class="ticker-sep"></span>
+      <span class="ticker-item">DOGE $0.41 <span class="red">↓0.8%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item">ARB $1.82 <span class="green">↑3.1%</span></span><span class="ticker-sep"></span>
+      <span class="ticker-item ticker-predict">"ETH ETF approved?" 89% YES</span><span class="ticker-sep"></span>
+      <span class="ticker-item">AVAX $48.20 <span class="green">↑2.9%</span></span><span class="ticker-sep"></span>
+    </div>
+  </div>
+
   <div class="hero-logo fade-up">
     <svg viewBox="0 0 200 183" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-logo-svg">
       <!-- Left S-chevron (traced from actual logo) -->
