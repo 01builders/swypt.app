@@ -17,10 +17,10 @@
     *{margin:0;padding:0;box-sizing:border-box}
 
     :root{
-      --bg:#1d2c80;
-      --bg-surface:#192670;
-      --bg-card:#162260;
-      --bg-card-alt:#1E2D72;
+      --bg:#5E76FF;
+      --bg-surface:#5068E8;
+      --bg-card:#4860D8;
+      --bg-card-alt:#556EF0;
       --blue:#5B7BF9;
       --blue-light:#8B9FFF;
       --blue-glow:rgba(91,123,249,0.2);
@@ -33,7 +33,7 @@
       --text:#F0F1F5;
       --text-secondary:#9EA3BE;
       --text-muted:#5A5F7D;
-      --text-dim:#3A4A80;
+      --text-dim:#8A9ADA;
       --border:rgba(255,255,255,0.1);
       --border-hover:rgba(255,255,255,0.2);
       --radius:20px;
@@ -95,7 +95,7 @@
       position:fixed;top:0;left:0;right:0;z-index:100;
       padding:0.8rem 1.5rem;
       backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-      background:rgba(29,44,128,0.75);
+      background:rgba(94,118,255,0.75);
       border-bottom:1px solid var(--border);
     }
     .nav-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between}
@@ -396,7 +396,7 @@
     .sticky-bar{
       display:none;position:fixed;bottom:0;left:0;right:0;z-index:99;
       padding:0.75rem 1rem;
-      background:rgba(29,44,128,0.92);backdrop-filter:blur(16px);
+      background:rgba(94,118,255,0.92);backdrop-filter:blur(16px);
       -webkit-backdrop-filter:blur(16px);border-top:1px solid var(--border);
     }
     .sticky-bar .btn{width:100%;justify-content:center}
@@ -948,7 +948,7 @@
   // Nav solidify on scroll
   const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 50 ? 'rgba(29,44,128,0.92)' : 'rgba(29,44,128,0.75)';
+    nav.style.background = window.scrollY > 50 ? 'rgba(94,118,255,0.92)' : 'rgba(94,118,255,0.75)';
   }, { passive: true });
 </script>
 
