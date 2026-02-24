@@ -79,10 +79,10 @@
       transition:all 0.25s ease;font-family:inherit;
     }
     .btn-primary{
-      background:var(--blue);color:#fff;
-      box-shadow:0 0 32px var(--blue-glow),0 2px 8px rgba(0,0,0,0.3);
+      background:#314085;color:#fff;
+      box-shadow:0 0 32px rgba(49,64,133,0.3),0 2px 8px rgba(0,0,0,0.3);
     }
-    .btn-primary:hover{background:#6D8AFF;transform:translateY(-2px);box-shadow:0 0 48px var(--blue-glow),0 4px 16px rgba(0,0,0,0.3)}
+    .btn-primary:hover{background:#3a4d9e;transform:translateY(-2px);box-shadow:0 0 48px rgba(49,64,133,0.4),0 4px 16px rgba(0,0,0,0.3)}
     .btn-secondary{background:var(--bg-card);color:var(--text);border:1px solid var(--border)}
     .btn-secondary:hover{border-color:var(--border-hover);background:var(--bg-card-alt)}
     .btn-ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--text-dim)}
@@ -127,7 +127,7 @@
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
     .hero .headline{margin-bottom:1.5rem;position:relative;z-index:1;max-width:700px}
     .hero-desc{
-      font-size:clamp(1rem,2vw,1.2rem);color:var(--text-secondary);
+      font-size:clamp(1rem,2vw,1.2rem);color:#fff;
       max-width:500px;line-height:1.65;margin-bottom:2.5rem;
       position:relative;z-index:1;
     }
@@ -141,7 +141,7 @@
     }
     .phone{
       width:260px;aspect-ratio:9/18.5;
-      border-radius:36px;background:var(--bg-surface);
+      border-radius:36px;background:#314085;
       border:1.5px solid var(--border);
       box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 60px rgba(91,123,249,0.06);
       overflow:hidden;position:relative;
@@ -152,7 +152,7 @@
     .phone-left:hover,.phone-right:hover{transform:rotate(0deg) translateY(0);transition:transform 0.4s ease}
     .phone-notch{
       position:absolute;top:0;left:50%;transform:translateX(-50%);
-      width:100px;height:24px;background:var(--bg);
+      width:100px;height:24px;background:#2a3770;
       border-radius:0 0 16px 16px;z-index:2;
     }
     .phone-inner{width:100%;height:100%;display:flex;flex-direction:column;padding:2.5rem 1.25rem 1.25rem}
@@ -214,12 +214,12 @@
     .ticker-item{
       display:inline-flex;align-items:center;gap:0.5rem;
       padding:0 1.5rem;font-size:0.82rem;font-weight:600;
-      color:var(--text-muted);white-space:nowrap;
+      color:#fff;white-space:nowrap;
     }
     .ticker-item .green{color:var(--green)}
     .ticker-item .red{color:var(--red)}
     .ticker-predict{
-      color:var(--purple);font-style:italic;
+      color:#fff;font-style:italic;
     }
     .ticker-sep{width:4px;height:4px;border-radius:50%;background:var(--text-dim);flex-shrink:0}
     @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -252,15 +252,15 @@
       display:inline-flex;align-items:center;gap:0.4rem;
       padding:0.3rem 0.8rem;border-radius:100px;
     }
-    .pillar-label-trade{color:var(--blue);background:var(--blue-dim);border:1px solid rgba(91,123,249,0.12)}
-    .pillar-label-predict{color:var(--green);background:var(--green-dim);border:1px solid rgba(74,222,128,0.12)}
-    .pillar-card h3{font-size:1.4rem;margin-bottom:0.75rem;letter-spacing:-0.03em}
-    .pillar-card p{color:var(--text-secondary);font-size:0.92rem;line-height:1.6;margin-bottom:1.25rem}
+    .pillar-label-trade{color:#314085;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2)}
+    .pillar-label-predict{color:#314085;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2)}
+    .pillar-card h3{font-size:1.4rem;margin-bottom:0.75rem;letter-spacing:-0.03em;color:#fff}
+    .pillar-card p{color:#fff;font-size:0.92rem;line-height:1.6;margin-bottom:1.25rem}
     .pillar-bullets{list-style:none;display:flex;flex-wrap:wrap;gap:0.5rem}
     .pillar-bullets li{
-      font-size:0.78rem;font-weight:500;color:var(--text-muted);
+      font-size:0.78rem;font-weight:600;color:#314085;
       padding:0.35rem 0.8rem;border-radius:100px;
-      background:var(--bg-surface);border:1px solid var(--border);
+      background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);
     }
 
     /* ─── BENTO FEATURES ─── */
@@ -277,12 +277,12 @@
     .bento-card.span-2{grid-column:span 2}
     .bento-icon{
       width:44px;height:44px;border-radius:12px;
-      background:var(--blue-dim);border:1px solid rgba(91,123,249,0.1);
+      background:#314085;border:1px solid rgba(49,64,133,0.3);
       display:flex;align-items:center;justify-content:center;
       margin-bottom:1.25rem;
     }
-    .bento-card h3{margin-bottom:0.5rem}
-    .bento-card p{color:var(--text-secondary);font-size:0.9rem;line-height:1.6}
+    .bento-card h3{margin-bottom:0.5rem;color:#fff}
+    .bento-card p{color:#fff;font-size:0.9rem;line-height:1.6}
 
     /* ─── HOW IT WORKS ─── */
     .how{padding:5rem 0}
@@ -637,7 +637,7 @@
     <div class="bento">
       <div class="bento-card span-2 fade-up">
         <div class="bento-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
         </div>
         <h3>Your keys. Your coins.</h3>
         <p>Unlike Coinbase or Binance, your assets live in YOUR wallet. Not ours. Not anyone else's. If we disappeared tomorrow, your crypto stays right where it is.</p>
@@ -645,7 +645,7 @@
 
       <div class="bento-card fade-up">
         <div class="bento-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <h3>No seed phrases</h3>
         <p>We killed the 12-word nightmare. Secure your wallet with Face ID, fingerprint, or passcode. Same security, zero anxiety.</p>
@@ -653,7 +653,7 @@
 
       <div class="bento-card fade-up">
         <div class="bento-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
         <h3>Instant on-ramp</h3>
         <p>Apple Pay, Google Pay, card, bank transfer. Fund your account in seconds — not days.</p>
@@ -661,7 +661,7 @@
 
       <div class="bento-card span-2 fade-up">
         <div class="bento-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
         </div>
         <h3>Built for your phone</h3>
         <p>Desktop trading terminals are for hedge fund managers. Swypt is designed mobile-first — because that's where you live. Tap, swipe, trade.</p>
@@ -669,7 +669,7 @@
 
       <div class="bento-card fade-up">
         <div class="bento-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
         </div>
         <h3>Real-time everything</h3>
         <p>Live prices, instant execution, real-time P&L. No refresh button needed.</p>
