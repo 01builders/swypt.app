@@ -95,7 +95,6 @@
       padding:1rem 1.5rem;
       backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
       background:rgba(94,118,255,0.75);
-      border-bottom:1px solid var(--border);
     }
     .nav-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between}
     .logo{display:flex;align-items:center;gap:0.65rem;font-size:1.55rem;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-0.03em}
@@ -451,7 +450,7 @@
 </nav>
 
 <!-- ─── HERO TICKER (above hero) ─── -->
-<div class="ticker ticker-reverse" style="position:fixed;top:59px;left:0;right:0;z-index:99">
+<div class="ticker ticker-reverse" style="position:fixed;left:0;right:0;z-index:99">
   <div class="ticker-track">
     <span class="ticker-item">BTC $104,231 <span class="green">↑2.4%</span></span><span class="ticker-sep"></span>
     <span class="ticker-item">ETH $3,891 <span class="green">↑1.1%</span></span><span class="ticker-sep"></span>
@@ -986,6 +985,14 @@
   window.addEventListener('scroll', () => {
     nav.style.background = window.scrollY > 50 ? 'rgba(94,118,255,0.92)' : 'rgba(94,118,255,0.75)';
   }, { passive: true });
+
+  // Position hero ticker flush below nav
+  const heroTicker = document.querySelector('.ticker-reverse');
+  if (heroTicker) {
+    const positionTicker = () => { heroTicker.style.top = nav.offsetHeight + 'px'; };
+    positionTicker();
+    window.addEventListener('resize', positionTicker);
+  }
 </script>
 
 </body>
