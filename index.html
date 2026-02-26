@@ -304,16 +304,19 @@
     .btn-download-icon{font-size:1.2rem}
 
     /* ─── PHONE CAROUSEL ─── */
-    .phone-carousel{margin-top:4rem;overflow:hidden;position:relative;padding:1rem 0}
+    .phone-carousel{
+      margin-top:4rem;overflow-x:auto;overflow-y:hidden;
+      position:relative;padding:1rem 0;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .phone-carousel::-webkit-scrollbar{display:none}
     .phone-carousel-track{
       display:flex;gap:1.5rem;
-      animation:phoneScroll 50s linear infinite;
       width:max-content;
+      animation:phoneScroll 50s linear infinite;
     }
-    .phone-carousel:hover .phone-carousel-track{animation-play-state:paused}
-    .phone-carousel{cursor:grab}
-    .phone-carousel.dragging{cursor:grabbing}
-    .phone-carousel.dragging .phone-carousel-track{animation:none}
+    .phone-carousel.user-scrolling .phone-carousel-track{animation-play-state:paused}
     .phone-frame{
       flex-shrink:0;width:220px;height:440px;
       border-radius:28px;overflow:hidden;
@@ -1246,50 +1249,28 @@
     window.addEventListener('resize', positionTicker);
   }
 
-  // Duplicate phone carousel for infinite scroll + drag to swipe
+  // Phone carousel: auto-scroll + two-finger swipe
   const phoneTrack = document.querySelector('.phone-carousel-track');
   const phoneCarousel = document.querySelector('.phone-carousel');
   if (phoneTrack && phoneCarousel) {
     phoneTrack.innerHTML += phoneTrack.innerHTML;
 
-    let isDragging = false, startX = 0, currentX = 0, dragOffset = 0;
+    // Pause animation on scroll, resume after idle
+    let scrollTimer;
+    phoneCarousel.addEventListener('scroll', () => {
+      phoneCarousel.classList.add('user-scrolling');
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        phoneCarousel.classList.remove('user-scrolling');
+      }, 2000);
+    }, {passive:true});
 
-    const getAnimOffset = () => {
-      const style = window.getComputedStyle(phoneTrack);
-      const matrix = new DOMMatrix(style.transform);
-      return matrix.m41;
-    };
-
-    const onStart = (e) => {
-      isDragging = true;
-      phoneCarousel.classList.add('dragging');
-      startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-      dragOffset = getAnimOffset();
-      phoneTrack.style.transform = `translateX(${dragOffset}px)`;
-    };
-
-    const onMove = (e) => {
-      if (!isDragging) return;
-      const x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-      const diff = x - startX;
-      currentX = dragOffset + diff;
-      phoneTrack.style.transform = `translateX(${currentX}px)`;
-    };
-
-    const onEnd = () => {
-      if (!isDragging) return;
-      isDragging = false;
-      phoneCarousel.classList.remove('dragging');
-      phoneTrack.style.transform = '';
-    };
-
-    phoneCarousel.addEventListener('mousedown', onStart);
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onEnd);
-    phoneCarousel.addEventListener('touchstart', onStart, {passive:true});
-    window.addEventListener('touchmove', onMove, {passive:true});
-    window.addEventListener('touchend', onEnd);
-    phoneCarousel.addEventListener('dragstart', (e) => e.preventDefault());
+    // Convert vertical wheel to horizontal scroll (for mouse wheel users)
+    phoneCarousel.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // already horizontal
+      e.preventDefault();
+      phoneCarousel.scrollLeft += e.deltaY;
+    }, {passive:false});
   }
 </script>
 
