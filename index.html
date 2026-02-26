@@ -311,6 +311,9 @@
       width:max-content;
     }
     .phone-carousel:hover .phone-carousel-track{animation-play-state:paused}
+    .phone-carousel{cursor:grab}
+    .phone-carousel.dragging{cursor:grabbing}
+    .phone-carousel.dragging .phone-carousel-track{animation:none}
     .phone-frame{
       flex-shrink:0;width:220px;height:440px;
       border-radius:28px;overflow:hidden;
@@ -1243,10 +1246,50 @@
     window.addEventListener('resize', positionTicker);
   }
 
-  // Duplicate phone carousel for infinite scroll
+  // Duplicate phone carousel for infinite scroll + drag to swipe
   const phoneTrack = document.querySelector('.phone-carousel-track');
-  if (phoneTrack) {
+  const phoneCarousel = document.querySelector('.phone-carousel');
+  if (phoneTrack && phoneCarousel) {
     phoneTrack.innerHTML += phoneTrack.innerHTML;
+
+    let isDragging = false, startX = 0, currentX = 0, dragOffset = 0;
+
+    const getAnimOffset = () => {
+      const style = window.getComputedStyle(phoneTrack);
+      const matrix = new DOMMatrix(style.transform);
+      return matrix.m41;
+    };
+
+    const onStart = (e) => {
+      isDragging = true;
+      phoneCarousel.classList.add('dragging');
+      startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+      dragOffset = getAnimOffset();
+      phoneTrack.style.transform = `translateX(${dragOffset}px)`;
+    };
+
+    const onMove = (e) => {
+      if (!isDragging) return;
+      const x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+      const diff = x - startX;
+      currentX = dragOffset + diff;
+      phoneTrack.style.transform = `translateX(${currentX}px)`;
+    };
+
+    const onEnd = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      phoneCarousel.classList.remove('dragging');
+      phoneTrack.style.transform = '';
+    };
+
+    phoneCarousel.addEventListener('mousedown', onStart);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
+    phoneCarousel.addEventListener('touchstart', onStart, {passive:true});
+    window.addEventListener('touchmove', onMove, {passive:true});
+    window.addEventListener('touchend', onEnd);
+    phoneCarousel.addEventListener('dragstart', (e) => e.preventDefault());
   }
 </script>
 
