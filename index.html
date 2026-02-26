@@ -1249,25 +1249,48 @@
     window.addEventListener('resize', positionTicker);
   }
 
-  // Phone carousel: auto-scroll + two-finger swipe
+  // Phone carousel: auto-scroll + infinite two-finger swipe
   const phoneTrack = document.querySelector('.phone-carousel-track');
   const phoneCarousel = document.querySelector('.phone-carousel');
   if (phoneTrack && phoneCarousel) {
-    phoneTrack.innerHTML += phoneTrack.innerHTML;
+    // Triple the content for seamless looping
+    const original = phoneTrack.innerHTML;
+    phoneTrack.innerHTML = original + original + original;
 
-    // Pause animation on scroll, resume after idle
-    let scrollTimer;
+    // Start in the middle set
+    let halfWidth = 0;
+    const initScroll = () => {
+      halfWidth = phoneTrack.scrollWidth / 3;
+      phoneCarousel.scrollLeft = halfWidth;
+    };
+    initScroll();
+
+    // Infinite loop: jump when reaching edges
+    let ticking = false;
     phoneCarousel.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const sl = phoneCarousel.scrollLeft;
+        if (sl <= 10) {
+          phoneCarousel.scrollLeft = sl + halfWidth;
+        } else if (sl >= halfWidth * 2 - phoneCarousel.offsetWidth - 10) {
+          phoneCarousel.scrollLeft = sl - halfWidth;
+        }
+        ticking = false;
+      });
+
+      // Pause CSS animation while swiping
       phoneCarousel.classList.add('user-scrolling');
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
+      clearTimeout(phoneCarousel._scrollTimer);
+      phoneCarousel._scrollTimer = setTimeout(() => {
         phoneCarousel.classList.remove('user-scrolling');
       }, 2000);
     }, {passive:true});
 
-    // Convert vertical wheel to horizontal scroll (for mouse wheel users)
+    // Convert vertical wheel to horizontal scroll
     phoneCarousel.addEventListener('wheel', (e) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // already horizontal
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       e.preventDefault();
       phoneCarousel.scrollLeft += e.deltaY;
     }, {passive:false});
