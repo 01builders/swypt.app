@@ -70,6 +70,19 @@ window.addEventListener('scroll', function() {
 // ——— Rotating hero words ———
 var rotateWords = document.querySelectorAll('.hero-rotate-word');
 if (rotateWords.length) {
+  // Fix container width to widest word so text before it never shifts
+  var container = document.querySelector('.hero-rotate-words');
+  var maxW = 0;
+  rotateWords.forEach(function(w) {
+    w.style.position = 'absolute';
+    w.style.visibility = 'hidden';
+    w.classList.add('active');
+    maxW = Math.max(maxW, w.offsetWidth);
+    w.classList.remove('active');
+    w.style.position = '';
+    w.style.visibility = '';
+  });
+  container.style.width = maxW + 'px';
   var currentWord = 0;
   rotateWords[0].classList.add('active');
   setInterval(function() {
