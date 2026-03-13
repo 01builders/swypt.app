@@ -7,6 +7,8 @@ export const handleEvmTransaction = async ({
   if (!signer) throw new Error('EVM signer not available');
 
   try {
+    const userAddress = await signer.getAddress();
+
     // For ERC20 tokens, check and handle approval first
     if (fromToken === 'USDC' || fromToken === 'USDT') {
       const network = await provider.getNetwork();
@@ -26,7 +28,6 @@ export const handleEvmTransaction = async ({
       const decimals = await tokenContract.decimals();
       const amountInWei = ethers.parseUnits(amount, decimals);
 
-      const userAddress = await signer.getAddress();
       const spenderAddress = transactionData.to;
       const currentAllowance = await tokenContract.allowance(userAddress, spenderAddress);
 
@@ -73,14 +74,14 @@ export const handleEvmTransaction = async ({
 
       if (gasPrice && gasLimit) {
         if (fromToken === 'ETH') {
-          const ethBalance = await provider.getBalance(await signer.getAddress());
+          const ethBalance = await provider.getBalance(userAddress);
           const totalNeeded = ethers.parseEther(amount) + estimatedFee;
           if (ethBalance < totalNeeded) {
             const shortfall = ethers.formatEther(totalNeeded - ethBalance);
             throw new Error(`Insufficient ETH. You need ${shortfall} more ETH for this transaction (including gas fees).`);
           }
         } else {
-          const ethBalance = await provider.getBalance(await signer.getAddress());
+          const ethBalance = await provider.getBalance(userAddress);
           if (ethBalance < estimatedFee) {
             const needed = ethers.formatEther(estimatedFee);
             const current = ethers.formatEther(ethBalance);

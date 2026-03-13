@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useWallet } from '../contexts/WalletContext';
 import { getQuote } from '../api/bridgeAPI';
 import WalletSelector from './WalletSelector';
-import { allTokenOptions, chainOptions } from '../constants/bridgeConfig';
+import { allTokenOptions, chainOptions, API_CHAIN_NAMES, isNativeToken } from '../constants/bridgeConfig';
 import { getTokenBalance, validateFees, calculateMaxBridgeAmount } from '../utils/tokenUtils';
 import { handleSolanaTransaction } from '../utils/solanaTransactionHandler';
 import { handleEvmTransaction } from '../utils/evmTransactionHandler';
@@ -57,11 +57,7 @@ const BridgeInterface = () => {
   const [notification, setNotification] = useState(null);
   const [depositSuccess, setDepositSuccess] = useState(false);
 
-  const getAvailableTokens = useCallback((chain) => {
-    return allTokenOptions.filter(token => token.chains.includes(chain));
-  }, []);
-
-  const tokenOptions = getAvailableTokens(fromChain);
+  const tokenOptions = useMemo(() => allTokenOptions.filter(token => token.chains.includes(fromChain)), [fromChain]);
   const getTokenOption = (value) => allTokenOptions.find(option => option.value === value);
   const getChainOption = (value) => chainOptions.find(option => option.value === value);
 
@@ -73,12 +69,11 @@ const BridgeInterface = () => {
     }
     try {
       const result = await validateFees({ isConnected, balance, fromChain, fromToken, provider, account, nativeBalance });
-      const isNativeToken = (fromToken === 'SOL' && fromChain === 'SOLANA') ||
-                           (fromToken === 'ETH' && (fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM'));
+      const native = isNativeToken(fromToken, fromChain);
       let maxBridgeable = null;
       let errorMessage = null;
 
-      if (isNativeToken) {
+      if (native) {
         maxBridgeable = parseFloat(calculateMaxBridgeAmount(balance, fromToken, fromChain)) || 0;
         if (!result.isValid) {
           errorMessage = `Insufficient ${fromToken} for transaction fees.`;
@@ -101,9 +96,7 @@ const BridgeInterface = () => {
     const fetchNativeBalance = async () => {
       if (!isConnected || !account || !provider) { setNativeBalance('0'); return; }
       try {
-        const isNativeToken = (fromToken === 'SOL' && fromChain === 'SOLANA') ||
-                             (fromToken === 'ETH' && (fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM'));
-        if (isNativeToken) {
+        if (isNativeToken(fromToken, fromChain)) {
           setNativeBalance(balance);
         } else {
           const nativeTokenType = fromChain === 'SOLANA' ? 'SOL' : 'ETH';
@@ -119,25 +112,22 @@ const BridgeInterface = () => {
 
   // Reset token on chain change
   useEffect(() => {
-    const availableTokens = getAvailableTokens(fromChain);
-    const currentTokenAvailable = availableTokens.find(token => token.value === fromToken);
-    if (!currentTokenAvailable && availableTokens.length > 0) {
+    const currentTokenAvailable = tokenOptions.find(token => token.value === fromToken);
+    if (!currentTokenAvailable && tokenOptions.length > 0) {
       if (fromChain === 'SOLANA') {
         const wasUsingUSDC = fromToken === 'USDC';
-        const usdcAvailable = availableTokens.find(token => token.value === 'USDC');
-        const solAvailable = availableTokens.find(token => token.value === 'SOL');
+        const usdcAvailable = tokenOptions.find(token => token.value === 'USDC');
+        const solAvailable = tokenOptions.find(token => token.value === 'SOL');
         if (wasUsingUSDC && usdcAvailable) setFromToken('USDC');
         else if (solAvailable) setFromToken('SOL');
-        else setFromToken(availableTokens[0].value);
+        else setFromToken(tokenOptions[0].value);
       } else {
-        setFromToken(availableTokens[0].value);
+        setFromToken(tokenOptions[0].value);
       }
     }
-  }, [fromChain, fromToken, getAvailableTokens]);
+  }, [fromChain, fromToken, tokenOptions]);
 
-  const isCorrectChain = useCallback(() => {
-    return chainId === CHAINS[fromChain].chainId;
-  }, [fromChain, chainId, CHAINS]);
+  const isCorrectChain = chainId === CHAINS[fromChain].chainId;
 
   const notificationTimeoutRef = useRef(null);
   const showNotification = (message, type = 'error') => {
@@ -204,7 +194,7 @@ const BridgeInterface = () => {
     if (!isConnected || !account || !provider) { setBalance('0'); return; }
     const needsWalletSwitch = (fromChain === 'SOLANA' && chainId !== 'solana') || (fromChain !== 'SOLANA' && chainId === 'solana');
     if (needsWalletSwitch) { setBalance('0'); return; }
-    if (!isCorrectChain()) { setBalance('0'); return; }
+    if (!isCorrectChain) { setBalance('0'); return; }
 
     balanceFetchTimeout.current = setTimeout(async () => {
       if (balanceFetchInProgress.current) return;
@@ -228,8 +218,7 @@ const BridgeInterface = () => {
       const fromAddress = account || userAddress;
       const quoteParams = {
         fromAddress, toAddress: userAddress,
-        fromChain: fromChain === 'ETHEREUM' ? 'Ethereum' : fromChain === 'ARBITRUM' ? 'Arbitrum' : 'Solana',
-        toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
+        fromChain: API_CHAIN_NAMES[fromChain], toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
       };
       try {
         const quoteData = await getQuote(quoteParams);
@@ -250,9 +239,7 @@ const BridgeInterface = () => {
     return () => clearTimeout(timer);
   }, [amount, fromChain, fromToken, account, userAddress]);
 
-  const isCorrectWalletType = () => {
-    return (fromChain === 'SOLANA') === (chainId === 'solana');
-  };
+  const isCorrectWalletType = (fromChain === 'SOLANA') === (chainId === 'solana');
 
   const handleSwitchChain = async () => {
     await switchChain(CHAINS[fromChain].chainId);
@@ -260,7 +247,7 @@ const BridgeInterface = () => {
 
   const handleBridge = async () => {
     if (!isConnected) { setShowWalletSelector(true); return; }
-    if (!amount || !isCorrectChain() || !userAddress) return;
+    if (!amount || !isCorrectChain || !userAddress) return;
 
     setIsLoading(true);
     setTxHash('');
@@ -269,8 +256,7 @@ const BridgeInterface = () => {
     try {
       const quoteParams = {
         fromAddress: account, toAddress: userAddress,
-        fromChain: fromChain === 'ETHEREUM' ? 'Ethereum' : fromChain === 'ARBITRUM' ? 'Arbitrum' : 'Solana',
-        toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
+        fromChain: API_CHAIN_NAMES[fromChain], toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
       };
       const freshQuote = await getQuote(quoteParams);
       if (!freshQuote.success || !freshQuote.data?.tx) throw new Error('Failed to get valid quote');
@@ -338,11 +324,9 @@ const BridgeInterface = () => {
     const hasQuoteData = quote && quote.data && typeof quote.data.toTokenEstimatedUsdcValue === 'number';
     const estimatedValue = hasQuoteData ? parseFloat(quote.data.toTokenEstimatedUsdcValue) : 0;
     const passesBasicChecks = amount && parseFloat(amount) > 0 && parseFloat(amount) <= parseFloat(balance)
-      && userAddress && isCorrectWalletType() && isCorrectChain() && estimatedValue >= 15;
+      && userAddress && isCorrectWalletType && isCorrectChain && estimatedValue >= 15;
 
-    const isNativeToken = (fromToken === 'SOL' && fromChain === 'SOLANA') ||
-                         (fromToken === 'ETH' && (fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM'));
-    if (isNativeToken && feeValidation.maxBridgeable !== null) {
+    if (isNativeToken(fromToken, fromChain) && feeValidation.maxBridgeable !== null) {
       return passesBasicChecks && parseFloat(amount || '0') <= feeValidation.maxBridgeable && feeValidation.hasEnoughForFees;
     }
     return passesBasicChecks && feeValidation.hasEnoughForFees;
@@ -385,26 +369,25 @@ const BridgeInterface = () => {
     );
   }
 
-  const isNativeToken = (fromToken === 'SOL' && fromChain === 'SOLANA') ||
-                       (fromToken === 'ETH' && (fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM'));
+  const native = isNativeToken(fromToken, fromChain);
   const needsWalletSwitch = (fromChain === 'SOLANA' && chainId !== 'solana') || (fromChain !== 'SOLANA' && chainId === 'solana');
 
-  const displayBalance = isNativeToken && feeValidation.maxBridgeable !== null
+  const displayBalance = native && feeValidation.maxBridgeable !== null
     ? parseFloat(feeValidation.maxBridgeable) || 0
     : parseFloat(balance) || 0;
 
   return (
-    <div style={{ width: '100%', maxWidth: 460, margin: '0 auto' }}>
+    <>
       {/* Notification */}
-      <div className="notification">
-        {notification && (
+      {notification && (
+        <div className="notification">
           <div className={`notification-inner ${notification.type}`}>
             <div className={`notification-dot ${notification.type}`}></div>
             <p className={`notification-msg ${notification.type}`}>{notification.message}</p>
             <button className="notification-close" onClick={() => setNotification(null)} style={{ color: notification.type === 'success' ? 'var(--green)' : notification.type === 'warning' ? '#FFC107' : 'var(--red)' }}>&times;</button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="bridge-card">
         <div className="bridge-header">
@@ -456,8 +439,8 @@ const BridgeInterface = () => {
                     <span>Max</span>
                     <div className="tooltip-wrap">
                       <img src="/icons/info-icon.png" alt="info" className="info-icon" />
-                      <div className={`tooltip ${isNativeToken ? 'wide' : ''}`}>
-                        {isNativeToken ? `Max amount leaving enough ${fromToken} for gas.` : `Your current ${fromToken} balance.`}
+                      <div className={`tooltip ${native ? 'wide' : ''}`}>
+                        {native ? `Max amount leaving enough ${fromToken} for gas.` : `Your current ${fromToken} balance.`}
                       </div>
                     </div>
                   </div>
@@ -465,7 +448,7 @@ const BridgeInterface = () => {
                     <span className="balance-value">...</span>
                   ) : (
                     <button className="balance-value" onClick={() => {
-                      if (isNativeToken && feeValidation.maxBridgeable !== null) setAmount(feeValidation.maxBridgeable.toString());
+                      if (native && feeValidation.maxBridgeable !== null) setAmount(feeValidation.maxBridgeable.toString());
                       else setAmount(balance);
                     }}>
                       {(fromToken === 'USDC' || fromToken === 'USDT') ? displayBalance.toFixed(2) : displayBalance.toFixed(4)} {fromToken}
@@ -477,7 +460,7 @@ const BridgeInterface = () => {
               <div className="input-row">
                 <input type="number" className="amount-input" value={amount}
                   onChange={(e) => setAmount(e.target.value)} placeholder="0.0" step="0.001" min="0"
-                  max={isNativeToken && feeValidation.maxBridgeable !== null ? feeValidation.maxBridgeable : undefined} />
+                  max={native && feeValidation.maxBridgeable !== null ? feeValidation.maxBridgeable : undefined} />
 
                 {/* Token Dropdown */}
                 <div className="token-dropdown" style={{ position: 'relative' }}>
@@ -510,7 +493,7 @@ const BridgeInterface = () => {
                   <span className="validation-msg">Insufficient balance</span>
                 ) : isConnected && amount && quote?.data && typeof quote.data.toTokenEstimatedUsdcValue === 'number' && parseFloat(quote.data.toTokenEstimatedUsdcValue) < 15 ? (
                   <span className="validation-msg">Minimum deposit amount $15</span>
-                ) : !isNativeToken && !feeValidation.hasEnoughForFees && feeValidation.feeValidationError ? (
+                ) : !native && !feeValidation.hasEnoughForFees && feeValidation.feeValidationError ? (
                   <span className="validation-msg">
                     Need {feeValidation.feeEstimate.toFixed(4)} {fromChain === 'SOLANA' ? 'SOL' : 'ETH'} for fees
                   </span>
@@ -567,11 +550,11 @@ const BridgeInterface = () => {
           {/* Bridge Button */}
           {!isConnected ? (
             <button className="bridge-btn" onClick={handleBridge}>Connect Wallet to Deposit</button>
-          ) : !isCorrectWalletType() ? (
+          ) : !isCorrectWalletType ? (
             <button className="bridge-btn" onClick={() => setShowWalletSelector(true)}>
               Connect {fromChain === 'SOLANA' ? 'Solana' : fromChain === 'ARBITRUM' ? 'Arbitrum' : 'Ethereum'} Wallet
             </button>
-          ) : !isCorrectChain() ? (
+          ) : !isCorrectChain ? (
             <button className="bridge-btn" onClick={handleSwitchChain}>
               Switch to {CHAINS[fromChain].chainName}
             </button>
@@ -588,7 +571,7 @@ const BridgeInterface = () => {
 
         <WalletSelector isOpen={showWalletSelector} onClose={() => setShowWalletSelector(false)} onConnect={connectWallet} />
       </div>
-    </div>
+    </>
   );
 };
 

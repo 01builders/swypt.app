@@ -60,8 +60,8 @@ export const WalletProvider = ({ children }) => {
 
     setIsConnecting(true);
     try {
-      // Handle Backpack wallet
-      if (walletName === 'Backpack' && providerInstance.solana) {
+      // Handle Solana wallets (Backpack, Phantom)
+      if ((walletName === 'Backpack' || walletName === 'Phantom') && providerInstance.solana) {
         try {
           const resp = await providerInstance.solana.connect();
           setAccount(resp.publicKey.toString());
@@ -72,29 +72,10 @@ export const WalletProvider = ({ children }) => {
           localStorage.setItem('walletName', walletName);
           setIsConnecting(false);
           return;
-        } catch (backpackError) {
-          console.error('Wallet connection error: Backpack');
+        } catch (solanaError) {
+          console.error(`Wallet connection error: ${walletName}`);
           setIsConnecting(false);
-          throw backpackError;
-        }
-      }
-
-      // Handle Phantom wallet
-      if (walletName === 'Phantom' && providerInstance.solana) {
-        try {
-          const resp = await providerInstance.solana.connect();
-          setAccount(resp.publicKey.toString());
-          setChainId('solana');
-          setProvider(providerInstance);
-          setSigner(providerInstance.solana);
-          localStorage.setItem('walletConnected', 'true');
-          localStorage.setItem('walletName', walletName);
-          setIsConnecting(false);
-          return;
-        } catch (phantomError) {
-          console.error('Wallet connection error: Phantom');
-          setIsConnecting(false);
-          throw phantomError;
+          throw solanaError;
         }
       }
 
@@ -130,9 +111,10 @@ export const WalletProvider = ({ children }) => {
   }, []);
 
   const switchChain = useCallback(async (targetChainId) => {
-    if (!isWalletInstalled()) return;
+    const ethProvider = provider?.request ? provider : (provider?.provider || window.ethereum);
+    if (!ethProvider?.request) return;
     try {
-      await window.ethereum.request({
+      await ethProvider.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: targetChainId }]
       });
@@ -141,7 +123,7 @@ export const WalletProvider = ({ children }) => {
         const chainConfig = Object.values(CHAINS).find(chain => chain.chainId === targetChainId);
         if (chainConfig) {
           try {
-            await window.ethereum.request({
+            await ethProvider.request({
               method: 'wallet_addEthereumChain',
               params: [chainConfig]
             });
@@ -151,17 +133,7 @@ export const WalletProvider = ({ children }) => {
         }
       }
     }
-  }, []);
-
-  const getBalance = useCallback(async (address = account) => {
-    if (!provider || !address) return '0';
-    try {
-      const balance = await provider.getBalance(address);
-      return ethers.formatEther(balance);
-    } catch (error) {
-      return '0';
-    }
-  }, [provider, account]);
+  }, [provider]);
 
   // Listen for account/chain changes
   useEffect(() => {
@@ -206,59 +178,28 @@ export const WalletProvider = ({ children }) => {
       if (!wasConnected || !walletName) return;
 
       try {
-        if (walletName === 'Backpack') {
-          if (!window.backpack?.solana?.publicKey) {
+        // Auto-connect Solana wallets (Backpack, Phantom)
+        if (walletName === 'Backpack' || walletName === 'Phantom') {
+          const walletGlobal = walletName === 'Backpack' ? window.backpack : window.phantom;
+          const providerFlag = walletName === 'Backpack' ? 'isBackpack' : 'isPhantom';
+          if (!walletGlobal?.solana?.publicKey) {
             await new Promise(resolve => setTimeout(resolve, 100));
           }
-          if (window.backpack?.solana) {
+          if (walletGlobal?.solana) {
             try {
-              if (window.backpack.solana.publicKey && window.backpack.solana.isConnected) {
-                setAccount(window.backpack.solana.publicKey.toString());
+              if (walletGlobal.solana.publicKey && walletGlobal.solana.isConnected) {
+                setAccount(walletGlobal.solana.publicKey.toString());
                 setChainId('solana');
-                setProvider({ solana: window.backpack.solana, ethereum: window.ethereum?.providers?.find(p => p.isBackpack) });
-                setSigner(window.backpack.solana);
+                setProvider({ solana: walletGlobal.solana, ethereum: window.ethereum?.providers?.find(p => p[providerFlag]) });
+                setSigner(walletGlobal.solana);
                 return;
               }
-              const resp = await window.backpack.solana.connect({ onlyIfTrusted: true });
+              const resp = await walletGlobal.solana.connect({ onlyIfTrusted: true });
               if (resp && resp.publicKey) {
                 setAccount(resp.publicKey.toString());
                 setChainId('solana');
-                setProvider({ solana: window.backpack.solana, ethereum: window.ethereum?.providers?.find(p => p.isBackpack) });
-                setSigner(window.backpack.solana);
-                return;
-              }
-              localStorage.removeItem('walletConnected');
-              localStorage.removeItem('walletName');
-            } catch (e) {
-              localStorage.removeItem('walletConnected');
-              localStorage.removeItem('walletName');
-            }
-          } else {
-            localStorage.removeItem('walletConnected');
-            localStorage.removeItem('walletName');
-          }
-          return;
-        }
-
-        if (walletName === 'Phantom') {
-          if (!window.phantom?.solana?.publicKey) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-          }
-          if (window.phantom?.solana) {
-            try {
-              if (window.phantom.solana.publicKey && window.phantom.solana.isConnected) {
-                setAccount(window.phantom.solana.publicKey.toString());
-                setChainId('solana');
-                setProvider({ solana: window.phantom.solana, ethereum: window.ethereum?.providers?.find(p => p.isPhantom) });
-                setSigner(window.phantom.solana);
-                return;
-              }
-              const resp = await window.phantom.solana.connect({ onlyIfTrusted: true });
-              if (resp && resp.publicKey) {
-                setAccount(resp.publicKey.toString());
-                setChainId('solana');
-                setProvider({ solana: window.phantom.solana, ethereum: window.ethereum?.providers?.find(p => p.isPhantom) });
-                setSigner(window.phantom.solana);
+                setProvider({ solana: walletGlobal.solana, ethereum: window.ethereum?.providers?.find(p => p[providerFlag]) });
+                setSigner(walletGlobal.solana);
                 return;
               }
               localStorage.removeItem('walletConnected');
@@ -289,8 +230,8 @@ export const WalletProvider = ({ children }) => {
     account, chainId, isConnecting, provider, signer,
     isConnected: !!account,
     isWalletInstalled: isWalletInstalled(),
-    connectWallet, disconnectWallet, switchChain, getBalance, CHAINS
-  }), [account, chainId, isConnecting, provider, signer, connectWallet, disconnectWallet, switchChain, getBalance]);
+    connectWallet, disconnectWallet, switchChain, CHAINS
+  }), [account, chainId, isConnecting, provider, signer, connectWallet, disconnectWallet, switchChain]);
 
   return (
     <WalletContext.Provider value={value}>

@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
-import { SOLANA_USDC_MINT, FEE_ESTIMATES, alternativeRpcs, tokenContracts } from '../constants/bridgeConfig';
+import { getAssociatedTokenAddress } from '@solana/spl-token';
+import { SOLANA_USDC_MINT, FEE_ESTIMATES, alternativeRpcs, tokenContracts, isNativeToken } from '../constants/bridgeConfig';
 
 export const getTokenBalance = async (tokenType, walletProvider, walletAccount) => {
   if (!walletProvider || !walletAccount) return '0';
@@ -27,7 +28,7 @@ export const getTokenBalance = async (tokenType, walletProvider, walletAccount) 
               const balance = await connection.getBalance(solanaProvider.publicKey);
               return (balance / LAMPORTS_PER_SOL).toString();
             } catch (fallbackError) {
-              return '1.5';
+              return '0';
             }
           }
         } else {
@@ -41,18 +42,10 @@ export const getTokenBalance = async (tokenType, walletProvider, walletAccount) 
         const publicKey = walletProvider.solana.publicKey;
         if (!publicKey) return '0';
 
-        const rpcEndpoints = [
-          'https://api.mainnet-beta.solana.com',
-          'https://solana.publicnode.com',
-          'https://mainnet.solana.dappio.xyz',
-          'https://rpc.ankr.com/solana'
-        ];
-
-        for (const rpc of rpcEndpoints) {
+        for (const rpc of alternativeRpcs) {
           try {
             const connection = new Connection(rpc);
             try {
-              const { getAssociatedTokenAddress } = await import('@solana/spl-token');
               const ataAddress = await getAssociatedTokenAddress(
                 new PublicKey(SOLANA_USDC_MINT),
                 publicKey
@@ -110,8 +103,7 @@ const getERC20Balance = async (tokenType, provider, account) => {
     ];
 
     const contract = new ethers.Contract(contractAddress, erc20ABI, provider);
-    const balance = await contract.balanceOf(account);
-    const decimals = await contract.decimals();
+    const [balance, decimals] = await Promise.all([contract.balanceOf(account), contract.decimals()]);
     const formattedBalance = ethers.formatUnits(balance, decimals);
 
     if (tokenType === 'USDC' || tokenType === 'USDT') {
@@ -138,8 +130,7 @@ export const validateFees = async ({
       return { isValid: true, hasNativeFee: false, message: '', feeAmount: 0 };
     }
 
-    if ((fromToken === 'ETH' && (fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM')) ||
-        (fromToken === 'SOL' && fromChain === 'SOLANA')) {
+    if (isNativeToken(fromToken, fromChain)) {
       return { isValid: true, hasNativeFee: false, message: '', feeAmount: estimatedFee };
     }
 
@@ -176,8 +167,7 @@ export const calculateMaxBridgeAmount = (balance, fromToken, fromChain) => {
   const balanceNum = parseFloat(balance);
   const estimatedFee = FEE_ESTIMATES[fromChain] || 0;
 
-  if ((fromToken === 'ETH' && (fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM')) ||
-      (fromToken === 'SOL' && fromChain === 'SOLANA')) {
+  if (isNativeToken(fromToken, fromChain)) {
     return Math.max(0, balanceNum - estimatedFee).toString();
   }
 

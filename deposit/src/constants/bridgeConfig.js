@@ -74,3 +74,15 @@ export const alternativeRpcs = [
   'https://solana.publicnode.com',
   'https://mainnet.solana.dappio.xyz'
 ];
+
+// API chain name mapping
+export const API_CHAIN_NAMES = {
+  ETHEREUM: 'Ethereum',
+  ARBITRUM: 'Arbitrum',
+  SOLANA: 'Solana'
+};
+
+// Check if a token is the native token for its chain
+export const isNativeToken = (token, chain) =>
+  (token === 'SOL' && chain === 'SOLANA') ||
+  (token === 'ETH' && (chain === 'ETHEREUM' || chain === 'ARBITRUM'));

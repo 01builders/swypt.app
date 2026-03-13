@@ -1,4 +1,14 @@
 import { Connection, Transaction, VersionedTransaction, MessageV0 } from '@solana/web3.js';
+import { alternativeRpcs } from '../constants/bridgeConfig';
+
+const hexToBytes = (hex) => {
+  const clean = hex.startsWith('0x') ? hex.slice(2) : hex;
+  const bytes = new Uint8Array(clean.length / 2);
+  for (let i = 0; i < clean.length; i += 2) {
+    bytes[i / 2] = parseInt(clean.substr(i, 2), 16);
+  }
+  return bytes;
+};
 
 export const handleSolanaTransaction = async ({
   provider, transactionData, onProgress = () => {}
@@ -9,12 +19,9 @@ export const handleSolanaTransaction = async ({
   try {
     let transaction;
 
-    if (transactionData.data) {
-      const hexData = transactionData.data.startsWith('0x') ? transactionData.data.slice(2) : transactionData.data;
-      const bytes = new Uint8Array(hexData.length / 2);
-      for (let i = 0; i < hexData.length; i += 2) {
-        bytes[i / 2] = parseInt(hexData.substr(i, 2), 16);
-      }
+    const rawHex = transactionData.data || (typeof transactionData === 'string' ? transactionData : null);
+    if (rawHex) {
+      const bytes = hexToBytes(rawHex);
       try {
         transaction = VersionedTransaction.deserialize(bytes);
       } catch (versionedError) {
@@ -24,31 +31,14 @@ export const handleSolanaTransaction = async ({
           throw new Error('Transaction deserialization failed');
         }
       }
-    } else if (typeof transactionData === 'string') {
-      const hexData = transactionData.startsWith('0x') ? transactionData.slice(2) : transactionData;
-      const bytes = new Uint8Array(hexData.length / 2);
-      for (let i = 0; i < hexData.length; i += 2) {
-        bytes[i / 2] = parseInt(hexData.substr(i, 2), 16);
-      }
-      try {
-        transaction = VersionedTransaction.deserialize(bytes);
-      } catch (versionedError) {
-        transaction = Transaction.from(bytes);
-      }
-    } else {
+    } else if (typeof transactionData !== 'string') {
       transaction = transactionData;
     }
 
     // Refresh blockhash
     try {
-      const publicRpcs = [
-        'https://solana.publicnode.com',
-        'https://mainnet.solana.dappio.xyz',
-        'https://rpc.ankr.com/solana'
-      ];
-
       let freshBlockhash = null;
-      for (const rpc of publicRpcs) {
+      for (const rpc of alternativeRpcs) {
         try {
           const connection = new Connection(rpc);
           const { blockhash } = await connection.getLatestBlockhash('confirmed');
@@ -134,15 +124,9 @@ export const handleSolanaTransaction = async ({
 
     // Confirm transaction
     try {
-      const publicRpcs = [
-        'https://solana.publicnode.com',
-        'https://rpc.ankr.com/solana',
-        'https://mainnet.solana.dappio.xyz'
-      ];
-
       let transactionResult = null;
 
-      for (const rpc of publicRpcs) {
+      for (const rpc of alternativeRpcs) {
         try {
           const connection = new Connection(rpc);
           const confirmationPromise = connection.confirmTransaction(txHash, 'confirmed');

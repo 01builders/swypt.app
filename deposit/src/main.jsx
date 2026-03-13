@@ -5,11 +5,11 @@ import App from './App';
 // Chrome extension error suppression
 const originalConsoleError = console.error;
 console.error = function(...args) {
-  const errorString = args.join(' ');
-  if (errorString.includes('Could not establish connection') ||
-      errorString.includes('Receiving end does not exist') ||
-      errorString.includes('JSON-RPC') ||
-      errorString.includes('chrome.runtime')) {
+  const first = typeof args[0] === 'string' ? args[0] : '';
+  if (first.includes('Could not establish connection') ||
+      first.includes('Receiving end does not exist') ||
+      first.includes('JSON-RPC') ||
+      first.includes('chrome.runtime')) {
     return;
   }
   originalConsoleError.apply(console, args);
