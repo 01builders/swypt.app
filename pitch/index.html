@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swypt – Investor Pitch</title>
+  <meta name="description" content="Swypt investor pitch deck — The Onchain Robinhood. Trade crypto, bet on anything.">
+  <meta property="og:title" content="Swypt – Investor Pitch">
+  <meta property="og:description" content="The Onchain Robinhood. $40B in monthly Hyperliquid volume. No native mobile app to access it.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#cover" class="logo">
+      <img src="../favicon.svg" alt="Swypt logo">
+      swypt
+      <span class="logo-label">Pitch</span>
+    </a>
+    <a href="https://swypt.app" class="btn btn-ghost btn-sm">← Back to swypt.app</a>
+  </div>
+</nav>
+
+<!-- ─── SCROLL PROGRESS (mobile) ─── -->
+<div class="scroll-progress">
+  <div class="scroll-progress-bar"></div>
+</div>
+
+<!-- ─── DOT NAV (desktop) ─── -->
+<nav class="dot-nav" aria-label="Section navigation">
+  <a href="#cover" data-section="cover" class="active"><span class="dot-tooltip">Cover</span></a>
+  <a href="#problem" data-section="problem"><span class="dot-tooltip">Problem</span></a>
+  <a href="#product" data-section="product"><span class="dot-tooltip">Product</span></a>
+  <a href="#user" data-section="user"><span class="dot-tooltip">Swypt User</span></a>
+  <a href="#traction" data-section="traction"><span class="dot-tooltip">Traction</span></a>
+  <a href="#why-onchain" data-section="why-onchain"><span class="dot-tooltip">Why On-Chain</span></a>
+  <a href="#gtm" data-section="gtm"><span class="dot-tooltip">Go-To-Market</span></a>
+  <a href="#revenue" data-section="revenue"><span class="dot-tooltip">Revenue</span></a>
+  <a href="#market" data-section="market"><span class="dot-tooltip">Market</span></a>
+  <a href="#team" data-section="team"><span class="dot-tooltip">Team</span></a>
+  <a href="#ask" data-section="ask"><span class="dot-tooltip">The Ask</span></a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 1. COVER                                           -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="cover" class="cover pitch-section">
+  <div class="cover-content">
+    <div class="cover-logo fade-up">
+      <img src="../favicon.svg" alt="Swypt">
+      <span>swypt</span>
+    </div>
+    <div class="cover-tagline fade-up">ONE SWIPE. INFINITE MARKETS.</div>
+    <div class="cover-stat fade-up count-up" data-target="40" data-prefix="$" data-suffix="B">$40B</div>
+    <p class="cover-subtitle fade-up">in monthly Hyperliquid volume. No native consumer-grade mobile app to access it.</p>
+    <p class="cover-pain fade-up">"The biggest exchange nobody can use on their phone."</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 2. THE PROBLEM                                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="problem" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> THE PROBLEM</div>
+      <h2>Mobile Perps Are <span class="gradient">Broken.</span></h2>
+    </div>
+
+    <div class="comparison-grid fade-up">
+      <!-- Current flow -->
+      <div class="comparison-card card-current">
+        <h3>Current DeFi Flow</h3>
+        <ol class="steps">
+          <li>Download a wallet app</li>
+          <li>Write down 12-word seed phrase</li>
+          <li>Buy crypto on a CEX</li>
+          <li>KYC on the CEX</li>
+          <li>Withdraw to wallet</li>
+          <li>Bridge to the right chain</li>
+          <li>Connect wallet to DEX</li>
+          <li>Figure out the trading UI</li>
+        </ol>
+        <div class="comparison-stat stat-red">~45 min · 80% drop-off</div>
+      </div>
+
+      <!-- Robinhood flow -->
+      <div class="comparison-card card-robinhood">
+        <h3>Robinhood Flow</h3>
+        <ol class="steps">
+          <li>Download &amp; open app</li>
+          <li>Sign up with email</li>
+          <li>Deposit funds</li>
+          <li>Start trading</li>
+        </ol>
+        <div class="comparison-stat stat-green">60 seconds to first trade</div>
+      </div>
+    </div>
+
+    <div class="quote-cards fade-up">
+      <div class="quote-card">
+        <div class="quote-card-author">@aaalexhl</div>
+        <p>"I tried onboarding my normie friends to Hyperliquid. Gave up after step 4. They don't care about self-custody — they care about making money."</p>
+      </div>
+      <div class="quote-card">
+        <div class="quote-card-author">@seyong</div>
+        <p>"The gap between CEX UX and DeFi UX is the entire reason centralized exchanges still exist."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 3. THE PRODUCT                                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="product" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> THE PRODUCT</div>
+      <h2>The Magic <span class="gradient">Moment.</span></h2>
+    </div>
+
+    <div class="product-layout">
+      <div class="fade-up">
+        <ul class="product-features">
+          <li>
+            <span class="feature-dot feature-dot-blue"></span>
+            <div><strong>Login</strong><span>Apple ID / Google — no seed phrases, no extensions</span></div>
+          </li>
+          <li>
+            <span class="feature-dot feature-dot-blue"></span>
+            <div><strong>Fund</strong><span>Apple Pay, card, or crypto — money in your account in seconds</span></div>
+          </li>
+          <li>
+            <span class="feature-dot feature-dot-blue"></span>
+            <div><strong>Trade</strong><span>One-swipe execution on perpetuals &amp; prediction markets</span></div>
+          </li>
+        </ul>
+        <ul class="product-features" style="margin-top:1rem">
+          <li>
+            <span class="feature-dot feature-dot-green"></span>
+            <div><strong>Hyperliquid</strong><span>Best-in-class perps liquidity, on-chain</span></div>
+          </li>
+          <li>
+            <span class="feature-dot feature-dot-green"></span>
+            <div><strong>Self-Custody</strong><span>Your keys, embedded wallet — no custodial risk</span></div>
+          </li>
+          <li>
+            <span class="feature-dot feature-dot-green"></span>
+            <div><strong>Smart Defaults</strong><span>Auto stop-loss, position limits, beginner guardrails</span></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Phone mockups -->
+      <div class="phones-wrap fade-up">
+        <div class="phone phone-left">
+          <div class="phone-notch"></div>
+          <div class="phone-inner">
+            <div class="phone-label phone-label-trade">
+              <span class="phone-label-dot" style="background:var(--blue)"></span> Trade
+            </div>
+            <div class="trade-pair">
+              <div class="trade-pair-icon"><img src="../assets/logos/btc.svg" alt="BTC" style="width:100%;height:100%;border-radius:50%"></div>
+              <div>
+                <div class="trade-pair-name">Bitcoin</div>
+                <div class="trade-pair-ticker">BTC/USDC</div>
+              </div>
+            </div>
+            <div class="trade-price">$104,231</div>
+            <div class="trade-change">↑ 3.2% today</div>
+            <div class="trade-chart">
+              <svg viewBox="0 0 220 80" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#5B7BF9" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#5B7BF9" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,65 C15,62 30,58 50,50 C70,42 85,38 100,34 C115,30 135,24 155,18 C175,12 195,8 220,4 L220,80 L0,80Z" fill="url(#cg)"/>
+                <path d="M0,65 C15,62 30,58 50,50 C70,42 85,38 100,34 C115,30 135,24 155,18 C175,12 195,8 220,4" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="220" cy="4" r="3.5" fill="#5B7BF9"/>
+              </svg>
+            </div>
+            <div class="trade-btns">
+              <div class="trade-btn trade-btn-buy">Buy</div>
+              <div class="trade-btn trade-btn-sell">Sell</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone phone-right">
+          <div class="phone-notch"></div>
+          <div class="phone-inner">
+            <div class="phone-label phone-label-predict">
+              <span class="phone-label-dot" style="background:var(--green)"></span> Predict
+            </div>
+            <div class="predict-event">
+              <div class="predict-event-cat">Crypto</div>
+              <div class="predict-event-q">Will BTC hit $150K by July 2026?</div>
+              <div class="predict-odds">
+                <div class="predict-odds-btn predict-yes">Yes 72%</div>
+                <div class="predict-odds-btn predict-no">No 28%</div>
+              </div>
+              <div class="predict-vol">$2.4M volume</div>
+            </div>
+            <div class="predict-event-sm">
+              <div class="predict-event-sm-q">Next US president?</div>
+              <span class="predict-event-sm-odds predict-event-sm-live">LIVE</span>
+            </div>
+            <div class="predict-event-sm">
+              <div class="predict-event-sm-q">ETH &gt; $5K by Sept?</div>
+              <span class="predict-event-sm-odds predict-event-sm-yes">61% Yes</span>
+            </div>
+            <div class="predict-event-sm">
+              <div class="predict-event-sm-q">Super Bowl 2027?</div>
+              <span class="predict-event-sm-odds predict-event-sm-live">LIVE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-callout fade-up">From phone unlock to first trade in under 60 seconds</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 4. THE SWYPT USER                                  -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="user" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> THE SWYPT USER</div>
+      <h2>The Swypt <span class="gradient">User.</span></h2>
+      <p>Built for the people, not the professionals.</p>
+    </div>
+
+    <div class="quote-cards fade-up">
+      <div class="quote-card">
+        <div class="quote-card-author">Reddit r/wallstreetbets</div>
+        <p>"I don't want to learn DeFi. I just want to go long on BTC from my phone without jumping through 10 hoops."</p>
+      </div>
+      <div class="quote-card">
+        <div class="quote-card-author">Polymarket power user</div>
+        <p>"I bet on elections, sports, crypto — but the mobile experience is awful. Someone just needs to make a Robinhood for this."</p>
+      </div>
+    </div>
+
+    <div class="big-stat fade-up count-up" data-target="38" data-suffix="M">38M</div>
+    <div class="big-stat-label fade-up">monthly Polymarket visits — mainstream demand is here</div>
+
+    <div class="pull-quote fade-up">
+      "Swypt doesn't ask: what's your leverage ratio on a BTC-PERP? Swypt asks: do you think BTC goes up or down?"
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 5. TRACTION                                        -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="traction" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> TRACTION</div>
+      <h2>What We've <span class="gradient">Built.</span></h2>
+    </div>
+
+    <div class="integrations-grid fade-up">
+      <div class="integration-card integration-card-blue">
+        <img src="../assets/logos/hyperliquid.svg" alt="Hyperliquid">
+        <h4>Hyperliquid</h4>
+        <p>Perps trading integrated</p>
+      </div>
+      <div class="integration-card integration-card-green">
+        <img src="../assets/logos/kalshi.svg" alt="Kalshi">
+        <h4>Kalshi</h4>
+        <p>Regulated event contracts</p>
+      </div>
+      <div class="integration-card integration-card-purple">
+        <img src="../assets/logos/polymarket.svg" alt="Polymarket">
+        <h4>Polymarket</h4>
+        <p>Prediction markets</p>
+      </div>
+      <div class="integration-card integration-card-red">
+        <img src="../favicon.svg" alt="Superteam DE">
+        <h4>Superteam DE</h4>
+        <p>German Solana community</p>
+      </div>
+    </div>
+
+    <div class="status-cards fade-up">
+      <div class="status-card">
+        <div class="status-icon status-icon-green">✓</div>
+        <div>
+          <h4>Working iOS Prototype</h4>
+          <p>Native app on TestFlight</p>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-icon status-icon-blue">⚡</div>
+        <div>
+          <h4>Full Stack Integrated</h4>
+          <p>Backend, bridge, wallet infra live</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 6. WHY ON-CHAIN                                    -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="why-onchain" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> WHY ON-CHAIN</div>
+      <h2>Why This Can't Be Built <span class="gradient">Off-Chain.</span></h2>
+    </div>
+
+    <div class="numbered-cards fade-up">
+      <div class="numbered-card">
+        <div class="numbered-card-num"></div>
+        <h3>Global Self-Custody</h3>
+        <p>Users own their keys. No geographic restrictions, no custodial risk. Available to anyone with a phone.</p>
+        <div class="callout">Unlike Robinhood, Swypt can't freeze your assets.</div>
+      </div>
+      <div class="numbered-card">
+        <div class="numbered-card-num"></div>
+        <h3>Permissionless Interface Layer</h3>
+        <p>Hyperliquid is an open protocol. Anyone can build on it — no partnership deals, no API approval, no revenue share gates.</p>
+        <div class="callout">We ship features the moment they exist on-chain.</div>
+      </div>
+      <div class="numbered-card">
+        <div class="numbered-card-num"></div>
+        <h3>Programmable Clan Incentives</h3>
+        <p>On-chain referral and revenue-sharing logic baked into smart contracts. Transparent, instant, trustless payouts.</p>
+        <div class="callout">Clan leaders earn real yield from their community's activity.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 7. GO-TO-MARKET                                    -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="gtm" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> GO-TO-MARKET</div>
+      <h2>Distribution <span class="gradient">Strategy.</span></h2>
+    </div>
+
+    <div class="gtm-grid fade-up">
+      <div class="gtm-card">
+        <h3>Beachhead</h3>
+        <p>Hyperliquid community (~1.4M wallets). Secondary: Polymarket power users, CT degens, sports bettors exploring crypto.</p>
+      </div>
+      <div class="gtm-card">
+        <h3>Acquisition Loop</h3>
+        <ul class="gtm-numbered">
+          <li><div><strong>Clan Leaders</strong>Recruit top traders as ambassadors with on-chain rev share</div></li>
+          <li><div><strong>PnL Cards</strong>Auto-generated shareable trade cards for social virality</div></li>
+          <li><div><strong>Prediction Events</strong>Viral event markets (elections, sports, crypto) drive spikes</div></li>
+        </ul>
+      </div>
+      <div class="gtm-card">
+        <h3>Phase 1 Milestones</h3>
+        <ul>
+          <li><strong>Month 1–2</strong>App Store launch, Hyperliquid perps live</li>
+          <li><strong>Month 3</strong>Prediction markets, clan system beta</li>
+          <li><strong>Month 4–5</strong>Fiat on-ramp, Apple Pay deposits</li>
+          <li><strong>Month 6</strong>10K users target, Android launch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 8. REVENUE MODEL                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="revenue" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> BUSINESS MODEL</div>
+      <h2>Revenue <span class="gradient">Model.</span></h2>
+    </div>
+
+    <div class="revenue-cards fade-up">
+      <div class="revenue-card">
+        <div class="revenue-card-label">Primary</div>
+        <h4>0.75% Fee</h4>
+        <p>Per-trade commission on perpetuals volume. Simple, scalable, aligned with usage.</p>
+      </div>
+      <div class="revenue-card">
+        <div class="revenue-card-label">Secondary</div>
+        <h4>HL Builder</h4>
+        <p>Hyperliquid's builder fee program — additional revenue as an approved interface.</p>
+      </div>
+      <div class="revenue-card">
+        <div class="revenue-card-label">Upside</div>
+        <h4>Polymarket + Kalshi</h4>
+        <p>Prediction market fees and spread capture. Growing market, early mover advantage.</p>
+      </div>
+    </div>
+
+    <h3 class="fade-up" style="margin-bottom:1rem">Unit Economics</h3>
+    <div class="unit-economics fade-up">
+      <div class="unit-card">
+        <div class="unit-card-value count-up" data-target="1000" data-prefix="$" data-separator=",">$1,000</div>
+        <div class="unit-card-label">Avg Account Size</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-card-value">20</div>
+        <div class="unit-card-label">Trades / Month</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-card-value">$500</div>
+        <div class="unit-card-label">Avg Trade Size</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-card-value">$10K</div>
+        <div class="unit-card-label">Monthly Vol / User</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-card-value">$103</div>
+        <div class="unit-card-label">Annual Fee / User</div>
+      </div>
+      <div class="unit-card unit-card-highlight">
+        <div class="unit-card-value">$618</div>
+        <div class="unit-card-label">LTV (6yr avg)</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-card-value">~$25</div>
+        <div class="unit-card-label">CAC</div>
+      </div>
+      <div class="unit-card unit-card-highlight">
+        <div class="unit-card-value">25:1</div>
+        <div class="unit-card-label">LTV : CAC</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 9. MARKET                                          -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="market" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> MARKET</div>
+      <h2>Month 12: <span class="gradient">10K users · $82M volume</span></h2>
+    </div>
+
+    <div class="market-layout fade-up">
+      <!-- TAM visualization -->
+      <div class="tam-visual">
+        <div class="tam-box tam-box-outer">
+          <div class="tam-box-label tam-label-blue">TAM</div>
+          <div class="tam-box-value">$480B</div>
+          <div class="tam-box-desc">Global crypto derivatives annual volume</div>
+          <div class="tam-box tam-box-mid">
+            <div class="tam-box-label tam-label-green">SAM</div>
+            <div class="tam-box-value">$48B</div>
+            <div class="tam-box-desc">Mobile-first retail perps + prediction markets</div>
+            <div class="tam-box tam-box-inner">
+              <div class="tam-box-label tam-label-purple">SOM</div>
+              <div class="tam-box-value">$1B</div>
+              <div class="tam-box-desc">Year 1: Hyperliquid + Polymarket mobile capture</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projections table -->
+      <div>
+        <table class="projections-table">
+          <thead>
+            <tr>
+              <th>Segment</th>
+              <th>DAU</th>
+              <th>Monthly Vol</th>
+              <th>Annual Rev</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hyperliquid Perps</td>
+              <td>8,000</td>
+              <td>$68M</td>
+              <td>$6.1M</td>
+            </tr>
+            <tr>
+              <td>Prediction Markets</td>
+              <td>2,000</td>
+              <td>$14M</td>
+              <td>$1.3M</td>
+            </tr>
+            <tr>
+              <td><strong>Year 1 Total</strong></td>
+              <td><strong>10,000</strong></td>
+              <td><strong>$82M</strong></td>
+              <td><strong>$7.4M</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 10. TEAM                                           -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="team" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> TEAM</div>
+      <h2>Why <span class="gradient">Us.</span></h2>
+    </div>
+
+    <div class="team-grid fade-up">
+      <div class="team-card team-card-blue">
+        <div class="team-avatar team-avatar-blue">O</div>
+        <h3>Onur Akpolat</h3>
+        <div class="team-role">CTO · Engineering</div>
+        <ul>
+          <li>Bio coming soon</li>
+        </ul>
+      </div>
+      <div class="team-card team-card-green">
+        <div class="team-avatar team-avatar-green">J</div>
+        <h3>Johannes Hohl</h3>
+        <div class="team-role">CEO · Product &amp; Growth</div>
+        <ul>
+          <li>Bio coming soon</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- 11. THE ASK                                        -->
+<!-- ═══════════════════════════════════════════════════ -->
+<section id="ask" class="pitch-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-badge"><span class="section-badge-dot"></span> THE ASK</div>
+      <h2>Join the <span class="gradient">Round.</span></h2>
+    </div>
+
+    <div class="ask-layout fade-up">
+      <!-- Deal terms -->
+      <div class="deal-card">
+        <h3>Deal Terms</h3>
+        <ul class="deal-terms">
+          <li><span>Raising</span><span>$250K</span></li>
+          <li><span>Investors</span><span>10</span></li>
+          <li><span>Min Check</span><span>$25K</span></li>
+          <li><span>Valuation</span><span>$5M pre-money</span></li>
+          <li><span>Instrument</span><span>SAFE MFN</span></li>
+        </ul>
+      </div>
+
+      <!-- Use of Funds -->
+      <div class="deal-card">
+        <h3>Use of Funds</h3>
+        <div class="funds-bar-wrap">
+          <div class="funds-bar">
+            <div class="funds-product">45%</div>
+            <div class="funds-team">40%</div>
+            <div class="funds-legal">15%</div>
+          </div>
+          <div class="funds-legend">
+            <span><span class="funds-legend-dot" style="background:var(--blue)"></span> Product &amp; Engineering</span>
+            <span><span class="funds-legend-dot" style="background:var(--green)"></span> Team &amp; Ops</span>
+            <span><span class="funds-legend-dot" style="background:var(--purple)"></span> Legal &amp; Compliance</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="milestones fade-up">
+      <div class="milestone-card">
+        <h4>Month 1</h4>
+        <p>App Store launch. Hyperliquid perps trading live. First 500 users onboarded.</p>
+      </div>
+      <div class="milestone-card">
+        <h4>Month 3</h4>
+        <p>Prediction markets live. Clan system beta. 2,500 active users.</p>
+      </div>
+      <div class="milestone-card">
+        <h4>Month 6</h4>
+        <p>Fiat on-ramp. Apple Pay. Android launch. 10K users, $82M monthly volume target.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="pitch-footer">
+  <div class="container">
+    <ul class="footer-links">
+      <li><a href="https://swypt.app">swypt.app</a></li>
+      <li><a href="https://x.com/swyptapp" target="_blank" rel="noopener">@swyptapp</a></li>
+      <li><a href="mailto:founders@swypt.app">founders@swypt.app</a></li>
+      <li><a href="https://t.me/swyptapp" target="_blank" rel="noopener">t.me/swyptapp</a></li>
+    </ul>
+    <p class="footer-copy">&copy; 2025 Swypt. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
