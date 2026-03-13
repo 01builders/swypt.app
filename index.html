@@ -25,7 +25,7 @@
       swypt
     </a>
     <div style="display:flex;align-items:center;gap:0.6rem">
-      <a href="https://x.com/swyptapp" target="_blank" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="nav-follow-text">Follow</span></a>
+      <a href="https://x.com/swyptapp" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="nav-follow-text">Follow</span></a>
       <a href="https://www.swypt.app/" class="btn btn-primary btn-sm">Download</a>
     </div>
   </div>
@@ -46,11 +46,11 @@
     <h1 class="headline fade-up">Trade crypto. Trade stocks.<br>Bet on anything <span class="hero-rotate-inline">with <span class="hero-rotate-words"><span class="hero-rotate-word mark mark-hl"><img src="assets/logos/hyperliquid-wordmark.svg" alt="Hyperliquid" class="hero-brand-logo"></span><span class="hero-rotate-word mark mark-pm"><img src="assets/logos/polymarket.svg" alt="Polymarket" class="hero-brand-logo"></span><span class="hero-rotate-word mark mark-ka"><img src="assets/logos/kalshi.svg" alt="Kalshi" class="hero-brand-logo"></span></span></span></h1>
     <p class="hero-desc fade-up">No seed phrases — just swipe and go.<br>Self-custodial. The onchain Robinhood.</p>
     <div class="hero-ctas fade-up">
-      <a href="https://www.swypt.app/" class="btn btn-primary btn-glow">
+      <a href="#cta" class="btn btn-primary btn-glow">
         <span class="btn-glow-inner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         Get early access</span>
       </a>
-      <a href="#pillars" class="btn btn-secondary">See how it works</a>
+      <a href="https://deposit.swypt.app" class="btn btn-secondary">Fund Wallet</a>
     </div>
   </div>
 
@@ -664,11 +664,15 @@
   <div class="container">
     <h2 class="fade-up">Ready to<br><span class="gradient">swypt in?</span></h2>
     <p class="fade-up">Trade crypto. Bet on the future. Own your assets. All in one app.</p>
-    <div class="hero-ctas fade-up">
-      <a href="https://www.swypt.app/" class="btn btn-primary btn-glow">
-        <span class="btn-glow-inner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        Get early access</span>
-      </a>
+    <form id="waitlist-form" class="waitlist-form fade-up">
+      <div class="waitlist-input-row">
+        <input type="email" id="waitlist-email" placeholder="Enter your email" required autocomplete="email">
+        <button type="submit" class="btn btn-primary" id="waitlist-btn">Get early access</button>
+      </div>
+      <div id="waitlist-status" class="waitlist-status"></div>
+    </form>
+    <div class="hero-ctas fade-up" style="margin-top:1.5rem">
+      <a href="https://deposit.swypt.app" class="btn btn-secondary">Fund Wallet</a>
       <a href="https://x.com/swyptapp" target="_blank" rel="noopener" class="btn btn-ghost">Follow us on X</a>
     </div>
   </div>
@@ -685,8 +689,9 @@
       <span class="footer-copy">&copy; 2026 Swypt. All rights reserved.</span>
     </div>
     <ul class="footer-links">
-      <li><a href="#">Privacy</a></li>
-      <li><a href="#">Terms</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+      <li><a href="support.html">Support</a></li>
       <li><a href="https://x.com/swyptapp" target="_blank" rel="noopener">X</a></li>
     </ul>
   </div>
@@ -694,7 +699,7 @@
 
 <!-- ─── STICKY MOBILE BAR ─── -->
 <div class="sticky-bar">
-  <a href="https://www.swypt.app/" class="btn btn-primary">Get early access</a>
+  <a href="#cta" class="btn btn-primary">Get early access</a>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"></script>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support – Swypt</title>
+  <meta name="description" content="Swypt Support">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=2">
+  <style>
+    .legal-page{max-width:760px;margin:0 auto;padding:7rem 1.5rem 4rem}
+    .legal-page h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-0.04em;margin-bottom:2rem}
+    .legal-page h2{font-size:1.5rem;font-weight:700;margin-bottom:1.25rem;color:#fff}
+    .legal-page h3{font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;color:#fff}
+    .legal-page p{color:#314085;font-size:0.92rem;line-height:1.65;margin-bottom:0.75rem}
+    .legal-page a{color:var(--blue);text-decoration:none;transition:color 0.2s}
+    .legal-page a:hover{color:var(--blue-light)}
+    .support-card{
+      background:var(--bg-card);border:1px solid var(--border);
+      border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem;
+    }
+    .support-card h3{margin-bottom:0.35rem}
+    .support-section{margin-bottom:3rem}
+    .support-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:600px){.support-grid{grid-template-columns:1fr}}
+    .support-link{
+      display:block;background:var(--bg-card);border:1px solid var(--border);
+      border-radius:var(--radius);padding:1.25rem;text-decoration:none;
+      transition:border-color 0.2s,transform 0.2s;
+    }
+    .support-link:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+    .support-link strong{color:#fff;display:block;margin-bottom:0.25rem;font-size:0.95rem}
+    .support-link span{color:#314085;font-size:0.85rem}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <img src="favicon.svg" alt="Swypt logo">
+      swypt
+    </a>
+    <div style="display:flex;align-items:center;gap:0.6rem">
+      <a href="https://x.com/swyptapp" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="nav-follow-text">Follow</span></a>
+      <a href="/" class="btn btn-primary btn-sm">Home</a>
+    </div>
+  </div>
+</nav>
+
+<div class="legal-page">
+  <h1>Support</h1>
+
+  <div class="support-section">
+    <h2>Get Help</h2>
+    <div class="support-card">
+      <p>Need assistance? Our support team is here to help.</p>
+      <p><strong style="color:#fff">Email Support</strong></p>
+      <p><a href="mailto:contact@binary.builders">contact@binary.builders</a></p>
+      <p style="font-size:0.85rem;color:var(--text-muted)">We typically respond within 24-48 hours</p>
+    </div>
+  </div>
+
+  <div class="support-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="support-card">
+      <h3>How do I deposit funds to Swypt?</h3>
+      <p>Open the Swypt app and tap on the deposit button. You'll receive a unique deposit link. Click the link, connect your wallet, select your token and chain, enter the amount, and confirm the transaction.</p>
+    </div>
+
+    <div class="support-card">
+      <h3>What blockchains and tokens are supported?</h3>
+      <p>We support Ethereum Mainnet, Arbitrum One, and Solana Mainnet. You can deposit ETH, USDC, and USDT on Ethereum/Arbitrum, or SOL and USDC on Solana.</p>
+    </div>
+
+    <div class="support-card">
+      <h3>What wallets can I use?</h3>
+      <p>For Ethereum and Arbitrum: MetaMask, Rainbow, Rabby, Coinbase Wallet, and other EVM-compatible wallets. For Solana: Phantom and Backpack wallets.</p>
+    </div>
+
+    <div class="support-card">
+      <h3>What is the minimum deposit amount?</h3>
+      <p>The minimum deposit amount is $15 USD equivalent. Make sure you also have enough native tokens (ETH/SOL) in your wallet to cover transaction fees.</p>
+    </div>
+
+    <div class="support-card">
+      <h3>How long do deposits take?</h3>
+      <p>Deposits typically arrive in your Swypt app within a few minutes.</p>
+    </div>
+
+    <div class="support-card">
+      <h3>Is Swypt custodial?</h3>
+      <p>Swypt provides a non-custodial interface. We do not custody your funds. Deposits are bridged to Hyperliquid, where you maintain control of your assets through your Swypt account.</p>
+    </div>
+  </div>
+
+  <div class="support-section">
+    <h2>Additional Resources</h2>
+    <div class="support-grid">
+      <a href="privacy.html" class="support-link">
+        <strong>Privacy Policy</strong>
+        <span>Learn how we handle your data</span>
+      </a>
+      <a href="terms.html" class="support-link">
+        <strong>Terms &amp; Conditions</strong>
+        <span>Read our terms of service</span>
+      </a>
+      <a href="https://x.com/swyptapp" target="_blank" rel="noopener" class="support-link">
+        <strong>Follow Us on X</strong>
+        <span>@swyptapp - Latest updates</span>
+      </a>
+      <a href="https://deposit.swypt.app" class="support-link">
+        <strong>Deposit</strong>
+        <span>Fund your Swypt wallet</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <a href="/" class="logo">
+        <img src="favicon.svg" alt="Swypt logo">
+        swypt
+      </a>
+      <span class="footer-copy">&copy; 2026 Swypt. All rights reserved.</span>
+    </div>
+    <ul class="footer-links">
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="https://x.com/swyptapp" target="_blank" rel="noopener">X</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>

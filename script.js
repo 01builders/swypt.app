@@ -363,3 +363,53 @@ if (phoneTrack && phoneCarousel) {
   });
   window.addEventListener('resize', syncRowHeights);
 })();
+
+// ─── WAITLIST FORM ───
+(function() {
+  var form = document.getElementById('waitlist-form');
+  if (!form) return;
+
+  var emailInput = document.getElementById('waitlist-email');
+  var btn = document.getElementById('waitlist-btn');
+  var status = document.getElementById('waitlist-status');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = emailInput.value.trim();
+    if (!email || email.indexOf('@') === -1) {
+      status.textContent = 'Please enter a valid email address';
+      status.className = 'waitlist-status error';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Joining...';
+    status.textContent = '';
+    status.className = 'waitlist-status';
+
+    fetch('https://api.sender.net/v2/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer REMOVED_SECRET',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    }).then(function(response) {
+      if (response.ok) {
+        status.textContent = 'You\'re on the list!';
+        status.className = 'waitlist-status success';
+        emailInput.value = '';
+      } else {
+        status.textContent = 'Something went wrong. Please try again.';
+        status.className = 'waitlist-status error';
+      }
+    }).catch(function() {
+      status.textContent = 'Something went wrong. Please try again.';
+      status.className = 'waitlist-status error';
+    }).finally(function() {
+      btn.disabled = false;
+      btn.textContent = 'Get early access';
+    });
+  });
+})();
