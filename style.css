@@ -580,7 +580,7 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
   color:var(--text);font-family:inherit;font-size:0.95rem;
   outline:none;transition:border-color 0.2s;
 }
-.waitlist-input-row input::placeholder{color:var(--text-muted)}
+.waitlist-input-row input::placeholder{color:var(--text-secondary)}
 .waitlist-input-row input:focus{border-color:var(--border-hover)}
 .waitlist-input-row button{white-space:nowrap;flex-shrink:0}
 .waitlist-status{
