@@ -521,13 +521,17 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
 @media(max-width:768px){
   .dot-nav{display:none}
   .scroll-progress{display:block}
-  nav{padding:1.1rem 1rem}
+  nav{padding:0.75rem 1rem}
+  .nav-inner .btn-ghost{padding:0.6rem 1rem;min-height:44px;display:inline-flex;align-items:center}
   .logo{font-size:1.3rem}
   .logo img{width:28px;height:26px}
+  .logo-label{display:none}
   .pitch-section{padding:3rem 0}
   .pitch-section:first-of-type{padding-top:5.5rem}
   .cover{padding:5.5rem 1rem 2rem;min-height:auto}
   .cover-stat{font-size:clamp(3rem,12vw,5rem)}
+  .cover-subtitle{font-size:1rem}
+  .cover-pain{font-size:0.9rem}
   .phones-wrap{gap:0.75rem}
   .phone{width:160px}
   .phone-left{transform:rotate(-4deg) translateY(6px)}
@@ -536,16 +540,40 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
   .container{padding:0 1rem}
   .status-cards{grid-template-columns:1fr}
   .unit-economics{grid-template-columns:repeat(2,1fr)}
+  .section-header{margin-bottom:2rem}
+  .section-header p{font-size:0.95rem}
+  .pull-quote{padding:1rem 1.25rem;font-size:1rem}
+  .deal-terms li{font-size:0.85rem}
+  .projections-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .projections-table th,.projections-table td{white-space:nowrap;padding:0.6rem 0.5rem;font-size:0.8rem}
+  .btn{min-height:44px}
+  .btn-sm{min-height:44px}
+  .footer-links{gap:1.25rem}
+  .footer-links a{font-size:0.82rem}
 }
 
 @media(max-width:400px){
   nav{padding:0.6rem 0.75rem}
+  .nav-inner .btn-ghost{font-size:0.8rem;padding:0.5rem 0.75rem}
   .cover{padding:5rem 0.75rem 1.5rem}
   .cover-stat{font-size:clamp(2.5rem,14vw,4rem)}
-  .phone{width:140px}
+  .cover-subtitle{font-size:0.92rem}
+  .cover-logo img{width:36px;height:33px}
+  .cover-logo span{font-size:1.5rem}
+  .phone{width:130px}
   .phone-inner{padding:2rem 0.75rem 0.75rem}
+  .phone-notch{width:80px;height:18px}
+  .trade-price{font-size:1.4rem}
   .container{padding:0 0.75rem}
   h2{font-size:clamp(1.4rem,5vw,2rem)}
   .integrations-grid{grid-template-columns:1fr}
   .unit-economics{grid-template-columns:1fr}
+  .comparison-card{padding:1.25rem}
+  .numbered-card{padding:1.25rem}
+  .gtm-card{padding:1.25rem}
+  .deal-card{padding:1.25rem}
+  .team-card{padding:1.25rem}
+  .milestone-card{padding:1rem}
+  .funds-legend{gap:0.75rem}
+  .funds-legend span{font-size:0.72rem}
 }
