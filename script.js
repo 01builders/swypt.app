@@ -295,3 +295,71 @@ if (phoneTrack && phoneCarousel) {
   });
 
 })();
+
+// ─── COMPARE TABLE ROW SYNC + SWIPE HINT ───
+(function(){
+  var scrollEl = document.querySelector('.compare-scroll');
+  var hint = document.getElementById('compareSwipeHint');
+  if (!scrollEl) return;
+
+  // Swipe hint
+  if (hint) {
+    scrollEl.addEventListener('scroll', function() {
+      if (scrollEl.scrollLeft > 10) {
+        hint.classList.add('hidden');
+      } else {
+        hint.classList.remove('hidden');
+      }
+    });
+  }
+
+  // Sync row heights between fixed and scroll sides
+  function syncRowHeights() {
+    var fixedHeader = document.querySelector('.compare-fixed-header');
+    var firstCol = document.querySelector('.compare-col');
+    if (!fixedHeader || !firstCol) return;
+
+    // Sync header height
+    var colHeader = firstCol.querySelector('.compare-col-header');
+    if (colHeader) {
+      fixedHeader.style.height = '';
+      colHeader.style.height = '';
+      var h = Math.max(fixedHeader.offsetHeight, colHeader.offsetHeight);
+      fixedHeader.style.height = h + 'px';
+      colHeader.style.height = h + 'px';
+      // Apply to all col headers
+      document.querySelectorAll('.compare-col-header').forEach(function(el) {
+        el.style.height = h + 'px';
+      });
+    }
+
+    // Sync body rows
+    var fixedRows = document.querySelectorAll('.compare-fixed-row');
+    var cols = document.querySelectorAll('.compare-col');
+    fixedRows.forEach(function(row, i) {
+      row.style.height = '';
+      cols.forEach(function(col) {
+        var cells = col.querySelectorAll('.compare-col-cell');
+        if (cells[i]) cells[i].style.height = '';
+      });
+
+      var maxH = row.offsetHeight;
+      cols.forEach(function(col) {
+        var cells = col.querySelectorAll('.compare-col-cell');
+        if (cells[i]) maxH = Math.max(maxH, cells[i].offsetHeight);
+      });
+
+      row.style.height = maxH + 'px';
+      cols.forEach(function(col) {
+        var cells = col.querySelectorAll('.compare-col-cell');
+        if (cells[i]) cells[i].style.height = maxH + 'px';
+      });
+    });
+  }
+
+  // Defer sync to ensure CSS media queries have applied display:flex
+  requestAnimationFrame(function() {
+    requestAnimationFrame(syncRowHeights);
+  });
+  window.addEventListener('resize', syncRowHeights);
+})();

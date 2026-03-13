@@ -450,6 +450,7 @@
       <h2>See why<br>they switch.</h2>
     </div>
 
+    <!-- Desktop table -->
     <div class="compare-table-wrap fade-up">
       <table class="compare-table">
         <thead>
@@ -529,6 +530,70 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Mobile swipe table -->
+    <div class="compare-mobile fade-up">
+      <!-- Fixed left: feature labels + Swypt column -->
+      <div class="compare-fixed">
+        <div class="compare-fixed-header">
+          <div class="compare-fixed-label"></div>
+          <div class="compare-fixed-swypt">Swypt</div>
+        </div>
+        <div class="compare-fixed-row">
+          <div class="compare-fixed-label">Self-custodial</div>
+          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
+        </div>
+        <div class="compare-fixed-row">
+          <div class="compare-fixed-label">Trade + predict in 1 app</div>
+          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
+        </div>
+        <div class="compare-fixed-row">
+          <div class="compare-fixed-label">No KYC</div>
+          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
+        </div>
+        <div class="compare-fixed-row">
+          <div class="compare-fixed-label">Mobile-first</div>
+          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
+        </div>
+      </div>
+      <!-- Scrollable right: competitor columns -->
+      <div class="compare-scroll">
+        <div class="compare-scroll-inner">
+          <div class="compare-col">
+            <div class="compare-col-header">Coinbase</div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="partial">~</span></div>
+          </div>
+          <div class="compare-col">
+            <div class="compare-col-header">Binance</div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+          </div>
+          <div class="compare-col">
+            <div class="compare-col-header">Polymarket</div>
+            <div class="compare-col-cell"><span class="check">✓</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="check">✓</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+          </div>
+          <div class="compare-col">
+            <div class="compare-col-header">Robinhood</div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="check">✓</span></div>
+            <div class="compare-col-cell"><span class="cross">✗</span></div>
+            <div class="compare-col-cell"><span class="check">✓</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Swipe indicator -->
+      <div class="compare-swipe-hint" id="compareSwipeHint">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
     </div>
   </div>
 </section>
@@ -623,7 +688,6 @@
       <li><a href="#">Privacy</a></li>
       <li><a href="#">Terms</a></li>
       <li><a href="https://x.com/swyptapp" target="_blank" rel="noopener">X</a></li>
-      <li><a href="https://discord.com" target="_blank" rel="noopener">Discord</a></li>
     </ul>
   </div>
 </footer>
