@@ -387,12 +387,10 @@ if (phoneTrack && phoneCarousel) {
     status.textContent = '';
     status.className = 'waitlist-status';
 
-    fetch('https://api.sender.net/v2/subscribers', {
+    fetch('/api/subscribe', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer REMOVED_SECRET',
-        'Accept': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ email: email })
     }).then(function(response) {
