@@ -2,11 +2,10 @@ name = "swypt-landing"
 main = "src/worker.js"
 compatibility_date = "2024-09-23"
 
-[[workers.custom_domains]]
-hostname = "swypt.app"
-
-[[workers.custom_domains]]
-hostname = "www.swypt.app"
+routes = [
+  { pattern = "swypt.app/*", zone_name = "swypt.app" },
+  { pattern = "www.swypt.app/*", zone_name = "swypt.app" },
+]
 
 [assets]
 directory = "."
