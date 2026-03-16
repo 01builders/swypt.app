@@ -21,7 +21,13 @@ export default {
 		if (url.hostname === "pitch.swypt.app") {
 			url.hostname = "swypt.app";
 			url.pathname = "/pitch" + url.pathname;
-			return Response.redirect(url.toString(), 301);
+			return new Response(null, {
+				status: 301,
+				headers: {
+					"Location": url.toString(),
+					"Cache-Control": "no-store",
+				},
+			});
 		}
 
 		const response = await env.ASSETS.fetch(request);
