@@ -8,6 +8,9 @@ export default {
 	async fetch(request, env) {
 		const url = new URL(request.url);
 
+		// Debug: confirm worker is executing (remove after verifying)
+		const DEBUG_HEADER = { "X-Worker-Ran": `host=${url.hostname},path=${url.pathname}` };
+
 		if (url.pathname === "/api/subscribe") {
 			if (request.method === "OPTIONS") {
 				return new Response(null, { status: 204, headers: CORS_HEADERS });
@@ -26,6 +29,7 @@ export default {
 				headers: {
 					"Location": url.toString(),
 					"Cache-Control": "no-store",
+					...DEBUG_HEADER,
 				},
 			});
 		}
@@ -37,6 +41,7 @@ export default {
 		headers.set("X-Content-Type-Options", "nosniff");
 		headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
 		headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+		headers.set("X-Worker-Ran", DEBUG_HEADER["X-Worker-Ran"]);
 
 		return new Response(response.body, {
 			status: response.status,
