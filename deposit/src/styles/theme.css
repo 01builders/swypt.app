@@ -14,9 +14,9 @@
   --red:#F87171;
   --purple:#A78BFA;
   --text:#F0F1F5;
-  --text-secondary:#9EA3BE;
-  --text-muted:#5A5F7D;
-  --text-dim:#8A9ADA;
+  --text-secondary:#D0D4F0;
+  --text-muted:#B0B8E0;
+  --text-dim:#C0C8F0;
   --border:rgba(255,255,255,0.1);
   --border-hover:rgba(255,255,255,0.2);
   --radius:20px;
@@ -338,7 +338,7 @@ body{
 .modal-card{
   background:var(--bg-card);border:1px solid var(--border);
   border-radius:var(--radius);padding:1.5rem;
-  max-width:400px;width:100%;margin:0 1rem;
+  max-width:400px;width:100%;margin:auto 1rem;
 }
 .modal-header{
   display:flex;align-items:center;justify-content:space-between;
@@ -389,19 +389,29 @@ body{
 /* ─── WALLET CONNECTED ─── */
 .wallet-connected{
   display:flex;align-items:center;gap:0.5rem;
-  font-size:0.85rem;color:var(--text-secondary);
+  font-size:0.85rem;color:var(--text);
 }
 .wallet-address{
   font-family:monospace;font-size:0.8rem;
 }
 .disconnect-btn{
-  background:none;border:1px solid var(--border);
+  background:none;border:1px solid rgba(255,255,255,0.25);
   border-radius:100px;padding:0.35rem 0.75rem;
-  color:var(--text-secondary);cursor:pointer;
+  color:var(--text);cursor:pointer;
   font-family:inherit;font-size:0.8rem;
   transition:border-color 0.2s,color 0.2s;
 }
 .disconnect-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* ─── CONNECT WALLET BUTTON ─── */
+.connect-wallet-btn{
+  background:#fff;color:var(--bg-card);
+  border:none;border-radius:100px;
+  padding:0.5rem 1.25rem;
+  font-family:inherit;font-size:0.875rem;font-weight:600;
+  cursor:pointer;transition:opacity 0.2s;
+}
+.connect-wallet-btn:hover{opacity:0.9}
 
 /* ─── FOOTER ─── */
 .deposit-footer{
@@ -413,13 +423,13 @@ body{
   display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;gap:1rem;
 }
-.deposit-footer-copy{font-size:0.78rem;color:#314085}
+.deposit-footer-copy{font-size:0.78rem;color:var(--text-secondary)}
 .deposit-footer-links{display:flex;gap:1.25rem;list-style:none}
 .deposit-footer-links a{
-  color:#314085;text-decoration:none;font-size:0.8rem;
+  color:var(--text-secondary);text-decoration:none;font-size:0.8rem;
   transition:color 0.2s;
 }
-.deposit-footer-links a:hover{color:#3a4d9e}
+.deposit-footer-links a:hover{color:#fff}
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:768px){

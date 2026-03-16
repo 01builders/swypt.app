@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { WalletProvider, useWallet } from './contexts/WalletContext';
 import BridgeInterface from './components/BridgeInterface';
+import WalletSelector from './components/WalletSelector';
 import './styles/theme.css';
 
 function WalletStatus() {
-  const { account, isConnected, disconnectWallet } = useWallet();
-  if (!isConnected) return null;
+  const { account, isConnected, disconnectWallet, connectWallet } = useWallet();
+  const [showWalletSelector, setShowWalletSelector] = useState(false);
+
+  if (!isConnected) return (
+    <>
+      <button className="connect-wallet-btn" onClick={() => setShowWalletSelector(true)}>
+        Connect Wallet
+      </button>
+      <WalletSelector isOpen={showWalletSelector} onClose={() => setShowWalletSelector(false)} onConnect={connectWallet} />
+    </>
+  );
 
   const short = account.slice(0, 6) + '...' + account.slice(-4);
   return (

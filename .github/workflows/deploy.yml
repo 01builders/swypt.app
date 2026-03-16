@@ -16,6 +16,16 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.74.0"
 
+      - name: Build deposit app
+        run: cd deposit && npm ci && npm run build
+
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.74.0"
+          workingDirectory: deposit
+
       - name: Smoke test — verify site returns 200
         run: |
           sleep 5
