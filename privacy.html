@@ -44,123 +44,153 @@
 
 <div class="legal-page">
   <h1>Privacy Policy</h1>
-  <p class="updated"><strong>Last updated:</strong> 14 August 2025</p>
+  <p class="updated"><strong>Effective:</strong> 16 March 2026</p>
 
   <section>
     <h3>1. Who we are</h3>
-    <p><strong>Controller:</strong> Binary Builders, Bahnhofstrasse 20, 6300 Zug, CH. This policy covers our website and apps (the "<strong>Services</strong>").</p>
+    <p><strong>Controller:</strong> Binary Builders UG (haftungsbeschr&auml;nkt), <strong>contact@binary.builders</strong>.</p>
+    <p>This policy covers the Swypt iOS app and website at swypt.app (the "<strong>Services</strong>").</p>
   </section>
 
   <section>
-    <h3>2. What we do (summary)</h3>
-    <p>We provide a <strong>non-custodial interface</strong> that helps users interact with third-party blockchain protocols (Hyperliquid). We do <strong>not</strong> custody user funds. Some features rely on third parties like <strong>Privy</strong> (wallet) and <strong>MoonPay</strong> (fiat on-ramp).</p>
+    <h3>2. What Swypt does</h3>
+    <p>Swypt is a <strong>non-custodial interface</strong> for interacting with third-party blockchain protocols (HyperLiquid). We do <strong>not</strong> custody user funds. Some features rely on third-party services: <strong>Privy</strong> (authentication &amp; embedded wallet), <strong>MoonPay</strong> (fiat on-ramp), and <strong>Amplitude</strong> (product analytics).</p>
   </section>
 
   <section>
-    <h3>3. Personal data we process</h3>
+    <h3>3. Data we collect and why</h3>
+
+    <div class="legal-sub">
+      <p>Email address</p>
+      <p>Collected when you sign up via Privy (our authentication provider). Used for account authentication and login. Stored by Privy, not on your device&mdash;only held in memory during your app session.</p>
+    </div>
+
+    <div class="legal-sub">
+      <p>Device ID</p>
+      <p>Collected automatically by Amplitude (our analytics provider). Used to understand app usage patterns. <strong>Not linked to your identity.</strong> Not used for ad targeting.</p>
+    </div>
+
+    <div class="legal-sub">
+      <p>Product interaction (usage data)</p>
+      <p>Events such as screens viewed, trades placed, and features used. Collected by Amplitude for product analytics only. <strong>Not linked to your identity.</strong></p>
+    </div>
+
+    <div class="legal-sub">
+      <p>Coarse location</p>
+      <p>Inferred from your IP address by Amplitude. We do <strong>not</strong> request GPS or location permissions. Used to understand regional usage patterns. <strong>Not linked to your identity.</strong></p>
+    </div>
+
+    <div class="legal-sub">
+      <p>Crash data &amp; performance data</p>
+      <p>May be collected by Apple via standard iOS mechanisms. We do <strong>not</strong> use any third-party crash reporting SDK. Used to improve app stability.</p>
+    </div>
+
+    <div class="legal-sub">
+      <p>On-chain activity</p>
+      <p>Wallet public address, transaction hashes, and balances are <strong>public by design</strong> on the blockchain. We do not collect KYC documents&mdash;if you use MoonPay, they handle KYC directly under their own policy.</p>
+    </div>
+  </section>
+
+  <section>
+    <h3>4. Legal bases (GDPR)</h3>
+    <p>We process personal data on the following bases:</p>
     <ul>
-      <li><strong>You provide:</strong> email/support messages; optional profile details you submit.</li>
-      <li><strong>Automatically collected:</strong> device/OS, IP address, general location (country), app/version, diagnostics and crash logs.</li>
-      <li><strong>On-chain activity:</strong> wallet public address, transaction hashes, and balances <strong>(public by design)</strong>.</li>
-      <li><strong>We do not collect KYC documents.</strong> If you use MoonPay, they collect KYC directly (see &sect;8).</li>
+      <li><strong>Performance of contract:</strong> operating the Service, enabling wallet creation and signing via Privy, processing transactions.</li>
+      <li><strong>Legitimate interests:</strong> security, stability, product analytics (balanced against your rights; you may object&mdash;see &sect;10).</li>
+      <li><strong>Consent:</strong> marketing communications, if any. You can withdraw consent at any time.</li>
+      <li><strong>Legal obligation:</strong> where required by law (sanctions/export-control checks, lawful requests).</li>
     </ul>
   </section>
 
   <section>
-    <h3>4. Purposes &amp; legal bases (GDPR / nFADP)</h3>
-    <p>We process personal data only for the reasons below and on the stated legal bases. When we rely on <strong>legitimate interests</strong>, we balance our interests against your rights and you may object (see &sect;10).</p>
+    <h3>5. Third-party services</h3>
 
     <div class="legal-sub">
-      <p>Running and securing the Service:</p>
-      <p>We use limited technical data (for example, device/OS info, IP address, and country) to operate the Interface, prevent fraud and abuse, and keep it reliable. Our legal bases are <strong>performance of our contract</strong> with you and our <strong>legitimate interests</strong> in security and stability.</p>
+      <p>Privy (privy.io)</p>
+      <p>Purpose: user authentication and embedded wallet management. Data shared: email address. Privy acts as our <strong>processor</strong> under a Data Processing Addendum. <a href="https://www.privy.io/privacy-policy" target="_blank" rel="noopener">Privy Privacy Policy</a></p>
     </div>
 
     <div class="legal-sub">
-      <p>Wallet creation and signing (Privy):</p>
-      <p>If you choose to create or use a wallet through the Interface, we process only what's needed to enable wallet creation, key management, and transaction signing via <strong>Privy</strong>, which acts as our <strong>processor</strong> (see &sect;7). The legal basis is <strong>performance of our contract</strong>.</p>
+      <p>Amplitude (amplitude.com)</p>
+      <p>Purpose: product analytics only (no advertising). Data shared: device ID, usage events, coarse location (from IP). Data stored on <strong>EU servers</strong> (EU data zone). <a href="https://amplitude.com/privacy" target="_blank" rel="noopener">Amplitude Privacy Policy</a></p>
     </div>
 
     <div class="legal-sub">
-      <p>Fiat on-ramp (MoonPay):</p>
-      <p>If you start a MoonPay flow, <strong>MoonPay</strong> collects and processes its own data (including any required KYC/AML) as an <strong>independent controller</strong> under its own terms (see &sect;8). We receive only minimal status information to complete the flow.</p>
+      <p>MoonPay (moonpay.com)</p>
+      <p>Purpose: fiat-to-crypto deposits (buying USDC). MoonPay is an <strong>independent controller</strong> and handles its own KYC/AML under its own terms. We receive only minimal transaction-status information (success/failure). Data shared: wallet address. <a href="https://www.moonpay.com/privacy-policy" target="_blank" rel="noopener">MoonPay Privacy Policy</a></p>
     </div>
 
     <div class="legal-sub">
-      <p>Communications:</p>
-      <p>We send essential service messages and respond to support requests. The legal bases are <strong>performance of our contract</strong> and our <strong>legitimate interests</strong> in providing customer support.</p>
-    </div>
-
-    <div class="legal-sub">
-      <p>Marketing (optional):</p>
-      <p>We send marketing communications or use non-essential analytics only if you <strong>consent</strong>. You can withdraw consent at any time via the unsubscribe link or your settings.</p>
-    </div>
-
-    <div class="legal-sub">
-      <p>Legal and compliance:</p>
-      <p>We may process data to meet legal requirements (for example, sanctions/export-control checks or lawful requests) and to protect our rights and users. The legal bases are <strong>legal obligation</strong> and <strong>legitimate interests</strong>.</p>
+      <p>HyperLiquid (hyperliquid.xyz)</p>
+      <p>Purpose: cryptocurrency trading (perpetual futures). Data shared: wallet address and trade orders. All blockchain transactions are public by nature.</p>
     </div>
   </section>
 
   <section>
-    <h3>5. Cookies &amp; similar tech</h3>
-    <p>We use <strong>essential cookies</strong> for security and core functionality. If we add analytics or marketing cookies, we will present a <strong>consent banner</strong> and allow you to change preferences at any time.</p>
-  </section>
-
-  <section>
-    <h3>6. Data retention</h3>
-    <p>We keep personal data only as long as needed for the purposes above, resolving disputes, and meeting legal obligations. <strong>On-chain records are immutable and public; we cannot alter or delete them.</strong></p>
-  </section>
-
-  <section>
-    <h3>7. Sharing &amp; processors</h3>
-    <p>We share personal data with:</p>
+    <h3>6. Apple App Tracking Transparency</h3>
+    <p>We do <strong>not</strong> track users as defined by Apple's App Tracking Transparency (ATT) framework:</p>
     <ul>
-      <li><strong>Privy (wallet technology provider)</strong> to enable wallet creation/signing. Privy acts as our <strong>processor</strong> under a <strong>Data Processing Addendum</strong> (and, where applicable, <strong>SCCs</strong>) and processes only as instructed.</li>
-      <li><strong>Hosting, security, and operational vendors</strong> (e.g., cloud hosting, error logging).</li>
-      <li><strong>Authorities/third parties</strong> where required by law or to protect rights/safety.</li>
+      <li>No IDFA collection</li>
+      <li>No data shared with ad networks or data brokers</li>
+      <li>No cross-app or cross-site tracking</li>
     </ul>
-    <p>We do not sell personal data.</p>
+    <p><strong>App Store privacy labels:</strong> all collected data types (email, coarse location, device ID, product interaction, crash data, performance data) are reported as <strong>not linked to user identity</strong> and <strong>not used for tracking</strong>.</p>
   </section>
 
   <section>
-    <h3>8. MoonPay (independent controller)</h3>
-    <p>If you choose to buy crypto with fiat, the transaction and any required <strong>KYC/AML</strong> are performed by <strong>MoonPay</strong> under MoonPay's <strong>own Terms and Privacy Policy</strong>. MoonPay may share limited transaction-status information with us (e.g., success/failure) but we <strong>do not</strong> receive your KYC documents.</p>
-  </section>
-
-  <section>
-    <h3>9. International transfers</h3>
-    <p>We may process data outside your country. Where required, we use <strong>EU Standard Contractual Clauses</strong> (and any Swiss/UK addenda) with our processors to safeguard transfers.</p>
-  </section>
-
-  <section>
-    <h3>10. Your rights</h3>
-    <p>Depending on where you live (EEA/UK/CH), you may have the right to <strong>access, rectify, erase, restrict, object, and data portability</strong>, and to withdraw consent. Contact <strong>contact@binary.builders</strong>. You also have the right to lodge a complaint with your local data-protection authority.</p>
-  </section>
-
-  <section>
-    <h3>11. Children</h3>
-    <p>The Services are <strong>not for under-18s</strong>, and we do not knowingly collect personal data from children.</p>
-  </section>
-
-  <section>
-    <h3>12. Security</h3>
-    <p>We use administrative, technical, and organizational measures appropriate to the risk (access controls, encryption in transit, least-privilege). No system is 100% secure; keep your device and wallet credentials safe.</p>
-  </section>
-
-  <section>
-    <h3>13. Changes</h3>
-    <p>If we materially change this policy, we will post the update and, where required, obtain renewed consent.</p>
-  </section>
-
-  <section>
-    <h3>14. Contact &amp; third-party links</h3>
-    <p>Controller: Binary Builders, Bahnhofstrasse 20, 6300 Zug, CH, <strong>contact@binary.builders</strong>.</p>
-    <p>Key third-party policies:</p>
+    <h3>7. Data storage</h3>
     <ul>
-      <li><strong>MoonPay Legal:</strong> <a href="https://www.moonpay.com/legal" target="_blank" rel="noopener">https://www.moonpay.com/legal</a></li>
-      <li><strong>Privy Privacy Policy:</strong> <a href="https://www.privy.io/privacy-policy" target="_blank" rel="noopener">https://www.privy.io/privacy-policy</a></li>
-      <li><strong>Privy User Terms:</strong> <a href="https://www.privy.io/user-terms-of-service" target="_blank" rel="noopener">https://www.privy.io/user-terms-of-service</a></li>
+      <li>No personal data is stored locally on your device. Local storage (UserDefaults) holds only login state, favorite coins, and UI preferences&mdash;no PII.</li>
+      <li>Analytics data is sent to Amplitude EU servers.</li>
+      <li>Authentication data is managed by Privy.</li>
+      <li>We do not maintain our own user database.</li>
     </ul>
+  </section>
+
+  <section>
+    <h3>8. Data retention</h3>
+    <ul>
+      <li><strong>Email:</strong> retained by Privy as long as your account exists.</li>
+      <li><strong>Analytics:</strong> retained per Amplitude's data retention policy.</li>
+      <li><strong>On-chain records</strong> are immutable and public; we cannot alter or delete them.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>9. Cookies &amp; similar tech</h3>
+    <p>We use <strong>essential cookies</strong> for security and core functionality on our website. If we add analytics or marketing cookies, we will present a consent banner and allow you to change preferences at any time.</p>
+  </section>
+
+  <section>
+    <h3>10. International transfers</h3>
+    <p>Amplitude data is stored in the EU. Where data is processed outside the EEA/UK/Switzerland, we use <strong>EU Standard Contractual Clauses</strong> (and any Swiss/UK addenda) to safeguard transfers.</p>
+  </section>
+
+  <section>
+    <h3>11. Your rights</h3>
+    <p>Under GDPR and applicable law, you may have the right to <strong>access, rectify, erase, restrict, object to processing, and data portability</strong>, and to withdraw consent at any time.</p>
+    <p>Contact <strong>contact@binary.builders</strong> to exercise your rights. Since we use third-party processors, deletion requests may also need to be directed to Privy and Amplitude.</p>
+    <p>You also have the right to lodge a complaint with your local data-protection authority.</p>
+  </section>
+
+  <section>
+    <h3>12. Children</h3>
+    <p>The Services are <strong>not intended for users under 18</strong>. We do not knowingly collect personal data from minors.</p>
+  </section>
+
+  <section>
+    <h3>13. Security</h3>
+    <p>We use administrative, technical, and organizational measures appropriate to the risk (access controls, encryption in transit, least-privilege). No system is 100&percnt; secure; keep your device and wallet credentials safe.</p>
+  </section>
+
+  <section>
+    <h3>14. Changes</h3>
+    <p>We may update this policy. Changes will be posted on this page. Continued use of the Services after changes constitutes acceptance.</p>
+  </section>
+
+  <section>
+    <h3>15. Contact</h3>
+    <p>Binary Builders UG (haftungsbeschr&auml;nkt), <strong>contact@binary.builders</strong>.</p>
   </section>
 </div>
 
