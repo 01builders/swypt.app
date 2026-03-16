@@ -1,9 +1,20 @@
+const CORS_HEADERS = {
+	"Access-Control-Allow-Origin": "*",
+	"Access-Control-Allow-Methods": "POST, OPTIONS",
+	"Access-Control-Allow-Headers": "Content-Type",
+};
+
 export default {
 	async fetch(request, env) {
 		const url = new URL(request.url);
 
-		if (url.pathname === "/api/subscribe" && request.method === "POST") {
-			return handleSubscribe(request, env);
+		if (url.pathname === "/api/subscribe") {
+			if (request.method === "OPTIONS") {
+				return new Response(null, { status: 204, headers: CORS_HEADERS });
+			}
+			if (request.method === "POST") {
+				return handleSubscribe(request, env);
+			}
 		}
 
 		const response = await env.ASSETS.fetch(request);
@@ -26,7 +37,7 @@ async function handleSubscribe(request, env) {
 	if (!email || !email.includes("@")) {
 		return new Response(JSON.stringify({ error: "Invalid email" }), {
 			status: 400,
-			headers: { "Content-Type": "application/json" },
+			headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
 		});
 	}
 
@@ -42,6 +53,6 @@ async function handleSubscribe(request, env) {
 
 	return new Response(res.body, {
 		status: res.status,
-		headers: { "Content-Type": "application/json" },
+		headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
 	});
 }
