@@ -1,0 +1,12 @@
+.git/
+.claude/
+.wrangler/
+src/
+functions/
+deposit/
+node_modules/
+_headers
+wrangler.toml
+README.md
+.gitignore
+.assetsignore
