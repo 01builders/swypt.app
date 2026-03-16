@@ -17,11 +17,14 @@ export default {
 			}
 		}
 
-		// Rewrite pitch.swypt.app → /pitch/ path
+		// Redirect pitch.swypt.app → swypt.app/pitch/
 		if (url.hostname === "pitch.swypt.app") {
+			url.hostname = "swypt.app";
 			url.pathname = "/pitch" + url.pathname;
+			return Response.redirect(url.toString(), 301);
 		}
-		const response = await env.ASSETS.fetch(url.toString());
+
+		const response = await env.ASSETS.fetch(request);
 
 		const headers = new Headers(response.headers);
 		headers.set("X-Frame-Options", "DENY");
