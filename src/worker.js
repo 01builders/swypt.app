@@ -17,6 +17,13 @@ export default {
 			}
 		}
 
+		// Rewrite pitch.swypt.app → /pitch/ path
+		if (url.hostname === "pitch.swypt.app") {
+			url.hostname = "swypt.app";
+			url.pathname = "/pitch" + url.pathname;
+			request = new Request(url, request);
+		}
+
 		const response = await env.ASSETS.fetch(request);
 
 		const headers = new Headers(response.headers);
