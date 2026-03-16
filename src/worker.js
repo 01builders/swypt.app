@@ -18,11 +18,9 @@ export default {
 		}
 
 		// Redirect pitch.swypt.app → swypt.app/pitch/
+		// Primary redirect is via CF Redirect Rule (runs before CDN cache).
+		// This is a fallback for any uncached requests that bypass the rule.
 		if (url.hostname === "pitch.swypt.app") {
-			// Purge any stale CDN cache entry via the Cache API
-			const cache = caches.default;
-			await cache.delete(request);
-
 			url.hostname = "swypt.app";
 			url.pathname = "/pitch" + url.pathname;
 			return new Response(null, {
