@@ -9,14 +9,24 @@ var obs = new IntersectionObserver(function(entries) {
 }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
 document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
 
-// ─── Nav solidify on scroll ───
+// ─── Nav solidify on scroll + CTA visibility ───
 var nav = document.querySelector('nav');
+var navCta = document.getElementById('nav-cta');
+var problemSection = document.getElementById('problem');
 var navScrolled = false;
+var ctaVisible = false;
 window.addEventListener('scroll', function() {
   var shouldScroll = window.scrollY > 50;
   if (shouldScroll !== navScrolled) {
     navScrolled = shouldScroll;
     nav.classList.toggle('scrolled', navScrolled);
+  }
+  if (navCta && problemSection) {
+    var showCta = window.scrollY >= problemSection.offsetTop - 80;
+    if (showCta !== ctaVisible) {
+      ctaVisible = showCta;
+      navCta.classList.toggle('visible', ctaVisible);
+    }
   }
 }, { passive: true });
 
