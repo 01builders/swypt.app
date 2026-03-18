@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -55,73 +55,279 @@
 
   <!-- Dual Phone Mockup -->
   <div class="hero-phones fade-up">
-    <!-- Phone 1: Trading -->
-    <div class="phone phone-left">
+    <!-- Phone 1: Static Coin Detail -->
+    <div class="phone phone-left phone-app">
       <div class="phone-notch"></div>
-      <div class="phone-inner">
-        <div class="phone-label phone-label-trade">
-          <span class="phone-label-dot" style="background:var(--blue)"></span> Trade
-        </div>
-        <div class="trade-pair">
-          <div class="trade-pair-icon"><img src="assets/logos/btc.svg" alt="BTC" style="width:100%;height:100%;border-radius:50%"></div>
-          <div>
-            <div class="trade-pair-name">Bitcoin</div>
-            <div class="trade-pair-ticker">BTC/USDC</div>
+      <div class="phone-inner app-inner">
+        <div class="app-handle"></div>
+        <div class="app-screen app-screen-account">
+          <div class="app-account-card">
+            <div class="app-account-header">
+              <span class="app-account-dot"></span>
+              <span class="app-account-label">Portfolio Value</span>
+              <span class="app-account-badge">All-time</span>
+            </div>
+            <div class="app-account-value">$28.11</div>
+            <div class="app-account-cash">Cash $3.07</div>
+            <div class="app-account-actions">
+              <button class="app-account-deposit">+ Deposit</button>
+              <button class="app-account-withdraw">Withdraw</button>
+            </div>
+          </div>
+          <div class="app-account-tabs">
+            <span class="active">Open</span><span>History</span>
+          </div>
+          <div class="app-holdings">
+            <div class="app-holding-row">
+              <div class="app-holding-icon"><img src="assets/logos/bnb.svg" alt="BNB"></div>
+              <div class="app-holding-info"><span class="app-holding-name">BNB</span><span class="app-holding-sub">Binance Coin</span></div>
+              <div class="app-holding-val"><span class="app-holding-price">$0.32</span><span class="app-holding-change app-up">+2.1%</span></div>
+            </div>
+            <div class="app-holding-row">
+              <div class="app-holding-icon"><img src="assets/logos/sol.svg" alt="S"></div>
+              <div class="app-holding-info"><span class="app-holding-name">S</span><span class="app-holding-sub">Sonic</span></div>
+              <div class="app-holding-val"><span class="app-holding-price">$9.05</span><span class="app-holding-change app-up">+4.3%</span></div>
+            </div>
+            <div class="app-holding-row">
+              <div class="app-holding-icon app-holding-icon-text">T</div>
+              <div class="app-holding-info"><span class="app-holding-name">TRUMP</span><span class="app-holding-sub">Trump</span></div>
+              <div class="app-holding-val"><span class="app-holding-price">$6.42</span><span class="app-holding-change app-down">-5.7%</span></div>
+            </div>
           </div>
         </div>
-        <div class="trade-price">$73,641</div>
-        <div class="trade-change">↑ 3.2% today</div>
-        <div class="trade-chart">
-          <svg viewBox="0 0 220 80" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#5B7BF9" stop-opacity="0.25"/>
-                <stop offset="100%" stop-color="#5B7BF9" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path d="M0,65 C15,62 30,58 50,50 C70,42 85,38 100,34 C115,30 135,24 155,18 C175,12 195,8 220,4 L220,80 L0,80Z" fill="url(#cg)"/>
-            <path d="M0,65 C15,62 30,58 50,50 C70,42 85,38 100,34 C115,30 135,24 155,18 C175,12 195,8 220,4" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="220" cy="4" r="3.5" fill="#5B7BF9"/>
-          </svg>
+        <div class="app-screen app-screen-swype app-screen-active">
+          <div class="app-coin-header">
+            <div class="app-coin-icon"><img src="assets/logos/btc.svg" alt="BTC"></div>
+            <div class="app-coin-info">
+              <div class="app-coin-name">BTC <span class="app-coin-full">Bitcoin</span></div>
+              <div class="app-coin-price">$73,893 <span class="app-coin-change app-up">+3.38%</span></div>
+            </div>
+          </div>
+          <div class="app-chart">
+            <svg viewBox="0 0 220 80" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#5B7BF9" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#5B7BF9" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,64 C18,62 35,58 55,50 C75,42 90,36 110,30 C130,24 145,22 165,20 C180,18 190,22 200,18 C210,16 216,20 220,20 L220,80 L0,80Z" fill="url(#cg)"/>
+              <path d="M0,64 C18,62 35,58 55,50 C75,42 90,36 110,30 C130,24 145,22 165,20 C180,18 190,22 200,18 C210,16 216,20 220,20" fill="none" stroke="#5B7BF9" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="220" cy="20" r="3.5" fill="#5B7BF9"/>
+            </svg>
+          </div>
+          <div class="app-action-btns">
+            <button class="app-btn-short">Short</button>
+            <button class="app-btn-x">✕</button>
+            <button class="app-btn-long">Long</button>
+          </div>
         </div>
-        <div class="trade-btns">
-          <div class="trade-btn trade-btn-buy">Buy</div>
-          <div class="trade-btn trade-btn-sell">Sell</div>
+        <div class="app-screen app-screen-search">
+          <div class="app-search-input">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search coins...">
+          </div>
+          <div class="app-search-pills">
+            <span class="active">All</span><span>Hot</span><span>Favorites</span>
+          </div>
+          <div class="app-search-list">
+            <div class="app-search-row" data-ticker="BTC" data-name="Bitcoin">
+              <div class="app-search-row-icon"><img src="assets/logos/btc.svg" alt="BTC"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">BTC <span class="app-search-leverage">40x</span></span><span class="app-search-row-name">Bitcoin</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$73,893</span><span class="app-search-row-change app-up">+3.38%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="ETH" data-name="Ethereum">
+              <div class="app-search-row-icon"><img src="assets/logos/eth.svg" alt="ETH"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">ETH <span class="app-search-leverage">25x</span></span><span class="app-search-row-name">Ethereum</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$2,239</span><span class="app-search-row-change app-down">-3.50%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="SOL" data-name="Solana">
+              <div class="app-search-row-icon"><img src="assets/logos/sol.svg" alt="SOL"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">SOL <span class="app-search-leverage">20x</span></span><span class="app-search-row-name">Solana</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$90.45</span><span class="app-search-row-change app-down">-3.40%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="HYPE" data-name="Hyperliquid">
+              <div class="app-search-row-icon"><img src="assets/logos/hyperliquid.svg" alt="HYPE"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">HYPE <span class="app-search-leverage">10x</span></span><span class="app-search-row-name">Hyperliquid</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$17.82</span><span class="app-search-row-change app-up">+5.2%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="XRP" data-name="Ripple">
+              <div class="app-search-row-icon"><img src="assets/logos/xrp.svg" alt="XRP"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">XRP <span class="app-search-leverage">20x</span></span><span class="app-search-row-name">Ripple</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$1.46</span><span class="app-search-row-change app-down">-2.90%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="AVAX" data-name="Avalanche">
+              <div class="app-search-row-icon"><img src="assets/logos/avax.svg" alt="AVAX"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">AVAX <span class="app-search-leverage">10x</span></span><span class="app-search-row-name">Avalanche</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$9.79</span><span class="app-search-row-change app-down">-4.50%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="BNB" data-name="Binance Coin">
+              <div class="app-search-row-icon"><img src="assets/logos/bnb.svg" alt="BNB"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">BNB <span class="app-search-leverage">10x</span></span><span class="app-search-row-name">Binance Coin</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$657.93</span><span class="app-search-row-change app-down">-1.30%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="app-screen app-screen-score">
+          <div class="app-score-profile">
+            <div class="app-score-avatar"></div>
+            <div class="app-score-name">Degen</div>
+            <div class="app-score-points">Points 1155</div>
+          </div>
+          <div class="app-score-tabs">
+            <span class="active">All Time</span><span>This Week</span>
+          </div>
+          <div class="app-score-board">
+            <div class="app-score-rows">
+              <div class="app-score-row"><span class="app-score-rank">1</span><span class="app-score-user">CryptoKing</span><span class="app-score-pts">9,842</span></div>
+              <div class="app-score-row"><span class="app-score-rank">2</span><span class="app-score-user">DeFiWhale</span><span class="app-score-pts">8,291</span></div>
+              <div class="app-score-row"><span class="app-score-rank">3</span><span class="app-score-user">MoonShot</span><span class="app-score-pts">7,155</span></div>
+              <div class="app-score-row"><span class="app-score-rank">4</span><span class="app-score-user">SatStacker</span><span class="app-score-pts">6,720</span></div>
+              <div class="app-score-row"><span class="app-score-rank">5</span><span class="app-score-user">AlphaTrader</span><span class="app-score-pts">5,988</span></div>
+              <div class="app-score-row"><span class="app-score-rank">6</span><span class="app-score-user">ChainRunner</span><span class="app-score-pts">4,321</span></div>
+            </div>
+            <div class="app-score-overlay">Coming Soon</div>
+          </div>
+          <button class="app-score-invite">Invite a friend +500</button>
+        </div>
+        <div class="app-screen app-screen-feed">
+          <div class="app-feed-placeholder">Coming Soon</div>
+        </div>
+        <div class="app-tab-bar">
+          <div class="app-tab" data-screen="account"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg><span>Account</span></div>
+          <div class="app-tab app-tab-active" data-screen="swype"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg><span>Swype</span></div>
+          <div class="app-tab" data-screen="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><span>Search</span></div>
+          <div class="app-tab" data-screen="score"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><span>Score</span></div>
+          <div class="app-tab" data-screen="feed"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg><span>Feed</span></div>
         </div>
       </div>
     </div>
 
-    <!-- Phone 2: Prediction Markets -->
-    <div class="phone phone-right">
+    <!-- Phone 2: Interactive Swipe Demo -->
+    <div class="phone phone-right phone-app" id="swipePhone">
       <div class="phone-notch"></div>
-      <div class="phone-inner">
-        <div class="phone-label phone-label-predict">
-          <span class="phone-label-dot" style="background:var(--green)"></span> Predict
-        </div>
-
-        <div class="predict-event">
-          <div class="predict-event-cat">Crypto</div>
-          <div class="predict-event-q">Will BTC hit $150K by July 2026?</div>
-          <div class="predict-odds">
-            <div class="predict-odds-btn predict-yes">Yes 72%</div>
-            <div class="predict-odds-btn predict-no">No 28%</div>
+      <div class="phone-inner app-inner">
+        <div class="app-handle"></div>
+        <div class="app-screen app-screen-account">
+          <div class="app-account-card">
+            <div class="app-account-header">
+              <span class="app-account-dot"></span>
+              <span class="app-account-label">Portfolio Value</span>
+              <span class="app-account-badge">All-time</span>
+            </div>
+            <div class="app-account-value">$28.11</div>
+            <div class="app-account-cash">Cash $3.07</div>
+            <div class="app-account-actions">
+              <button class="app-account-deposit">+ Deposit</button>
+              <button class="app-account-withdraw">Withdraw</button>
+            </div>
           </div>
-          <div class="predict-vol">$2.4M volume</div>
+          <div class="app-account-tabs">
+            <span class="active">Open</span><span>History</span>
+          </div>
+          <div class="app-holdings">
+            <div class="app-holding-row">
+              <div class="app-holding-icon"><img src="assets/logos/bnb.svg" alt="BNB"></div>
+              <div class="app-holding-info"><span class="app-holding-name">BNB</span><span class="app-holding-sub">Binance Coin</span></div>
+              <div class="app-holding-val"><span class="app-holding-price">$0.32</span><span class="app-holding-change app-up">+2.1%</span></div>
+            </div>
+            <div class="app-holding-row">
+              <div class="app-holding-icon"><img src="assets/logos/sol.svg" alt="S"></div>
+              <div class="app-holding-info"><span class="app-holding-name">S</span><span class="app-holding-sub">Sonic</span></div>
+              <div class="app-holding-val"><span class="app-holding-price">$9.05</span><span class="app-holding-change app-up">+4.3%</span></div>
+            </div>
+            <div class="app-holding-row">
+              <div class="app-holding-icon app-holding-icon-text">T</div>
+              <div class="app-holding-info"><span class="app-holding-name">TRUMP</span><span class="app-holding-sub">Trump</span></div>
+              <div class="app-holding-val"><span class="app-holding-price">$6.42</span><span class="app-holding-change app-down">-5.7%</span></div>
+            </div>
+          </div>
         </div>
-
-        <div class="predict-event-sm">
-          <div class="predict-event-sm-q">Next US president?</div>
-          <span class="predict-event-sm-odds predict-event-sm-live">LIVE</span>
+        <div class="app-screen app-screen-swype app-screen-active">
+          <div class="swipe-stack" id="swipeStack"></div>
+          <div class="app-action-btns" id="swipeActions">
+            <button class="app-btn-no" id="swipeBtnNo">No</button>
+            <button class="app-btn-x">✕</button>
+            <button class="app-btn-yes" id="swipeBtnYes">Yes</button>
+          </div>
         </div>
-
-        <div class="predict-event-sm">
-          <div class="predict-event-sm-q">ETH &gt; $5K by Sept?</div>
-          <span class="predict-event-sm-odds predict-event-sm-yes">61% Yes</span>
+        <div class="app-screen app-screen-search">
+          <div class="app-search-input">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search coins...">
+          </div>
+          <div class="app-search-pills">
+            <span class="active">All</span><span>Hot</span><span>Favorites</span>
+          </div>
+          <div class="app-search-list">
+            <div class="app-search-row" data-ticker="BTC" data-name="Bitcoin">
+              <div class="app-search-row-icon"><img src="assets/logos/btc.svg" alt="BTC"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">BTC <span class="app-search-leverage">40x</span></span><span class="app-search-row-name">Bitcoin</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$73,893</span><span class="app-search-row-change app-up">+3.38%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="ETH" data-name="Ethereum">
+              <div class="app-search-row-icon"><img src="assets/logos/eth.svg" alt="ETH"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">ETH <span class="app-search-leverage">25x</span></span><span class="app-search-row-name">Ethereum</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$2,239</span><span class="app-search-row-change app-down">-3.50%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="SOL" data-name="Solana">
+              <div class="app-search-row-icon"><img src="assets/logos/sol.svg" alt="SOL"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">SOL <span class="app-search-leverage">20x</span></span><span class="app-search-row-name">Solana</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$90.45</span><span class="app-search-row-change app-down">-3.40%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="HYPE" data-name="Hyperliquid">
+              <div class="app-search-row-icon"><img src="assets/logos/hyperliquid.svg" alt="HYPE"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">HYPE <span class="app-search-leverage">10x</span></span><span class="app-search-row-name">Hyperliquid</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$17.82</span><span class="app-search-row-change app-up">+5.2%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="XRP" data-name="Ripple">
+              <div class="app-search-row-icon"><img src="assets/logos/xrp.svg" alt="XRP"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">XRP <span class="app-search-leverage">20x</span></span><span class="app-search-row-name">Ripple</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$1.46</span><span class="app-search-row-change app-down">-2.90%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="AVAX" data-name="Avalanche">
+              <div class="app-search-row-icon"><img src="assets/logos/avax.svg" alt="AVAX"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">AVAX <span class="app-search-leverage">10x</span></span><span class="app-search-row-name">Avalanche</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$9.79</span><span class="app-search-row-change app-down">-4.50%</span></div>
+            </div>
+            <div class="app-search-row" data-ticker="BNB" data-name="Binance Coin">
+              <div class="app-search-row-icon"><img src="assets/logos/bnb.svg" alt="BNB"></div>
+              <div class="app-search-row-info"><span class="app-search-row-ticker">BNB <span class="app-search-leverage">10x</span></span><span class="app-search-row-name">Binance Coin</span></div>
+              <div class="app-search-row-val"><span class="app-search-row-price">$657.93</span><span class="app-search-row-change app-down">-1.30%</span></div>
+            </div>
+          </div>
         </div>
-
-        <div class="predict-event-sm">
-          <div class="predict-event-sm-q">Super Bowl 2027 winner?</div>
-          <span class="predict-event-sm-odds predict-event-sm-live">LIVE</span>
+        <div class="app-screen app-screen-score">
+          <div class="app-score-profile">
+            <div class="app-score-avatar"></div>
+            <div class="app-score-name">Degen</div>
+            <div class="app-score-points">Points 1155</div>
+          </div>
+          <div class="app-score-tabs">
+            <span class="active">All Time</span><span>This Week</span>
+          </div>
+          <div class="app-score-board">
+            <div class="app-score-rows">
+              <div class="app-score-row"><span class="app-score-rank">1</span><span class="app-score-user">CryptoKing</span><span class="app-score-pts">9,842</span></div>
+              <div class="app-score-row"><span class="app-score-rank">2</span><span class="app-score-user">DeFiWhale</span><span class="app-score-pts">8,291</span></div>
+              <div class="app-score-row"><span class="app-score-rank">3</span><span class="app-score-user">MoonShot</span><span class="app-score-pts">7,155</span></div>
+              <div class="app-score-row"><span class="app-score-rank">4</span><span class="app-score-user">SatStacker</span><span class="app-score-pts">6,720</span></div>
+              <div class="app-score-row"><span class="app-score-rank">5</span><span class="app-score-user">AlphaTrader</span><span class="app-score-pts">5,988</span></div>
+              <div class="app-score-row"><span class="app-score-rank">6</span><span class="app-score-user">ChainRunner</span><span class="app-score-pts">4,321</span></div>
+            </div>
+            <div class="app-score-overlay">Coming Soon</div>
+          </div>
+          <button class="app-score-invite">Invite a friend +500</button>
+        </div>
+        <div class="app-screen app-screen-feed">
+          <div class="app-feed-placeholder">Coming Soon</div>
+        </div>
+        <div class="app-tab-bar">
+          <div class="app-tab" data-screen="account"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg><span>Account</span></div>
+          <div class="app-tab app-tab-active" data-screen="swype"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg><span>Swype</span></div>
+          <div class="app-tab" data-screen="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg><span>Search</span></div>
+          <div class="app-tab" data-screen="score"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg><span>Score</span></div>
+          <div class="app-tab" data-screen="feed"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg><span>Feed</span></div>
         </div>
       </div>
     </div>

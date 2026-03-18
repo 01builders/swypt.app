@@ -364,6 +364,233 @@ if (phoneTrack && phoneCarousel) {
   window.addEventListener('resize', syncRowHeights);
 })();
 
+// ─── SWIPE CARD DEMO ───
+(function() {
+  var stack = document.getElementById('swipeStack');
+  var phone = document.getElementById('swipePhone');
+  if (!stack || !phone) return;
+
+  var PREDICTIONS = [
+    { q:'Will BTC hit $150K by July 2026?', yes:72, cat:'Crypto', icon:'assets/logos/btc.svg', vol:'$2.4M' },
+    { q:'Trump wins 2028?', yes:52, cat:'Politics', emoji:'\uD83C\uDDFA\uD83C\uDDF8', vol:'$8.1M' },
+    { q:'Fed cuts rates June?', yes:61, cat:'Economics', emoji:'\uD83C\uDFE6', vol:'$1.7M' },
+    { q:'SOL flips ETH?', yes:34, cat:'Crypto', icon:'assets/logos/sol.svg', vol:'$950K' },
+    { q:'Spot SOL ETF this year?', yes:67, cat:'Crypto', icon:'assets/logos/sol.svg', vol:'$3.2M' }
+  ];
+
+  var STACK_DEPTH = 3;
+  var currentIdx = 0;
+  var dragging = false;
+  var animating = false;
+  var startX = 0, startY = 0, dragX = 0;
+  var dirLocked = false;
+  var isHorizontal = false;
+  var topCard = null;
+  var phoneBg = phone;
+  var BG_NEUTRAL = [10, 15, 35];
+  var BG_GREEN = [73, 229, 154];
+  var BG_RED = [255, 69, 94];
+
+  function lerpColor(a, b, t) {
+    t = Math.max(0, Math.min(1, t));
+    var r = Math.round(a[0] + (b[0] - a[0]) * t);
+    var g = Math.round(a[1] + (b[1] - a[1]) * t);
+    var bl = Math.round(a[2] + (b[2] - a[2]) * t);
+    return 'rgb(' + r + ',' + g + ',' + bl + ')';
+  }
+
+  function createCardEl(predIdx, stackPos) {
+    var p = PREDICTIONS[predIdx % PREDICTIONS.length];
+    var card = document.createElement('div');
+    card.className = 'swipe-card';
+    var scale = 1 - stackPos * 0.04;
+    var offsetY = stackPos * 12;
+    card.style.transform = 'scale(' + scale + ') translateY(' + offsetY + 'px)';
+    card.style.zIndex = STACK_DEPTH - stackPos;
+    if (stackPos > 0) card.style.pointerEvents = 'none';
+
+    var noVal = 100 - p.yes;
+    card.innerHTML =
+      '<div class="swipe-card-cat">' + p.cat + '</div>' +
+      '<div class="swipe-card-question">' + p.q + '</div>' +
+      '<div class="swipe-card-odds">' +
+        '<div class="swipe-card-odds-btn swipe-card-yes">Yes<br>' + p.yes + '%</div>' +
+        '<div class="swipe-card-odds-btn swipe-card-no">No<br>' + noVal + '%</div>' +
+      '</div>' +
+      '<div class="swipe-card-volume">' + p.vol + ' volume</div>';
+    return card;
+  }
+
+  function renderStack() {
+    stack.innerHTML = '';
+    for (var i = STACK_DEPTH - 1; i >= 0; i--) {
+      var card = createCardEl(currentIdx + i, i);
+      stack.appendChild(card);
+    }
+    topCard = stack.lastElementChild;
+    attachDragListeners(topCard);
+  }
+
+  function applyDragTransform(el, dx) {
+    var rotation = dx / 35;
+    el.style.transform = 'translateX(' + dx + 'px) rotate(' + rotation + 'deg)';
+    el.style.transition = 'none';
+  }
+
+  function updatePhoneBg(dx) {
+    var t = Math.min(Math.abs(dx) / 120, 1);
+    var target = dx > 0 ? BG_GREEN : BG_RED;
+    phoneBg.style.background = lerpColor(BG_NEUTRAL, target, t);
+  }
+
+  function resetPhoneBg() {
+    phoneBg.style.transition = 'background 0.3s ease';
+    phoneBg.style.background = '#0A0F23';
+    setTimeout(function() { phoneBg.style.transition = ''; }, 300);
+  }
+
+  function flyCardOut(dir) {
+    if (animating) return;
+    animating = true;
+    var card = topCard;
+    var flyX = dir * 400;
+    card.style.transition = 'transform 0.4s cubic-bezier(.4,0,.2,1)';
+    card.style.transform = 'translateX(' + flyX + 'px) rotate(' + (dir * 15) + 'deg)';
+
+    setTimeout(function() {
+      currentIdx = (currentIdx + 1) % PREDICTIONS.length;
+      renderStack();
+      resetPhoneBg();
+      animating = false;
+    }, 400);
+  }
+
+  function snapBack(el) {
+    el.style.transition = 'transform 0.35s cubic-bezier(.4,0,.2,1)';
+    el.style.transform = 'scale(1) translateY(0)';
+    resetPhoneBg();
+    setTimeout(function() { el.style.transition = ''; }, 350);
+  }
+
+  function attachDragListeners(cardEl) {
+    if (!cardEl) return;
+
+    cardEl.addEventListener('pointerdown', function(e) {
+      if (animating) return;
+      dragging = true;
+      dirLocked = false;
+      isHorizontal = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      dragX = 0;
+      cardEl.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    cardEl.addEventListener('pointermove', function(e) {
+      if (!dragging) return;
+      var dx = e.clientX - startX;
+      var dy = e.clientY - startY;
+
+      if (!dirLocked && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+        dirLocked = true;
+        isHorizontal = Math.abs(dx) >= Math.abs(dy);
+      }
+      if (!isHorizontal) return;
+
+      dragX = dx;
+      applyDragTransform(cardEl, dragX);
+      updatePhoneBg(dragX);
+      e.preventDefault();
+    });
+
+    cardEl.addEventListener('pointerup', function(e) {
+      if (!dragging) return;
+      dragging = false;
+      if (Math.abs(dragX) >= 80) {
+        flyCardOut(dragX > 0 ? 1 : -1);
+      } else {
+        snapBack(cardEl);
+      }
+    });
+
+    cardEl.addEventListener('pointercancel', function() {
+      if (!dragging) return;
+      dragging = false;
+      snapBack(cardEl);
+    });
+  }
+
+  // Programmatic swipe for auto-play and buttons
+  function animateSwipe(dir, duration, cb) {
+    if (animating) return;
+    animating = true;
+    var card = topCard;
+    var target = dir * 160;
+    var start = null;
+
+    function easeInOutQuad(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+
+    function step(ts) {
+      if (!start) start = ts;
+      var elapsed = ts - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = easeInOutQuad(progress);
+      var dx = target * eased;
+      applyDragTransform(card, dx);
+      updatePhoneBg(dx);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        // Fly out
+        card.style.transition = 'transform 0.35s cubic-bezier(.4,0,.2,1)';
+        card.style.transform = 'translateX(' + (dir * 400) + 'px) rotate(' + (dir * 15) + 'deg)';
+        setTimeout(function() {
+          currentIdx = (currentIdx + 1) % PREDICTIONS.length;
+          renderStack();
+          resetPhoneBg();
+          animating = false;
+          if (cb) cb();
+        }, 350);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Auto-play on scroll into view
+  function autoPlay() {
+    setTimeout(function() {
+      animateSwipe(1, 800, function() {
+        setTimeout(function() {
+          animateSwipe(-1, 800, function() {
+            // Done — manual interaction now enabled
+          });
+        }, 800);
+      });
+    }, 600);
+  }
+
+  var ioSwipe = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        autoPlay();
+        ioSwipe.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  ioSwipe.observe(phone);
+
+  // Button clicks
+  var btnNo = document.getElementById('swipeBtnNo');
+  var btnYes = document.getElementById('swipeBtnYes');
+  if (btnNo) btnNo.addEventListener('click', function() { animateSwipe(-1, 500); });
+  if (btnYes) btnYes.addEventListener('click', function() { animateSwipe(1, 500); });
+
+  // Initial render
+  renderStack();
+})();
+
 // ─── WAITLIST FORM ───
 (function() {
   var form = document.getElementById('waitlist-form');
@@ -411,3 +638,30 @@ if (phoneTrack && phoneCarousel) {
     });
   });
 })();
+
+// ─── TAB NAVIGATION ───
+document.querySelectorAll('.app-tab-bar').forEach(function(bar) {
+  bar.addEventListener('click', function(e) {
+    var tab = e.target.closest('.app-tab');
+    if (!tab || !tab.dataset.screen) return;
+    var phone = bar.closest('.phone');
+    bar.querySelectorAll('.app-tab').forEach(function(t) { t.classList.toggle('app-tab-active', t === tab); });
+    phone.querySelectorAll('.app-screen').forEach(function(s) {
+      s.classList.toggle('app-screen-active', s.classList.contains('app-screen-' + tab.dataset.screen));
+    });
+  });
+});
+
+// ─── SEARCH FILTER ───
+document.querySelectorAll('.app-search-input input').forEach(function(input) {
+  input.addEventListener('input', function() {
+    var val = input.value.toLowerCase();
+    var list = input.closest('.app-screen-search').querySelector('.app-search-list');
+    if (!list) return;
+    list.querySelectorAll('.app-search-row').forEach(function(row) {
+      var ticker = (row.dataset.ticker || '').toLowerCase();
+      var name = (row.dataset.name || '').toLowerCase();
+      row.style.display = (!val || ticker.indexOf(val) !== -1 || name.indexOf(val) !== -1) ? '' : 'none';
+    });
+  });
+});
