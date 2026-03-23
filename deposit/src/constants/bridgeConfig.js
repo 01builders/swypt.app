@@ -75,11 +75,34 @@ export const alternativeRpcs = [
   'https://mainnet.solana.dappio.xyz'
 ];
 
-// API chain name mapping
-export const API_CHAIN_NAMES = {
-  ETHEREUM: 'Ethereum',
-  ARBITRUM: 'Arbitrum',
-  SOLANA: 'Solana'
+// deBridge DLN chain IDs
+export const DEBRIDGE_CHAIN_IDS = {
+  ETHEREUM: 1,
+  ARBITRUM: 42161,
+  SOLANA: 7565164,
+};
+
+// Destination: Arbitrum USDC (Swypt app auto-bridges to HyperCore)
+export const DST_CHAIN_ID = 42161;
+export const DST_USDC = '0xaf88d065e77c8cC2239327C5EDb3A432268e5831';
+
+// Token decimals for amount conversion to smallest unit
+export const TOKEN_DECIMALS = {
+  USDC: 6, USDT: 6, ETH: 18, SOL: 9,
+};
+
+// deBridge native token addresses
+export const NATIVE_TOKEN_ADDRESS = {
+  EVM: '0x0000000000000000000000000000000000000000',
+  SOLANA: '11111111111111111111111111111111',
+};
+
+// Resolve token + chain to deBridge-compatible token address
+export const getSourceTokenAddress = (token, chain) => {
+  if (token === 'ETH') return NATIVE_TOKEN_ADDRESS.EVM;
+  if (token === 'SOL') return NATIVE_TOKEN_ADDRESS.SOLANA;
+  if (token === 'USDC' && chain === 'SOLANA') return SOLANA_USDC_MINT;
+  return tokenContracts[token]?.[chain] || null;
 };
 
 // Check if a token is the native token for its chain

@@ -29,6 +29,10 @@ export const handleEvmTransaction = async ({
       const amountInWei = ethers.parseUnits(amount, decimals);
 
       const spenderAddress = transactionData.to;
+      // Skip approval if tx.to IS the token contract (direct transfer, not a bridge/spender)
+      if (spenderAddress.toLowerCase() === tokenAddress.toLowerCase()) {
+        // Direct ERC20 transfer — no approval needed
+      } else {
       const currentAllowance = await tokenContract.allowance(userAddress, spenderAddress);
 
       if (currentAllowance < amountInWei) {
@@ -43,6 +47,7 @@ export const handleEvmTransaction = async ({
           txHash: approveTx.hash,
           message: 'USDC approval successful. Please click deposit again to complete the bridge.'
         };
+      }
       }
     }
 
@@ -82,8 +87,10 @@ export const handleEvmTransaction = async ({
           }
         } else {
           const ethBalance = await provider.getBalance(userAddress);
-          if (ethBalance < estimatedFee) {
-            const needed = ethers.formatEther(estimatedFee);
+          const txValue = BigInt(transactionData.value || '0');
+          const totalNeeded = estimatedFee + txValue;
+          if (ethBalance < totalNeeded) {
+            const needed = ethers.formatEther(totalNeeded);
             const current = ethers.formatEther(ethBalance);
             throw new Error(`Insufficient ETH for gas fees. Need ${needed} ETH, have ${current} ETH.`);
           }
