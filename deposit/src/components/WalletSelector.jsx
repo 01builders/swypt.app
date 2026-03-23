@@ -8,7 +8,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
 
     const walletProviders = [
       {
-        name: 'MetaMask', id: 'metamask', icon: '\uD83E\uDD8A',
+        name: 'MetaMask', id: 'metamask', icon: '/icons/wallets/metamask.svg',
         checkProvider: () => {
           if (window.ethereum?.providers) {
             if (window.ethereum.providers.some(p => p.isMetaMask && !p.isRainbow && !p.isRabby && !p.isCoinbaseWallet && !p.isPhantom && !p.isBackpack)) return true;
@@ -28,7 +28,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
         }
       },
       {
-        name: 'Rainbow', id: 'rainbow', icon: '\uD83C\uDF08',
+        name: 'Rainbow', id: 'rainbow', icon: '/icons/wallets/rainbow.svg',
         checkProvider: () => {
           if (window.rainbow) return true;
           if (window.ethereum?.isRainbow) return true;
@@ -46,7 +46,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
         }
       },
       {
-        name: 'Rabby', id: 'rabby', icon: '\uD83D\uDC30',
+        name: 'Rabby', id: 'rabby', icon: '/icons/wallets/rabby.svg',
         checkProvider: () => {
           if (window.ethereum?.providers?.some(p => p.isRabby)) return true;
           if (window.ethereum?.isRabby) return true;
@@ -62,7 +62,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
         }
       },
       {
-        name: 'Coinbase Wallet', id: 'coinbase', icon: '\uD83D\uDD35',
+        name: 'Coinbase Wallet', id: 'coinbase', icon: '/icons/wallets/coinbase.svg',
         checkProvider: () => {
           if (window.ethereum?.providers?.some(p => p.isCoinbaseWallet)) return true;
           if (window.ethereum?.isCoinbaseWallet) return true;
@@ -74,7 +74,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
         }
       },
       {
-        name: 'Backpack', id: 'backpack', icon: '\uD83C\uDF92',
+        name: 'Backpack', id: 'backpack', icon: '/icons/wallets/backpack.svg',
         checkProvider: () => {
           if (window.backpack?.solana) return true;
           if (window.ethereum?.providers?.some(p => p.isBackpack)) return true;
@@ -93,7 +93,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
         }
       },
       {
-        name: 'Phantom', id: 'phantom', icon: '\uD83D\uDC7B',
+        name: 'Phantom', id: 'phantom', icon: '/icons/wallets/phantom.svg',
         checkProvider: () => {
           if (window.phantom?.solana) return true;
           if (window.ethereum?.providers?.some(p => p.isPhantom)) return true;
@@ -110,6 +110,11 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
           if (window.ethereum?.providers) return window.ethereum.providers.find(p => p.isPhantom);
           return window.ethereum?.isPhantom ? window.ethereum : null;
         }
+      },
+      {
+        name: 'Solflare', id: 'solflare', icon: '/icons/wallets/solflare.svg',
+        checkProvider: () => !!window.solflare?.isSolflare,
+        getProvider: () => window.solflare ? { solana: window.solflare } : null,
       }
     ];
 
@@ -163,7 +168,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
                 onClick={() => handleWalletSelect(wallet)}
                 className="wallet-btn"
               >
-                <span className="wallet-icon">{wallet.icon}</span>
+                <img src={wallet.icon} alt={wallet.name} className="wallet-icon" />
                 <span>{wallet.name}</span>
               </button>
             ))}
@@ -171,7 +176,7 @@ const WalletSelector = ({ isOpen, onClose, onConnect }) => {
         ) : (
           <div className="no-wallets">
             <p>No compatible wallets detected.</p>
-            <p>Please install MetaMask, Rainbow, Rabby, Coinbase Wallet, Backpack, or Phantom.</p>
+            <p>Please install MetaMask, Rainbow, Rabby, Coinbase Wallet, Backpack, Phantom, or Solflare.</p>
           </div>
         )}
 
