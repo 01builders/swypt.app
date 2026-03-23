@@ -15,21 +15,21 @@ export const allTokenOptions = [
     label: 'ETH',
     logo: '/icons/eth.png',
     fallback: '\u039E',
-    chains: ['ETHEREUM', 'ARBITRUM']
+    chains: ['ETHEREUM']
   },
   {
     value: 'USDC',
     label: 'USDC',
     logo: '/icons/usdc.png',
     fallback: '$',
-    chains: ['ETHEREUM', 'SOLANA']
+    chains: ['ETHEREUM', 'ARBITRUM', 'SOLANA']
   },
   {
     value: 'USDT',
     label: 'USDT',
     logo: '/icons/usdt.png',
     fallback: '$',
-    chains: ['ETHEREUM', 'ARBITRUM']
+    chains: ['ETHEREUM']
   },
   {
     value: 'SOL',
