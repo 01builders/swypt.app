@@ -96,6 +96,19 @@ var rotateWords = document.querySelectorAll('.hero-rotate-word');
 if (rotateWords.length) {
   var container = document.querySelector('.hero-rotate-words');
   var heroRotateMedia = window.matchMedia('(max-width: 768px)');
+  var currentWord = 0;
+  var heroMeasureQueued = false;
+
+  rotateWords[currentWord].classList.add('active');
+
+  function queueHeroMeasure() {
+    if (heroMeasureQueued) return;
+    heroMeasureQueued = true;
+    requestAnimationFrame(function() {
+      heroMeasureQueued = false;
+      measureAndSetWidth();
+    });
+  }
 
   function measureAndSetWidth() {
     if (heroRotateMedia.matches) {
@@ -115,26 +128,28 @@ if (rotateWords.length) {
       w.style.position = prevPosition;
       w.style.visibility = prevVisibility;
     });
-    container.style.width = maxW + 'px';
+    if (maxW > 0) container.style.width = maxW + 'px';
+    else container.style.width = 'auto';
   }
 
-  // Measure immediately, then re-measure after images load
-  measureAndSetWidth();
+  // Measure after the first active word exists, then re-measure once assets are ready.
+  queueHeroMeasure();
   var brandLogos = document.querySelectorAll('.hero-brand-logo');
   if (brandLogos.length) {
-    var loaded = 0;
     brandLogos.forEach(function(img) {
-      if (img.complete) { loaded++; }
-      else { img.addEventListener('load', function() { loaded++; if (loaded === brandLogos.length) measureAndSetWidth(); }); }
+      if (img.complete) queueHeroMeasure();
+      img.addEventListener('load', queueHeroMeasure);
+      img.addEventListener('error', queueHeroMeasure);
     });
-    if (loaded === brandLogos.length) measureAndSetWidth();
   }
-  window.addEventListener('resize', measureAndSetWidth);
-  if (heroRotateMedia.addEventListener) heroRotateMedia.addEventListener('change', measureAndSetWidth);
-  else heroRotateMedia.addListener(measureAndSetWidth);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(queueHeroMeasure);
+  }
+  window.addEventListener('load', queueHeroMeasure);
+  window.addEventListener('resize', queueHeroMeasure);
+  if (heroRotateMedia.addEventListener) heroRotateMedia.addEventListener('change', queueHeroMeasure);
+  else heroRotateMedia.addListener(queueHeroMeasure);
 
-  var currentWord = 0;
-  rotateWords[0].classList.add('active');
   setInterval(function() {
     rotateWords[currentWord].classList.remove('active');
     rotateWords[currentWord].style.transform = 'translateY(-100%)';
