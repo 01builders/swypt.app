@@ -122,31 +122,28 @@ export const handleSolanaTransaction = async ({
     const txHash = solanaResponse.signature || solanaResponse;
     onProgress?.({ status: 'confirming', txHash });
 
-    // Confirm transaction
+    // Confirm transaction (poll all RPCs in parallel)
     try {
       let transactionResult = null;
 
-      for (const rpc of alternativeRpcs) {
-        try {
-          const connection = new Connection(rpc);
-          const confirmationPromise = connection.confirmTransaction(txHash, 'confirmed');
-          const timeoutPromise = new Promise((_, reject) => {
-            setTimeout(() => reject(new Error('Confirmation timeout')), 30000);
-          });
-          await Promise.race([confirmationPromise, timeoutPromise]);
+      const confirmOnRpc = async (rpc) => {
+        const connection = new Connection(rpc);
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Confirmation timeout')), 30000);
+        });
+        await Promise.race([connection.confirmTransaction(txHash, 'confirmed'), timeoutPromise]);
+        const txDetails = await connection.getTransaction(txHash, {
+          commitment: 'confirmed',
+          maxSupportedTransactionVersion: 0
+        });
+        if (!txDetails) throw new Error('No tx details');
+        return txDetails;
+      };
 
-          const txDetails = await connection.getTransaction(txHash, {
-            commitment: 'confirmed',
-            maxSupportedTransactionVersion: 0
-          });
-
-          if (txDetails) {
-            transactionResult = txDetails;
-            break;
-          }
-        } catch (rpcError) {
-          continue;
-        }
+      try {
+        transactionResult = await Promise.any(alternativeRpcs.map(confirmOnRpc));
+      } catch (aggregateError) {
+        // All RPCs failed — transactionResult stays null
       }
 
       if (transactionResult) {
@@ -201,11 +198,9 @@ export const handleSolanaTransaction = async ({
           return { success: true, txHash: txHash };
         }
       } else {
-        onProgress?.({ status: 'confirmed' });
         return {
-          success: true, txHash: txHash,
-          warning: 'Transaction submitted but could not verify status. Please check manually.',
-          showWarningNotification: true
+          success: false, unverified: true, txHash: txHash,
+          error: 'Transaction submitted but could not verify status. Please check your wallet or explorer.'
         };
       }
     } catch (confirmationError) {

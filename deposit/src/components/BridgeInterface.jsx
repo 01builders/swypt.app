@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useWallet } from '../contexts/WalletContext';
-import { getQuote } from '../api/bridgeAPI';
+import { getQuote, checkBridgeStatus } from '../api/bridgeAPI';
 import WalletSelector from './WalletSelector';
 import { allTokenOptions, chainOptions, API_CHAIN_NAMES, isNativeToken } from '../constants/bridgeConfig';
 import { getTokenBalance, validateFees, calculateMaxBridgeAmount } from '../utils/tokenUtils';
@@ -56,6 +56,8 @@ const BridgeInterface = () => {
   const [showWalletSelector, setShowWalletSelector] = useState(false);
   const [notification, setNotification] = useState(null);
   const [depositSuccess, setDepositSuccess] = useState(false);
+  const [bridgeOrderId, setBridgeOrderId] = useState('');
+  const [isBridging, setIsBridging] = useState(false);
 
   const tokenOptions = useMemo(() => allTokenOptions.filter(token => token.chains.includes(fromChain)), [fromChain]);
   const getTokenOption = (value) => allTokenOptions.find(option => option.value === value);
@@ -262,6 +264,8 @@ const BridgeInterface = () => {
       if (!freshQuote.success || !freshQuote.data?.tx) throw new Error('Failed to get valid quote');
 
       const transactionData = freshQuote.data.tx;
+      const orderId = freshQuote.data?.orderId || freshQuote.data?.id || '';
+      if (orderId) setBridgeOrderId(orderId);
 
       if (chainId === 'solana') {
         setIsConfirming(true);
@@ -269,12 +273,12 @@ const BridgeInterface = () => {
           provider, transactionData,
           onProgress: (progress) => { if (progress.txHash) setTxHash(progress.txHash); }
         });
-        if (!result.success) throw new Error(result.error);
-        if (result.showWarningNotification) {
-          showNotification(result.warning, 'warning');
-        } else {
-          transactionSucceeded = true;
+        if (result.unverified) {
+          showNotification('Transaction submitted but unverified. Check your wallet or explorer.', 'warning');
+          return;
         }
+        if (!result.success) throw new Error(result.error);
+        transactionSucceeded = true;
       } else {
         const result = await handleEvmTransaction({
           signer, provider, transactionData, fromToken, amount,
@@ -293,8 +297,34 @@ const BridgeInterface = () => {
       }
 
       if (transactionSucceeded) {
-        showNotification('Successfully deposited', 'success');
-        setDepositSuccess(true);
+        setIsConfirming(false);
+        // Poll HyBridge status if we have an orderId
+        if (orderId) {
+          setIsBridging(true);
+          const maxPolls = 60; // 5 minutes at 5s intervals
+          let bridgeComplete = false;
+          for (let i = 0; i < maxPolls; i++) {
+            try {
+              const status = await checkBridgeStatus(orderId);
+              if (status.data?.sentToHL) {
+                bridgeComplete = true;
+                break;
+              }
+            } catch (e) { /* continue polling */ }
+            await new Promise(r => setTimeout(r, 5000));
+          }
+          setIsBridging(false);
+          if (bridgeComplete) {
+            showNotification('Successfully deposited', 'success');
+            setDepositSuccess(true);
+          } else {
+            showNotification('Deposit is processing. If funds don\'t appear within 10 minutes, contact support.', 'warning');
+            setDepositSuccess(true);
+          }
+        } else {
+          showNotification('Successfully deposited', 'success');
+          setDepositSuccess(true);
+        }
         setAmount('');
         setQuote(null);
         setTimeout(() => refreshBalance(), 1000);
@@ -316,6 +346,7 @@ const BridgeInterface = () => {
     } finally {
       setIsLoading(false);
       setIsConfirming(false);
+      setIsBridging(false);
     }
   };
 
@@ -331,6 +362,31 @@ const BridgeInterface = () => {
     }
     return passesBasicChecks && feeValidation.hasEnoughForFees;
   };
+
+  // Bridging in progress page
+  if (isBridging) {
+    return (
+      <div className="success-card">
+        <div className="success-icon">
+          <div className="spinner" style={{ width: 32, height: 32 }}></div>
+        </div>
+        <h2>Bridging to Hyperliquid...</h2>
+        <p>Transaction confirmed. Waiting for funds to arrive on Hyperliquid. This may take a few minutes.</p>
+        {txHash && (
+          <div className="success-tx">
+            <div className="success-tx-label">Transaction Hash:</div>
+            <div className="success-tx-hash">{txHash}</div>
+          </div>
+        )}
+        {bridgeOrderId && (
+          <div className="success-tx" style={{ marginTop: '0.5rem' }}>
+            <div className="success-tx-label">Order ID:</div>
+            <div className="success-tx-hash" style={{ fontSize: '0.65rem' }}>{bridgeOrderId}</div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   // Success page
   if (depositSuccess) {
@@ -349,7 +405,13 @@ const BridgeInterface = () => {
             <div className="success-tx-hash">{txHash}</div>
           </div>
         )}
-        <button className="bridge-btn" onClick={() => { setDepositSuccess(false); setTxHash(''); refreshBalance(); }}>
+        {bridgeOrderId && (
+          <div className="success-tx" style={{ marginTop: '0.5rem' }}>
+            <div className="success-tx-label">Order ID:</div>
+            <div className="success-tx-hash" style={{ fontSize: '0.65rem' }}>{bridgeOrderId}</div>
+          </div>
+        )}
+        <button className="bridge-btn" onClick={() => { setDepositSuccess(false); setTxHash(''); setBridgeOrderId(''); refreshBalance(); }}>
           Make Another Deposit
         </button>
       </div>

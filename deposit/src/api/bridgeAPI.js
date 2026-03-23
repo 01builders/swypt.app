@@ -19,3 +19,10 @@ export const getQuote = async (params) => {
   return data;
 };
 
+export const checkBridgeStatus = async (orderId) => {
+  const response = await fetch(`${API_BASE_URL}/status/${orderId}`);
+  if (!response.ok) throw new Error(`Status check failed: ${response.status}`);
+  const data = await response.json();
+  return data;
+};
+
