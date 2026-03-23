@@ -464,7 +464,7 @@ const BridgeInterface = () => {
 
                 {/* Token Dropdown */}
                 <div className="token-dropdown" style={{ position: 'relative' }}>
-                  <button className="dropdown-btn" style={{ width: 120, minWidth: 120 }}
+                  <button className="dropdown-btn"
                     onClick={() => setShowTokenDropdown(!showTokenDropdown)}>
                     <img src={getTokenOption(fromToken)?.logo} alt={fromToken} className="token-icon"
                       onError={(e) => { e.target.style.display = 'none'; }} />

@@ -161,7 +161,7 @@ body{
 
 /* ─── INPUTS ─── */
 .amount-input{
-  flex:1;background:var(--bg-card);border:1px solid var(--border);
+  flex:1;min-width:0;background:var(--bg-card);border:1px solid var(--border);
   border-radius:var(--radius-sm);padding:0.5rem 0.65rem;
   color:#fff;font-family:inherit;font-size:1rem;
   text-align:right;outline:none;height:36px;
