@@ -95,17 +95,25 @@ window.addEventListener('scroll', function() {
 var rotateWords = document.querySelectorAll('.hero-rotate-word');
 if (rotateWords.length) {
   var container = document.querySelector('.hero-rotate-words');
+  var heroRotateMedia = window.matchMedia('(max-width: 768px)');
 
   function measureAndSetWidth() {
+    if (heroRotateMedia.matches) {
+      container.style.width = 'auto';
+      return;
+    }
     var maxW = 0;
     rotateWords.forEach(function(w) {
+      var wasActive = w.classList.contains('active');
+      var prevPosition = w.style.position;
+      var prevVisibility = w.style.visibility;
       w.style.position = 'absolute';
       w.style.visibility = 'hidden';
       w.classList.add('active');
       maxW = Math.max(maxW, w.offsetWidth);
-      w.classList.remove('active');
-      w.style.position = '';
-      w.style.visibility = '';
+      if (!wasActive) w.classList.remove('active');
+      w.style.position = prevPosition;
+      w.style.visibility = prevVisibility;
     });
     container.style.width = maxW + 'px';
   }
@@ -121,6 +129,9 @@ if (rotateWords.length) {
     });
     if (loaded === brandLogos.length) measureAndSetWidth();
   }
+  window.addEventListener('resize', measureAndSetWidth);
+  if (heroRotateMedia.addEventListener) heroRotateMedia.addEventListener('change', measureAndSetWidth);
+  else heroRotateMedia.addListener(measureAndSetWidth);
 
   var currentWord = 0;
   rotateWords[0].classList.add('active');
@@ -144,23 +155,24 @@ if (heroTicker) {
   window.addEventListener('resize', positionTicker);
 }
 
-// ─── Phone carousel: auto-scroll + infinite two-finger swipe ───
+// ─── Phone carousel: desktop-only infinite preview ───
 var phoneTrack = document.querySelector('.phone-carousel-track');
 var phoneCarousel = document.querySelector('.phone-carousel');
 if (phoneTrack && phoneCarousel) {
   var original = phoneTrack.innerHTML;
-  phoneTrack.innerHTML = original + original + original;
-
+  var phoneCarouselMedia = window.matchMedia('(max-width: 768px)');
   var halfWidth = 0;
-  var initScroll = function() {
-    halfWidth = phoneTrack.scrollWidth / 3;
-    phoneCarousel.scrollLeft = halfWidth;
-  };
-  initScroll();
-
   var ticking = false;
   var scrollTimer;
-  phoneCarousel.addEventListener('scroll', function() {
+  var desktopCarouselInitialized = false;
+
+  function initScroll() {
+    halfWidth = phoneTrack.scrollWidth / 3;
+    phoneCarousel.scrollLeft = halfWidth;
+  }
+
+  function handleCarouselScroll() {
+    if (!desktopCarouselInitialized) return;
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function() {
@@ -178,13 +190,51 @@ if (phoneTrack && phoneCarousel) {
     scrollTimer = setTimeout(function() {
       phoneCarousel.classList.remove('user-scrolling');
     }, 2000);
-  }, {passive:true});
+  }
 
-  phoneCarousel.addEventListener('wheel', function(e) {
+  function handleCarouselWheel(e) {
+    if (!desktopCarouselInitialized) return;
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
     e.preventDefault();
     phoneCarousel.scrollLeft += e.deltaY;
-  }, {passive:false});
+  }
+
+  function teardownDesktopCarousel() {
+    if (!desktopCarouselInitialized) return;
+    phoneCarousel.removeEventListener('scroll', handleCarouselScroll);
+    phoneCarousel.removeEventListener('wheel', handleCarouselWheel);
+    phoneTrack.innerHTML = original;
+    phoneCarousel.scrollLeft = 0;
+    phoneCarousel.classList.remove('user-scrolling');
+    clearTimeout(scrollTimer);
+    halfWidth = 0;
+    ticking = false;
+    desktopCarouselInitialized = false;
+  }
+
+  function initDesktopCarousel() {
+    if (desktopCarouselInitialized || phoneCarouselMedia.matches) return;
+    phoneTrack.innerHTML = original + original + original;
+    desktopCarouselInitialized = true;
+    initScroll();
+    phoneCarousel.addEventListener('scroll', handleCarouselScroll, { passive: true });
+    phoneCarousel.addEventListener('wheel', handleCarouselWheel, { passive: false });
+  }
+
+  function syncPhoneCarouselMode() {
+    if (phoneCarouselMedia.matches) teardownDesktopCarousel();
+    else {
+      teardownDesktopCarousel();
+      initDesktopCarousel();
+    }
+  }
+
+  syncPhoneCarouselMode();
+  window.addEventListener('resize', function() {
+    if (!phoneCarouselMedia.matches && desktopCarouselInitialized) initScroll();
+  });
+  if (phoneCarouselMedia.addEventListener) phoneCarouselMedia.addEventListener('change', syncPhoneCarouselMode);
+  else phoneCarouselMedia.addListener(syncPhoneCarouselMode);
 }
 
 // ─── FALLING ICONS (Matter.js Physics) ───
@@ -294,74 +344,6 @@ if (phoneTrack && phoneCarousel) {
     createWalls();
   });
 
-})();
-
-// ─── COMPARE TABLE ROW SYNC + SWIPE HINT ───
-(function(){
-  var scrollEl = document.querySelector('.compare-scroll');
-  var hint = document.getElementById('compareSwipeHint');
-  if (!scrollEl) return;
-
-  // Swipe hint
-  if (hint) {
-    scrollEl.addEventListener('scroll', function() {
-      if (scrollEl.scrollLeft > 10) {
-        hint.classList.add('hidden');
-      } else {
-        hint.classList.remove('hidden');
-      }
-    });
-  }
-
-  // Sync row heights between fixed and scroll sides
-  function syncRowHeights() {
-    var fixedHeader = document.querySelector('.compare-fixed-header');
-    var firstCol = document.querySelector('.compare-col');
-    if (!fixedHeader || !firstCol) return;
-
-    // Sync header height
-    var colHeader = firstCol.querySelector('.compare-col-header');
-    if (colHeader) {
-      fixedHeader.style.height = '';
-      colHeader.style.height = '';
-      var h = Math.max(fixedHeader.offsetHeight, colHeader.offsetHeight);
-      fixedHeader.style.height = h + 'px';
-      colHeader.style.height = h + 'px';
-      // Apply to all col headers
-      document.querySelectorAll('.compare-col-header').forEach(function(el) {
-        el.style.height = h + 'px';
-      });
-    }
-
-    // Sync body rows
-    var fixedRows = document.querySelectorAll('.compare-fixed-row');
-    var cols = document.querySelectorAll('.compare-col');
-    fixedRows.forEach(function(row, i) {
-      row.style.height = '';
-      cols.forEach(function(col) {
-        var cells = col.querySelectorAll('.compare-col-cell');
-        if (cells[i]) cells[i].style.height = '';
-      });
-
-      var maxH = row.offsetHeight;
-      cols.forEach(function(col) {
-        var cells = col.querySelectorAll('.compare-col-cell');
-        if (cells[i]) maxH = Math.max(maxH, cells[i].offsetHeight);
-      });
-
-      row.style.height = maxH + 'px';
-      cols.forEach(function(col) {
-        var cells = col.querySelectorAll('.compare-col-cell');
-        if (cells[i]) cells[i].style.height = maxH + 'px';
-      });
-    });
-  }
-
-  // Defer sync to ensure CSS media queries have applied display:flex
-  requestAnimationFrame(function() {
-    requestAnimationFrame(syncRowHeights);
-  });
-  window.addEventListener('resize', syncRowHeights);
 })();
 
 // ─── SWIPE CARD DEMO ───

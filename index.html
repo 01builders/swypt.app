@@ -44,7 +44,7 @@
       <span class="hero-badge-dot"></span>
       Now in beta
     </div>
-    <h1 class="headline fade-up">Trade crypto. Trade stocks.<br>Bet on anything <span class="hero-rotate-inline">with <span class="hero-rotate-words"><span class="hero-rotate-word mark mark-hl"><img src="assets/logos/hyperliquid-wordmark.svg" alt="Hyperliquid" class="hero-brand-logo"></span><span class="hero-rotate-word mark mark-pm"><img src="assets/logos/polymarket.svg" alt="Polymarket" class="hero-brand-logo"></span><span class="hero-rotate-word mark mark-ka"><img src="assets/logos/kalshi.svg" alt="Kalshi" class="hero-brand-logo"></span></span></span></h1>
+    <h1 class="headline fade-up">Trade crypto. Trade stocks.<br>Bet on anything <span class="hero-rotate-inline"><span class="hero-rotate-prefix">with</span><span class="hero-rotate-words"><span class="hero-rotate-word mark mark-hl"><img src="assets/logos/hyperliquid-wordmark.svg" alt="Hyperliquid" class="hero-brand-logo"></span><span class="hero-rotate-word mark mark-pm"><img src="assets/logos/polymarket.svg" alt="Polymarket" class="hero-brand-logo"></span><span class="hero-rotate-word mark mark-ka"><img src="assets/logos/kalshi.svg" alt="Kalshi" class="hero-brand-logo"></span></span></span></h1>
     <p class="hero-desc fade-up">No seed phrases — just swipe and go.<br>Self-custodial. The onchain Robinhood.</p>
     <div class="hero-ctas fade-up" style="justify-content:center">
       <a href="#cta" class="btn btn-primary btn-glow">
@@ -541,67 +541,104 @@
       </table>
     </div>
 
-    <!-- Mobile swipe table -->
+    <!-- Mobile vertical comparison cards -->
     <div class="compare-mobile fade-up">
-      <!-- Fixed left: feature labels + Swypt column -->
-      <div class="compare-fixed">
-        <div class="compare-fixed-header">
-          <div class="compare-fixed-label"></div>
-          <div class="compare-fixed-swypt">Swypt</div>
-        </div>
-        <div class="compare-fixed-row">
-          <div class="compare-fixed-label">Self-custodial</div>
-          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-fixed-row">
-          <div class="compare-fixed-label">Trade + predict in 1 app</div>
-          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-fixed-row">
-          <div class="compare-fixed-label">No KYC</div>
-          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
-        </div>
-        <div class="compare-fixed-row">
-          <div class="compare-fixed-label">Mobile-first</div>
-          <div class="compare-fixed-swypt"><span class="check">✓</span></div>
-        </div>
-      </div>
-      <!-- Scrollable right: competitor columns -->
-      <div class="compare-scroll">
-        <div class="compare-scroll-inner">
-          <div class="compare-col">
-            <div class="compare-col-header">Coinbase</div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="partial">~</span></div>
+      <div class="compare-mobile-list">
+        <article class="compare-mobile-card">
+          <h3 class="compare-mobile-card-title">Self-custodial</h3>
+          <div class="compare-mobile-row compare-mobile-row-swypt">
+            <span class="compare-mobile-label">Swypt</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
           </div>
-          <div class="compare-col">
-            <div class="compare-col-header">Binance</div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Coinbase</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
           </div>
-          <div class="compare-col">
-            <div class="compare-col-header">Polymarket</div>
-            <div class="compare-col-cell"><span class="check">✓</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="check">✓</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Binance</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
           </div>
-          <div class="compare-col">
-            <div class="compare-col-header">Robinhood</div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="check">✓</span></div>
-            <div class="compare-col-cell"><span class="cross">✗</span></div>
-            <div class="compare-col-cell"><span class="check">✓</span></div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Polymarket</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
           </div>
-        </div>
-      </div>
-      <!-- Swipe indicator -->
-      <div class="compare-swipe-hint" id="compareSwipeHint">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Robinhood</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+        </article>
+
+        <article class="compare-mobile-card">
+          <h3 class="compare-mobile-card-title">Trade + predict in 1 app</h3>
+          <div class="compare-mobile-row compare-mobile-row-swypt">
+            <span class="compare-mobile-label">Swypt</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Coinbase</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Binance</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Polymarket</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Robinhood</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
+          </div>
+        </article>
+
+        <article class="compare-mobile-card">
+          <h3 class="compare-mobile-card-title">No KYC</h3>
+          <div class="compare-mobile-row compare-mobile-row-swypt">
+            <span class="compare-mobile-label">Swypt</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Coinbase</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Binance</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Polymarket</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Robinhood</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+        </article>
+
+        <article class="compare-mobile-card">
+          <h3 class="compare-mobile-card-title">Mobile-first</h3>
+          <div class="compare-mobile-row compare-mobile-row-swypt">
+            <span class="compare-mobile-label">Swypt</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Coinbase</span>
+            <span class="compare-mobile-value"><span class="partial">~</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Binance</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Polymarket</span>
+            <span class="compare-mobile-value"><span class="cross">✗</span></span>
+          </div>
+          <div class="compare-mobile-row">
+            <span class="compare-mobile-label">Robinhood</span>
+            <span class="compare-mobile-value"><span class="check">✓</span></span>
+          </div>
+        </article>
       </div>
     </div>
   </div>
@@ -618,7 +655,7 @@
     <div class="faq-list">
       <div class="faq-item fade-up">
         <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-          What is Swypt?
+          <span class="faq-question-text">What is Swypt?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Swypt is a mobile trading app that lets you trade crypto (spot + leverage) and bet on prediction markets — all in one self-custodial app. Think Robinhood, but onchain.</p></div>
@@ -626,7 +663,7 @@
 
       <div class="faq-item fade-up">
         <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-          What does "self-custodial" mean?
+          <span class="faq-question-text">What does "self-custodial" mean?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>It means YOU hold your crypto, not us. Your assets live in a wallet that only you control. If Swypt went offline tomorrow, your funds are still yours. Unlike Coinbase or Binance, we never hold your keys.</p></div>
@@ -634,7 +671,7 @@
 
       <div class="faq-item fade-up">
         <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-          What are prediction markets?
+          <span class="faq-question-text">What are prediction markets?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Prediction markets let you bet on the outcome of real events — elections, sports, crypto milestones, pop culture moments. If you think BTC will hit $150K, you can put money on it. If you're right, you earn.</p></div>
@@ -642,7 +679,7 @@
 
       <div class="faq-item fade-up">
         <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-          Is my money safe?
+          <span class="faq-question-text">Is my money safe?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Your wallet is secured by your device's biometrics and encrypted locally. Since Swypt is self-custodial, there's no central honeypot for hackers — your assets are distributed across individual wallets, not sitting in our vault.</p></div>
@@ -650,7 +687,7 @@
 
       <div class="faq-item fade-up">
         <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-          What can I trade?
+          <span class="faq-question-text">What can I trade?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Crypto spot trading (BTC, ETH, SOL, and 200+ tokens), leverage trading (up to 20x on major pairs), and prediction markets (hundreds of live events across politics, sports, crypto, and culture).</p></div>
@@ -658,7 +695,7 @@
 
       <div class="faq-item fade-up">
         <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-          How do I fund my account?
+          <span class="faq-question-text">How do I fund my account?</span>
           <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="faq-answer"><p>Apple Pay, Google Pay, debit/credit card, or bank transfer. Funds arrive in your self-custodial wallet instantly — no 3-5 business day waiting game.</p></div>
