@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useWallet } from '../contexts/WalletContext';
-import { getQuote } from '../api/bridgeAPI';
+import { getQuote, createTransaction } from '../api/bridgeAPI';
 import WalletSelector from './WalletSelector';
-import { allTokenOptions, chainOptions, API_CHAIN_NAMES, isNativeToken } from '../constants/bridgeConfig';
+import { allTokenOptions, chainOptions, isNativeToken } from '../constants/bridgeConfig';
 import { getTokenBalance, validateFees, calculateMaxBridgeAmount } from '../utils/tokenUtils';
 import { handleSolanaTransaction } from '../utils/solanaTransactionHandler';
 import { handleEvmTransaction } from '../utils/evmTransactionHandler';
@@ -218,7 +218,7 @@ const BridgeInterface = () => {
       const fromAddress = account || userAddress;
       const quoteParams = {
         fromAddress, toAddress: userAddress,
-        fromChain: API_CHAIN_NAMES[fromChain], toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
+        fromChain, toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
       };
       try {
         const quoteData = await getQuote(quoteParams);
@@ -256,9 +256,9 @@ const BridgeInterface = () => {
     try {
       const quoteParams = {
         fromAddress: account, toAddress: userAddress,
-        fromChain: API_CHAIN_NAMES[fromChain], toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
+        fromChain, toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
       };
-      const freshQuote = await getQuote(quoteParams);
+      const freshQuote = await createTransaction(quoteParams);
       if (!freshQuote.success || !freshQuote.data?.tx) throw new Error('Failed to get valid quote');
 
       const transactionData = freshQuote.data.tx;
