@@ -143,6 +143,7 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
 .hero-rotate-words{
   display:inline-block;overflow:hidden;height:1.05em;
   position:relative;vertical-align:baseline;
+  margin-left:0.25em;
 }
 .hero-rotate-word{
   display:flex;align-items:flex-end;height:1.05em;line-height:1;
