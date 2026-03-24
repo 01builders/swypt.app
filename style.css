@@ -135,24 +135,23 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 .hero .headline{font-size:clamp(1.8rem,3.6vw,2.75rem);margin-bottom:1rem;position:relative;z-index:1;max-width:900px}
 .hero-rotate-inline{
-  display:inline-flex;align-items:flex-end;gap:0.25rem;
-  white-space:nowrap;max-width:100%;
+  display:inline;white-space:nowrap;
 }
 .hero-rotate-prefix{
-  color:#314085;flex-shrink:0;
+  color:#314085;
 }
 .hero-rotate-words{
-  display:inline-block;overflow:hidden;height:1em;
-  position:relative;vertical-align:text-bottom;
+  display:inline-block;overflow:hidden;height:1.05em;
+  position:relative;vertical-align:baseline;
 }
 .hero-rotate-word{
-  display:flex;align-items:center;height:1em;line-height:1;
+  display:flex;align-items:flex-end;height:1.05em;line-height:1;
   padding:0 0.15rem;
   color:#fff;white-space:nowrap;
   transform:translateY(0);transition:transform 0.6s cubic-bezier(.4,0,.2,1),opacity 0.6s cubic-bezier(.4,0,.2,1);
 }
 .hero-brand-logo{
-  height:0.85em;width:auto;display:block;
+  height:0.72em;width:auto;display:block;
   max-width:100%;object-fit:contain;
 }
 .hero-rotate-word.active{opacity:1}
