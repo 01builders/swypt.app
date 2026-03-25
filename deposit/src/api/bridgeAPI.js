@@ -1,7 +1,7 @@
 // deBridge DLN API integration
 import {
-  DEBRIDGE_CHAIN_IDS, DST_CHAIN_ID, DST_USDC,
-  TOKEN_DECIMALS, getSourceTokenAddress, tokenContracts,
+  DEBRIDGE_CHAIN_IDS, TOKEN_DECIMALS, getDestinationConfig,
+  getSourceTokenAddress, tokenContracts,
 } from '../constants/bridgeConfig';
 
 const DLN_API = 'https://api.dln.trade/v1.0';
@@ -13,7 +13,8 @@ const toSmallestUnit = (amount, token) => {
 };
 
 // Build deBridge query params from app params
-const buildDlnParams = ({ fromAddress, toAddress, fromChain, fromToken, amount }) => {
+const buildDlnParams = ({ fromAddress, toAddress, fromChain, fromToken, amount, target }) => {
+  const destination = getDestinationConfig(target);
   const srcChainId = DEBRIDGE_CHAIN_IDS[fromChain];
   const srcChainTokenIn = getSourceTokenAddress(fromToken, fromChain);
   if (!srcChainId || !srcChainTokenIn) {
@@ -23,22 +24,28 @@ const buildDlnParams = ({ fromAddress, toAddress, fromChain, fromToken, amount }
     srcChainId: srcChainId.toString(),
     srcChainTokenIn,
     srcChainTokenInAmount: toSmallestUnit(amount, fromToken),
-    dstChainId: DST_CHAIN_ID.toString(),
-    dstChainTokenOut: DST_USDC,
+    dstChainId: destination.chainId.toString(),
+    dstChainTokenOut: destination.tokenAddress,
     dstChainTokenOutAmount: 'auto',
     dstChainTokenOutRecipient: toAddress,
     prependOperatingExpenses: 'true',
   });
 };
 
-// Check if this is a same-chain Arbitrum USDC transfer (no bridge needed)
-const isArbitrumDirectTransfer = (fromChain, fromToken) =>
-  fromChain === 'ARBITRUM' && fromToken === 'USDC';
+const getDirectTransferConfig = ({ fromChain, fromToken, target }) => {
+  const destination = getDestinationConfig(target);
+  if (fromToken !== 'USDC') return null;
+  if (fromChain !== destination.chain) return null;
+  return {
+    destination,
+    tokenAddress: tokenContracts.USDC[fromChain]
+  };
+};
 
 // Get bridge quote for preview
 export const getQuote = async (params) => {
-  // Arbitrum USDC → Arbitrum: no bridge, return amount directly
-  if (isArbitrumDirectTransfer(params.fromChain, params.fromToken)) {
+  const directTransfer = getDirectTransferConfig(params);
+  if (directTransfer) {
     const amount = parseFloat(params.amount);
     return { success: true, data: { toTokenEstimatedUsdcValue: amount } };
   }
@@ -61,19 +68,17 @@ export const getQuote = async (params) => {
 
 // Create executable transaction for deposit
 export const createTransaction = async (params) => {
-  // Arbitrum USDC → Arbitrum: construct ERC20 transfer directly
-  if (isArbitrumDirectTransfer(params.fromChain, params.fromToken)) {
+  const directTransfer = getDirectTransferConfig(params);
+  if (directTransfer) {
     const amount = parseFloat(params.amount);
     const amountSmallest = toSmallestUnit(params.amount, 'USDC');
-    // Encode USDC.transfer(toAddress, amount)
-    // transfer(address,uint256) selector = 0xa9059cbb
     const paddedTo = params.toAddress.slice(2).toLowerCase().padStart(64, '0');
     const paddedAmount = BigInt(amountSmallest).toString(16).padStart(64, '0');
     const data = '0xa9059cbb' + paddedTo + paddedAmount;
     return {
       success: true,
       data: {
-        tx: { to: tokenContracts.USDC.ARBITRUM, data, value: '0' },
+        tx: { to: directTransfer.tokenAddress, data, value: '0' },
         toTokenEstimatedUsdcValue: amount,
       },
     };

@@ -93,6 +93,8 @@ const getERC20Balance = async (tokenType, provider, account) => {
       contractAddress = tokenContracts[tokenType]?.ETHEREUM;
     } else if (chainIdNum === 42161) {
       contractAddress = tokenContracts[tokenType]?.ARBITRUM;
+    } else if (chainIdNum === 137) {
+      contractAddress = tokenContracts[tokenType]?.POLYGON;
     }
 
     if (!contractAddress) return '0';
@@ -134,13 +136,14 @@ export const validateFees = async ({
       return { isValid: true, hasNativeFee: false, message: '', feeAmount: estimatedFee };
     }
 
-    if ((fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM') && provider && account) {
+    if ((fromChain === 'ETHEREUM' || fromChain === 'ARBITRUM' || fromChain === 'POLYGON') && provider && account) {
       const ethBalance = await provider.getBalance(account);
       const ethBalanceFormatted = parseFloat(ethers.formatEther(ethBalance));
       if (ethBalanceFormatted < estimatedFee) {
+        const gasToken = fromChain === 'POLYGON' ? 'POL' : 'ETH';
         return {
           isValid: false, hasNativeFee: true,
-          message: `Need at least ${estimatedFee} ETH for gas fees`,
+          message: `Need at least ${estimatedFee} ${gasToken} for gas fees`,
           feeAmount: estimatedFee
         };
       }

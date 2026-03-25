@@ -16,6 +16,13 @@ const CHAINS = {
     rpcUrls: ['https://arb1.arbitrum.io/rpc'],
     blockExplorerUrls: ['https://arbiscan.io']
   },
+  POLYGON: {
+    chainId: '0x89',
+    chainName: 'Polygon',
+    nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
+    rpcUrls: ['https://polygon-rpc.com'],
+    blockExplorerUrls: ['https://polygonscan.com']
+  },
   SOLANA: {
     chainId: 'solana',
     chainName: 'Solana Mainnet',

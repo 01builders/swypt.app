@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { useWallet } from '../contexts/WalletContext';
 import { getQuote, createTransaction } from '../api/bridgeAPI';
 import WalletSelector from './WalletSelector';
-import { allTokenOptions, chainOptions, isNativeToken } from '../constants/bridgeConfig';
+import { allTokenOptions, chainOptions, getDestinationConfig, isNativeToken } from '../constants/bridgeConfig';
 import { getTokenBalance, validateFees, calculateMaxBridgeAmount } from '../utils/tokenUtils';
 import { handleSolanaTransaction } from '../utils/solanaTransactionHandler';
 import { handleEvmTransaction } from '../utils/evmTransactionHandler';
@@ -56,6 +56,10 @@ const BridgeInterface = () => {
   const [showWalletSelector, setShowWalletSelector] = useState(false);
   const [notification, setNotification] = useState(null);
   const [depositSuccess, setDepositSuccess] = useState(false);
+  const [targetDestination, setTargetDestination] = useState('hyperliquid');
+  const [targetLocked, setTargetLocked] = useState(false);
+
+  const destinationConfig = useMemo(() => getDestinationConfig(targetDestination), [targetDestination]);
 
   const tokenOptions = useMemo(() => allTokenOptions.filter(token => token.chains.includes(fromChain)), [fromChain]);
   const getTokenOption = (value) => allTokenOptions.find(option => option.value === value);
@@ -181,10 +185,15 @@ const BridgeInterface = () => {
     const path = window.location.pathname;
     const searchParams = new URLSearchParams(window.location.search);
     const pathAddress = path.split('/').find(segment => segment.startsWith('0x') && segment.length === 42);
-    const queryAddress = searchParams.get('user');
+    const queryAddress = searchParams.get('address') || searchParams.get('user');
+    const queryTarget = searchParams.get('target');
     const addressFromURL = pathAddress || queryAddress;
     if (addressFromURL && addressFromURL.match(/^0x[a-fA-F0-9]{40}$/)) {
       setUserAddress(addressFromURL);
+    }
+    if (queryTarget === 'polygon' || queryTarget === 'hyperliquid') {
+      setTargetDestination(queryTarget);
+      setTargetLocked(true);
     }
   }, []);
 
@@ -218,7 +227,7 @@ const BridgeInterface = () => {
       const fromAddress = account || userAddress;
       const quoteParams = {
         fromAddress, toAddress: userAddress,
-        fromChain, toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
+        fromChain, toChain: destinationConfig.chain, fromToken, toToken: destinationConfig.token, amount, target: targetDestination
       };
       try {
         const quoteData = await getQuote(quoteParams);
@@ -237,7 +246,7 @@ const BridgeInterface = () => {
     };
     const timer = setTimeout(fetchQuote, 500);
     return () => clearTimeout(timer);
-  }, [amount, fromChain, fromToken, account, userAddress]);
+  }, [amount, fromChain, fromToken, account, userAddress, destinationConfig.chain, destinationConfig.token, targetDestination]);
 
   const isCorrectWalletType = (fromChain === 'SOLANA') === (chainId === 'solana');
 
@@ -256,7 +265,7 @@ const BridgeInterface = () => {
     try {
       const quoteParams = {
         fromAddress: account, toAddress: userAddress,
-        fromChain, toChain: 'HyperCore', fromToken, toToken: 'USDC', amount
+        fromChain, toChain: destinationConfig.chain, fromToken, toToken: destinationConfig.token, amount, target: targetDestination
       };
       const freshQuote = await createTransaction(quoteParams);
       if (!freshQuote.success || !freshQuote.data?.tx) throw new Error('Failed to get valid quote');
@@ -342,7 +351,7 @@ const BridgeInterface = () => {
           </svg>
         </div>
         <h2>Deposit Successful</h2>
-        <p>Funds will show up in your App in a few minutes.</p>
+        <p>Funds will show up in your {destinationConfig.label} destination in a few minutes.</p>
         {txHash && (
           <div className="success-tx">
             <div className="success-tx-label">Transaction Hash:</div>
@@ -364,7 +373,7 @@ const BridgeInterface = () => {
           <img src="/favicon.svg" alt="Swypt" style={{ width: 32, height: 32 }} />
         </div>
         <h2>Swypt Deposit</h2>
-        <p>To deposit into Swypt, follow the link in your Swypt app.</p>
+        <p>To fund Hyperliquid or Polymarket, open this page from the link inside your Swypt app.</p>
       </div>
     );
   }
@@ -394,6 +403,28 @@ const BridgeInterface = () => {
           <img src="/favicon.svg" alt="Swypt" />
           <span>Deposit</span>
         </div>
+
+        {!targetLocked && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '1rem' }}>
+            {['hyperliquid', 'polygon'].map((target) => {
+              const config = getDestinationConfig(target);
+              const selected = targetDestination === target;
+              return (
+                <button
+                  key={target}
+                  className="dropdown-btn"
+                  onClick={() => setTargetDestination(target)}
+                  style={{
+                    borderColor: selected ? 'var(--text-primary)' : 'var(--border-color)',
+                    background: selected ? 'rgba(255,255,255,0.08)' : undefined
+                  }}
+                >
+                  <span>{config.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {txHash && (
           <div className={`tx-status ${isConfirming ? 'confirming' : 'confirmed'}`}>
@@ -495,7 +526,7 @@ const BridgeInterface = () => {
                   <span className="validation-msg">Minimum deposit amount $15</span>
                 ) : !native && !feeValidation.hasEnoughForFees && feeValidation.feeValidationError ? (
                   <span className="validation-msg">
-                    Need {feeValidation.feeEstimate.toFixed(4)} {fromChain === 'SOLANA' ? 'SOL' : 'ETH'} for fees
+                    Need {feeValidation.feeEstimate.toFixed(4)} {fromChain === 'SOLANA' ? 'SOL' : fromChain === 'POLYGON' ? 'POL' : 'ETH'} for fees
                   </span>
                 ) : null}
               </div>
@@ -522,7 +553,7 @@ const BridgeInterface = () => {
                   The Swypt address is wrong.<br />Please retry by clicking the link in your app.
                 </span>
               ) : quote ? (
-                `~ ${parseFloat(quote.data?.toTokenEstimatedUsdcValue || '0').toFixed(2)} USDC`
+                `~ ${parseFloat(quote.data?.toTokenEstimatedUsdcValue || '0').toFixed(2)} ${destinationConfig.token}`
               ) : quoteError ? (
                 <span style={{ color: 'var(--red)' }}>Can't fetch quote</span>
               ) : amount && parseFloat(amount) > 0 ? (
@@ -536,14 +567,18 @@ const BridgeInterface = () => {
           {/* Swypt Account */}
           <div className="account-section">
             <div className="account-label">
-              <label className="form-label" style={{ marginBottom: 0 }}>Swypt Account</label>
+              <label className="form-label" style={{ marginBottom: 0 }}>{destinationConfig.label} Destination</label>
               <div className="tooltip-wrap">
                 <img src="/icons/info-icon.png" alt="info" className="info-icon" />
-                <div className="tooltip">Your Swypt account from signup.</div>
+                <div className="tooltip">
+                  {targetDestination === 'hyperliquid'
+                    ? 'Your Hyperliquid-linked destination address.'
+                    : 'Your Polygon destination address for Polymarket funding.'}
+                </div>
               </div>
             </div>
             <div className="account-value">
-              {userAddress || '0x... (Hyperliquid address)'}
+              {userAddress || '0x...'}
             </div>
           </div>
 
