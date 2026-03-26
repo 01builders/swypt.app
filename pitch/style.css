@@ -461,8 +461,89 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
 .unit-card-highlight{border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.05)}
 .unit-card-highlight .unit-card-value{color:var(--green)}
 
+/* ─── SCALING GRAPH ─── */
+.scaling-component{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:2rem 2.5rem 2rem;
+  position:relative;
+}
+.scaling-slider-row{margin-bottom:1.5rem}
+.scaling-slider-label{
+  display:block;font-size:0.88rem;font-weight:600;color:#fff;
+  margin-bottom:0.75rem;letter-spacing:0.02em;
+}
+.scaling-slider-wrap{position:relative}
+.scaling-slider-wrap input[type="range"]{
+  -webkit-appearance:none;appearance:none;width:100%;height:6px;
+  background:rgba(255,255,255,0.1);border-radius:3px;outline:none;cursor:pointer;
+}
+.scaling-slider-wrap input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:#fff;border:3px solid var(--blue);cursor:pointer;
+  box-shadow:0 0 12px rgba(91,123,249,0.4);transition:box-shadow 0.2s;
+}
+.scaling-slider-wrap input[type="range"]::-webkit-slider-thumb:hover{
+  box-shadow:0 0 20px rgba(91,123,249,0.6);
+}
+.scaling-slider-wrap input[type="range"]::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;
+  background:#fff;border:3px solid var(--blue);cursor:pointer;
+  box-shadow:0 0 12px rgba(91,123,249,0.4);
+}
+.scaling-slider-ticks{
+  position:relative;
+  margin-top:0.5rem;font-size:0.82rem;color:var(--blue-light);
+  height:1.2em;
+}
+.scaling-slider-ticks span{
+  position:absolute;transform:translateX(-50%);cursor:pointer;
+}
+.scaling-slider-ticks span:hover{color:#fff;}
+.scaling-toggle-row{
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;
+}
+.scaling-toggle-label{
+  font-size:0.82rem;font-weight:600;color:#fff;letter-spacing:0.02em;
+}
+.scaling-toggle{
+  display:inline-flex;background:rgba(255,255,255,0.06);border-radius:100px;
+  border:1px solid var(--border);overflow:hidden;
+}
+.scaling-toggle button{
+  padding:0.4rem 1.1rem;font-size:0.82rem;font-weight:600;font-family:inherit;
+  background:transparent;color:var(--text-secondary);border:none;cursor:pointer;
+  transition:all 0.25s ease;
+}
+.scaling-toggle button.active{
+  background:var(--blue);color:#fff;border-radius:100px;
+}
+.scaling-toggle button:hover:not(.active){color:#fff}
+.scaling-chart-wrap{
+  position:relative;height:340px;
+}
+.scaling-chart-wrap canvas{width:100%!important;height:100%!important}
+.scaling-tooltip{
+  position:absolute;top:-1rem;right:6rem;
+  background:var(--bg-card);backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:1rem 1.25rem;min-width:200px;
+  pointer-events:none;transition:opacity 0.2s;
+}
+.scaling-tooltip-users{
+  font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:0.6rem;
+  padding-bottom:0.5rem;border-bottom:1px solid var(--border);
+}
+.scaling-tooltip-row{
+  display:flex;align-items:center;gap:0.5rem;
+  font-size:0.85rem;color:var(--blue-light);margin-top:0.4rem;
+}
+.scaling-tooltip-row strong{margin-left:auto;color:#fff;font-size:1.0rem}
+.scaling-tooltip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-rev{background:#4ADE80}
+.dot-val{background:var(--blue-light)}
+
 /* ─── MARKET ─── */
-.section-subtitle{font-size:1.3rem;color:var(--text-secondary);margin-top:0.5rem;font-weight:500;letter-spacing:0.02em}
+.section-subtitle{font-size:1.3rem;color:var(--text-secondary);margin-top:0.5rem;font-weight:500;letter-spacing:0.02em;max-width:none}
 .market-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
 
 /* Flywheel */
@@ -743,6 +824,9 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0}
   .btn-sm{min-height:44px}
   footer .footer-inner{flex-direction:column;text-align:center;gap:0.75rem}
   .footer-links{gap:1rem}
+  .scaling-component{padding:1.5rem 1rem}
+  .scaling-chart-wrap{height:260px}
+  .scaling-tooltip{position:relative;top:auto;right:auto;margin-top:1rem;width:100%}
 }
 
 @media(max-width:400px){
