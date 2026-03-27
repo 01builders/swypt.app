@@ -81,18 +81,15 @@ countEls.forEach(function(el) { countObs.observe(el); });
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
   var slider = document.getElementById('scaling-slider');
-  var toggleBtns = document.querySelectorAll('#scaling-toggle button');
   var ttUsers = document.getElementById('tt-users');
   var ttRev = document.getElementById('tt-rev');
-  var ttVal = document.getElementById('tt-val');
-  var ttMult = document.getElementById('tt-mult');
 
-  var mult = 15;
   var VOL_PER_TRADER = 8200;
   var FEE = 0.0075;
 
-  // Anchor points: evenly spaced on slider, mapped to real user values
-  var anchors = [1000, 5000, 10000, 25000];
+  // Graph anchors include 0 for proper X-axis; slider anchors start at 1K
+  var graphAnchors = [0, 5000, 10000, 25000, 50000, 100000];
+  var anchors = [1000, 5000, 10000, 25000, 50000, 100000];
 
   // Convert slider position (0–1000) to real user count
   function sliderToUsers(sliderVal) {
@@ -121,7 +118,7 @@ countEls.forEach(function(el) { countObs.observe(el); });
   var currentUsers = 10000;
 
   // Snap points
-  var snapUsers = [1000, 5000, 10000, 25000];
+  var snapUsers = [1000, 5000, 10000, 25000, 50000, 100000];
   function snapValue(users) {
     for (var i = 0; i < snapUsers.length; i++) {
       if (Math.abs(users - snapUsers[i]) < (users * 0.08)) return snapUsers[i];
@@ -156,14 +153,14 @@ countEls.forEach(function(el) { countObs.observe(el); });
     canvas.style.height = rect.height + 'px';
   }
 
-  // Map user count to X position using same anchor-based scale
+  // Map user count to X position using graph anchors (includes 0)
   function userToFrac(u) {
-    if (u <= anchors[0]) return 0;
-    if (u >= anchors[anchors.length - 1]) return 1;
-    for (var i = 0; i < anchors.length - 1; i++) {
-      if (u <= anchors[i + 1]) {
-        var t = (u - anchors[i]) / (anchors[i + 1] - anchors[i]);
-        return (i + t) / (anchors.length - 1);
+    if (u <= graphAnchors[0]) return 0;
+    if (u >= graphAnchors[graphAnchors.length - 1]) return 1;
+    for (var i = 0; i < graphAnchors.length - 1; i++) {
+      if (u <= graphAnchors[i + 1]) {
+        var t = (u - graphAnchors[i]) / (graphAnchors[i + 1] - graphAnchors[i]);
+        return (i + t) / (graphAnchors.length - 1);
       }
     }
     return 1;
@@ -179,13 +176,13 @@ countEls.forEach(function(el) { countObs.observe(el); });
 
     ctx.clearRect(0, 0, W, H);
 
-    var maxY = 400000000; // $400M fixed ceiling
+    var maxY = 80000000; // $80M fixed ceiling
 
     function userToX(u) { return padL + userToFrac(u) * chartW; }
     function valToY(v) { return padT + chartH - (v / maxY) * chartH; }
 
     // Grid lines — fixed Y-axis values
-    var yTicks = [0, 50e6, 150e6, 250e6, 400e6];
+    var yTicks = [0, 10e6, 20e6, 40e6, 60e6, 80e6];
     ctx.strokeStyle = 'rgba(255,255,255,0.06)';
     ctx.lineWidth = 1;
     ctx.setLineDash([]);
@@ -203,7 +200,7 @@ countEls.forEach(function(el) { countObs.observe(el); });
     }
 
     // X-axis labels — evenly spaced anchors
-    var xLabels = [0, 5000, 10000, 25000];
+    var xLabels = [0, 5000, 10000, 25000, 50000, 100000];
     ctx.fillStyle = '#8B9FFF';
     ctx.font = '11px Inter, sans-serif';
     ctx.textAlign = 'center';
@@ -212,20 +209,20 @@ countEls.forEach(function(el) { countObs.observe(el); });
       ctx.fillText(formatUsers(xLabels[j]), lx, H - 8);
     }
 
-    // Draw lines using anchor-based X mapping
+    // Draw lines using graph anchors (starts from 0)
     var steps = 200;
-    var minAnchor = anchors[0];
-    var maxAnchor = anchors[anchors.length - 1];
+    var minGraph = 0;
+    var maxGraph = graphAnchors[graphAnchors.length - 1];
 
     // Revenue fill gradient (stronger green glow)
     ctx.beginPath();
     for (var sf = 0; sf <= steps; sf++) {
-      var uf = minAnchor + (sf / steps) * (maxAnchor - minAnchor);
+      var uf = minGraph + (sf / steps) * (maxGraph - minGraph);
       var rf = calcRev(uf);
       if (sf === 0) ctx.moveTo(userToX(uf), valToY(rf)); else ctx.lineTo(userToX(uf), valToY(rf));
     }
-    ctx.lineTo(userToX(maxAnchor), padT + chartH);
-    ctx.lineTo(userToX(minAnchor), padT + chartH);
+    ctx.lineTo(userToX(maxGraph), padT + chartH);
+    ctx.lineTo(userToX(minGraph), padT + chartH);
     ctx.closePath();
     var gRev = ctx.createLinearGradient(padL, 0, padL + chartW, 0);
     gRev.addColorStop(0, 'rgba(74,222,128,0.03)');
@@ -236,8 +233,8 @@ countEls.forEach(function(el) { countObs.observe(el); });
 
     // Revenue line (green, solid — brighter toward right)
     for (var seg = 0; seg < steps; seg++) {
-      var uA = minAnchor + (seg / steps) * (maxAnchor - minAnchor);
-      var uB = minAnchor + ((seg + 1) / steps) * (maxAnchor - minAnchor);
+      var uA = minGraph + (seg / steps) * (maxGraph - minGraph);
+      var uB = minGraph + ((seg + 1) / steps) * (maxGraph - minGraph);
       var rA = calcRev(uA);
       var rB = calcRev(uB);
       var progress = seg / steps;
@@ -255,8 +252,8 @@ countEls.forEach(function(el) { countObs.observe(el); });
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     for (var sg = 0; sg < steps; sg++) {
-      var ugA = minAnchor + (sg / steps) * (maxAnchor - minAnchor);
-      var ugB = minAnchor + ((sg + 1) / steps) * (maxAnchor - minAnchor);
+      var ugA = minGraph + (sg / steps) * (maxGraph - minGraph);
+      var ugB = minGraph + ((sg + 1) / steps) * (maxGraph - minGraph);
       var rgA = calcRev(ugA);
       var rgB = calcRev(ugB);
       var gp = sg / steps;
@@ -270,35 +267,6 @@ countEls.forEach(function(el) { countObs.observe(el); });
     }
     ctx.restore();
 
-    // Valuation line (blue-light, dashed)
-    ctx.beginPath();
-    ctx.strokeStyle = '#8B9FFF';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([8, 5]);
-    for (var s3 = 0; s3 <= steps; s3++) {
-      var u3 = minAnchor + (s3 / steps) * (maxAnchor - minAnchor);
-      var v3 = calcRev(u3) * mult;
-      if (s3 === 0) ctx.moveTo(userToX(u3), valToY(v3)); else ctx.lineTo(userToX(u3), valToY(v3));
-    }
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Valuation fill gradient
-    ctx.beginPath();
-    for (var s4 = 0; s4 <= steps; s4++) {
-      var u4 = minAnchor + (s4 / steps) * (maxAnchor - minAnchor);
-      var v4 = calcRev(u4) * mult;
-      if (s4 === 0) ctx.moveTo(userToX(u4), valToY(v4)); else ctx.lineTo(userToX(u4), valToY(v4));
-    }
-    ctx.lineTo(userToX(maxAnchor), padT + chartH);
-    ctx.lineTo(userToX(minAnchor), padT + chartH);
-    ctx.closePath();
-    var gVal = ctx.createLinearGradient(0, padT, 0, padT + chartH);
-    gVal.addColorStop(0, 'rgba(139,159,255,0.08)');
-    gVal.addColorStop(1, 'rgba(139,159,255,0.0)');
-    ctx.fillStyle = gVal;
-    ctx.fill();
-
     // Vertical guide line at current user position
     var cx = userToX(currentUsers);
     ctx.beginPath();
@@ -310,11 +278,9 @@ countEls.forEach(function(el) { countObs.observe(el); });
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Dots at intersection
+    // Revenue dot at intersection
     var revAtCurrent = calcRev(currentUsers);
-    var valAtCurrent = revAtCurrent * mult;
     var dotRevY = valToY(revAtCurrent);
-    var dotValY = valToY(valAtCurrent);
 
     // Revenue dot (with glow)
     ctx.beginPath();
@@ -331,30 +297,17 @@ countEls.forEach(function(el) { countObs.observe(el); });
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Valuation dot
-    ctx.beginPath();
-    ctx.arc(cx, dotValY, 5, 0, Math.PI * 2);
-    ctx.fillStyle = '#8B9FFF';
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(cx, dotValY, 8, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(139,159,255,0.3)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Active point label (e.g. "$7.2M ARR at 10K traders")
+    // Active point label (e.g. "$7.4M ARR at 10K traders")
     var labelText = formatMoney(revAtCurrent) + ' ARR at ' + formatUsers(currentUsers) + ' traders';
     ctx.font = '600 11px Inter, sans-serif';
     ctx.fillStyle = '#4ADE80';
-    ctx.textAlign = (cx > padL + chartW * 0.65) ? 'right' : 'left';
-    var labelOffsetX = (cx > padL + chartW * 0.65) ? -14 : 14;
+    ctx.textAlign = (cx > padL + chartW * 0.35) ? 'right' : 'left';
+    var labelOffsetX = (cx > padL + chartW * 0.35) ? -14 : 14;
     ctx.fillText(labelText, cx + labelOffsetX, dotRevY - 12);
 
     // Update tooltip
     ttUsers.textContent = currentUsers.toLocaleString() + ' traders';
     ttRev.textContent = formatMoney(revAtCurrent);
-    ttVal.textContent = formatMoney(valAtCurrent);
-    ttMult.textContent = mult;
   }
 
   // Slider fill
@@ -383,16 +336,6 @@ countEls.forEach(function(el) { countObs.observe(el); });
       currentUsers = users;
       slider.value = usersToSlider(users);
       updateSliderFill();
-      draw();
-    });
-  });
-
-  // Toggle events
-  toggleBtns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      toggleBtns.forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      mult = parseInt(btn.getAttribute('data-mult'), 10);
       draw();
     });
   });
