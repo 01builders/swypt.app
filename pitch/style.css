@@ -466,10 +466,10 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
   border-radius:var(--radius);padding:2rem 2.5rem 2rem;
   position:relative;
 }
-.scaling-slider-row{margin-bottom:1.5rem;margin-left:15px;margin-right:30px}
+.scaling-slider-row{margin-bottom:1.5rem;margin-left:54px;margin-right:19px}
 .scaling-slider-label{
   display:block;font-size:0.88rem;font-weight:600;color:#fff;
-  margin-bottom:0.75rem;letter-spacing:0.02em;margin-left:-15px;
+  margin-bottom:0.75rem;letter-spacing:0.02em;margin-left:-54px;
 }
 .scaling-slider-wrap{position:relative}
 .scaling-slider-wrap input[type="range"]{
