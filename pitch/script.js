@@ -356,6 +356,20 @@ countEls.forEach(function(el) { countObs.observe(el); });
   // Resize handling
   window.addEventListener('resize', function() { draw(); positionTicks(); });
 
+  // Redraw when section becomes visible (fade-up may hide it initially)
+  var scalingSection = canvas.closest('.pitch-section');
+  if (scalingSection) {
+    var visObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          draw();
+          positionTicks();
+        }
+      });
+    }, { threshold: 0.05 });
+    visObs.observe(scalingSection);
+  }
+
   // Initial draw
   updateSliderFill();
   draw();
