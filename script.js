@@ -78,6 +78,11 @@ var nav = document.querySelector('nav');
 var stickyBar = document.querySelector('.sticky-bar');
 var heroEl = document.querySelector('.hero');
 var heroBottom = heroEl ? heroEl.offsetTop + heroEl.offsetHeight : 0;
+function updateHeroBottom() {
+  if (heroEl) heroBottom = heroEl.offsetTop + heroEl.offsetHeight;
+}
+window.addEventListener('load', updateHeroBottom);
+window.addEventListener('resize', updateHeroBottom);
 var navScrolled = false;
 window.addEventListener('scroll', function() {
   var shouldScroll = window.scrollY > 50;
@@ -151,14 +156,19 @@ if (rotateWords.length) {
   else heroRotateMedia.addListener(queueHeroMeasure);
 
   setInterval(function() {
-    rotateWords[currentWord].classList.remove('active');
-    rotateWords[currentWord].style.transform = 'translateY(-100%)';
+    var prev = rotateWords[currentWord];
     currentWord = (currentWord + 1) % rotateWords.length;
-    rotateWords[currentWord].style.transform = 'translateY(100%)';
-    // force reflow so the translateY(100%) applies before animating to 0
-    rotateWords[currentWord].offsetHeight;
-    rotateWords[currentWord].classList.add('active');
-    rotateWords[currentWord].style.transform = 'translateY(0)';
+    var next = rotateWords[currentWord];
+    // Start incoming word below, hidden
+    next.style.transition = 'none';
+    next.style.transform = 'translateY(100%)';
+    next.offsetHeight; // force reflow
+    next.style.transition = '';
+    // Animate both simultaneously — outgoing up, incoming to center
+    prev.classList.remove('active');
+    prev.style.transform = 'translateY(-100%)';
+    next.classList.add('active');
+    next.style.transform = 'translateY(0)';
   }, 3000);
 }
 
