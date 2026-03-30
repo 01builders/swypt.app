@@ -20,6 +20,8 @@
   --text-dim:#8A9ADA;
   --border:rgba(255,255,255,0.1);
   --border-hover:rgba(255,255,255,0.2);
+  --gradient-text:linear-gradient(135deg,#FFFFFF,#E0D4FF,#C4B5FD);
+  --gradient-num:linear-gradient(180deg,rgba(255,255,255,0.85) 0%,rgba(196,181,253,0.4) 100%);
   --radius:20px;
   --radius-sm:12px;
   --max-w:1120px;
@@ -49,7 +51,7 @@ body{
 }
 h2{font-size:clamp(2rem,4.5vw,3.25rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05}
 h2 .gradient{
-  background:linear-gradient(135deg,var(--blue),var(--blue-light),#C4B5FD);
+  background:var(--gradient-text);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 h3{font-weight:700;font-size:1.15rem;letter-spacing:-0.02em}
@@ -469,7 +471,7 @@ nav.scrolled{background:rgba(94,118,255,0.92)}
 .how-step-num{
   counter-increment:howstep;font-size:3rem;font-weight:800;
   letter-spacing:-0.04em;line-height:1;
-  background:linear-gradient(180deg,rgba(91,123,249,0.75) 0%,rgba(91,123,249,0.25) 100%);
+  background:var(--gradient-num);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   margin-bottom:1rem;
 }
