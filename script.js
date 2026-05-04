@@ -116,7 +116,7 @@ if (rotateWords.length) {
   }
 
   function measureAndSetWidth() {
-    if (heroRotateMedia.matches) {
+    if (heroRotateMedia.matches || rotateWords.length < 2) {
       container.style.width = 'auto';
       return;
     }
@@ -155,7 +155,7 @@ if (rotateWords.length) {
   if (heroRotateMedia.addEventListener) heroRotateMedia.addEventListener('change', queueHeroMeasure);
   else heroRotateMedia.addListener(queueHeroMeasure);
 
-  setInterval(function() {
+  if (rotateWords.length > 1) setInterval(function() {
     var prev = rotateWords[currentWord];
     currentWord = (currentWord + 1) % rotateWords.length;
     var next = rotateWords[currentWord];
